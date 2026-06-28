@@ -23,7 +23,13 @@ class CreateCompanyRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'company_name'   => ['required', 'string', 'max:255'],
+      'business_type'  => ['required', 'string', 'max:255'],
+      'problems_faced' => ['nullable', 'string'],
+      'work_location'  => ['required', 'string', 'max:255'],
+      'email'          => ['required', 'email', 'max:255', 'unique:companies,email'],
+      'phone_number'   => ['required', 'string', 'max:20'],
+      'owner_name'     => ['required', 'string', 'max:255'],
     ];
   }
 }

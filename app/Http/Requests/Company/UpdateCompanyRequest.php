@@ -4,6 +4,7 @@ namespace App\Http\Requests\Company;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCompanyRequest extends FormRequest
 {
@@ -22,8 +23,22 @@ class UpdateCompanyRequest extends FormRequest
    */
   public function rules(): array
   {
+    $companyId = $this->route('company');
+
     return [
-      //
+      'company_name'   => ['sometimes', 'required', 'string', 'max:255'],
+      'business_type'  => ['sometimes', 'required', 'string', 'max:255'],
+      'problems_faced' => ['nullable', 'string'],
+      'work_location'  => ['sometimes', 'required', 'string', 'max:255'],
+      'email'          => [
+        'sometimes',
+        'required',
+        'email',
+        'max:255',
+        Rule::unique('companies', 'email')->ignore($companyId)
+      ],
+      'phone_number'   => ['sometimes', 'required', 'string', 'max:20'],
+      'owner_name'     => ['sometimes', 'required', 'string', 'max:255'],
     ];
   }
 }

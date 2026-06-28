@@ -23,7 +23,9 @@ class CreateSubscriptionRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'time_id' => ['required', 'integer', 'exists:times,id'],
+      'status'  => ['required', 'string', 'max:255'],
+      'note'    => ['nullable', 'string'],
     ];
   }
 }

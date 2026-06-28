@@ -23,7 +23,7 @@ class UpdateTimeRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'work_time' => ['sometimes', 'required', 'string', 'max:255'],
     ];
   }
 }

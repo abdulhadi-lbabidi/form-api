@@ -23,7 +23,14 @@ class CreateReferralCodeRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'referralable_id'   => ['required', 'integer'],
+      'referralable_type' => ['required', 'string'],
+
+      'code'              => ['required', 'string', 'max:50', 'unique:referral_codes,code'],
+      'usage_limit'       => ['nullable', 'integer', 'min:1'],
+      'times_used'        => ['nullable', 'integer', 'min:0'],
+      'expires_at'        => ['nullable', 'date', 'after_now'],
+      'is_active'         => ['nullable', 'boolean'],
     ];
   }
 }

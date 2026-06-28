@@ -7,13 +7,26 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompanyResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
-    {
-        return parent::toArray($request);
-    }
+  /**
+   * Transform the resource into an array.
+   *
+   * @return array<string, mixed>
+   */
+  public function toArray(Request $request): array
+  {
+    return [
+      'id'             => $this->id,
+      'company_name'   => $this->company_name,
+      'business_type'  => $this->business_type,
+      'problems_faced' => $this->problems_faced,
+      'work_location'  => $this->work_location,
+      'email'          => $this->email,
+      'phone_number'   => $this->phone_number,
+      'owner_name'     => $this->owner_name,
+
+      'referral_code'  => new ReferralCodeResource($this->whenLoaded('referralCode')),
+
+      'created_at'     => $this->created_at?->toIso8601String(),
+    ];
+  }
 }

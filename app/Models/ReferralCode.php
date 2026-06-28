@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 
 #[Fillable([
   'referralable_id',
@@ -17,8 +18,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class ReferralCode extends Model
 {
-  public function time(): BelongsTo
+
+  protected static function booted(): void
   {
-    return $this->belongsTo(Time::class);
+    static::creating(function (ReferralCode $referralCode) {
+      if (empty($referralCode->code)) {
+        $referralCode->code = static::generateUniqueCode();
+      }
+    });
+  }
+
+
+  private static function generateUniqueCode(): string
+  {
+    do {
+      $code = 'REF-' . strtoupper(Str::random(12));
+    } while (static::where('code', $code)->exists());
+
+    return $code;
+  }
+
+
+  public function referralable(): MorphTo
+  {
+    return $this->morphTo();
   }
 }

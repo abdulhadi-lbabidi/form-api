@@ -17,7 +17,7 @@ return new class extends Migration
 
       $table->foreignIdFor(Time::class)->constrained()->cascadeOnDelete();
       $table->string('status')->default('pending');
-      $table->text('notes')->nullable();
+      $table->text('note')->nullable();
       $table->timestamps();
     });
   }

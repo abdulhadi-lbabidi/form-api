@@ -4,6 +4,7 @@ namespace App\Http\Requests\Worker;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateWorkerRequest extends FormRequest
 {
@@ -23,7 +24,23 @@ class CreateWorkerRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'first_name'           => ['required', 'string', 'max:255'],
+      'last_name'            => ['required', 'string', 'max:255'],
+      'father_name'          => ['required', 'string', 'max:255'],
+      'mother_fullname'      => ['required', 'string', 'max:255'],
+      'phone_whatsapp'       => ['required', 'string', 'max:20'],
+      'age'                  => ['required', 'integer', 'min:15', 'max:100'],
+      'city'                 => ['required', 'string', 'max:255'],
+      'residential_area'     => ['required', 'string', 'max:255'],
+      'marital_status'       => ['required', 'string', 'max:255'],
+
+      'primary_profession'   => ['required', 'string', 'max:255'],
+      'other_professions'    => ['nullable', 'string'],
+      'work_hours'           => ['required', 'string', 'max:255'],
+      'commitment_level'     => ['required', 'string', 'max:255'],
+      'expected_hourly_rate' => ['required', 'numeric', 'min:0'],
+
+      'payment_method'       => ['required', Rule::in(['weekly', 'monthly'])],
     ];
   }
 }

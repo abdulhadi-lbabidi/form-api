@@ -23,7 +23,7 @@ class CreateTimeRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'work_time' => ['required', 'string', 'max:255'],
     ];
   }
 }

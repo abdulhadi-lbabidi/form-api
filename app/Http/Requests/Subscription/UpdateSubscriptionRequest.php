@@ -23,7 +23,9 @@ class UpdateSubscriptionRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'time_id' => ['sometimes', 'required', 'integer', 'exists:times,id'],
+      'status'  => ['sometimes', 'required', 'string', 'max:255'],
+      'note'    => ['nullable', 'string'],
     ];
   }
 }
