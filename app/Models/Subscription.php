@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
   'time_id',
   'status',
   'note'
-
 ])]
 class Subscription extends Model
 {

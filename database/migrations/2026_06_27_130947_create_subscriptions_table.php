@@ -14,9 +14,8 @@ return new class extends Migration
   {
     Schema::create('subscriptions', function (Blueprint $table) {
       $table->id();
-
       $table->foreignIdFor(Time::class)->constrained()->cascadeOnDelete();
-      $table->string('status')->default('pending');
+      $table->enum('status', ['pending', 'active', 'canceled'])->default('pending');
       $table->text('note')->nullable();
       $table->timestamps();
     });
