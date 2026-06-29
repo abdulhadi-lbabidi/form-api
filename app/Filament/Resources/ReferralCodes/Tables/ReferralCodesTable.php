@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ReferralCodesTable
@@ -65,7 +66,18 @@ class ReferralCodesTable
           ->sortable(),
       ])
       ->filters([
-        //
+        SelectFilter::make('referralable_type')
+          ->label('تصفية حسب نوع المستفيد')
+          ->options([
+            'App\Models\Company' => 'الشركات فقط',
+            'App\Models\Worker' => 'العمال فقط',
+          ]),
+        SelectFilter::make('is_active')
+          ->label('حالة الكود')
+          ->options([
+            '1' => 'الأكواد النشطة فقط',
+            '0' => 'الأكواد غير النشطة',
+          ]),
       ])
       ->recordActions([
         ViewAction::make(),

@@ -59,6 +59,7 @@ class CompaniesTable
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d')
+          ->searchable()
           ->sortable()
           ->toggleable(isToggledHiddenByDefault: true)
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
