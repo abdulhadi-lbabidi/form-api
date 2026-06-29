@@ -90,6 +90,16 @@ class WorkerInfolist
 
             TextEntry::make('expected_hourly_rate')
               ->label('أجر الساعة المتوقع')
+              ->weight('bold')
+              ->formatStateUsing(
+                fn($record) => $record->currency === 'USD'
+                  ? "$ {$record->expected_hourly_rate}"
+                  : "{$record->expected_hourly_rate} ل.س"
+              )
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
+
+            TextEntry::make('expected_hourly_rate')
+              ->label('أجر الساعة المتوقع')
               ->prefix('$ ')
               ->weight('bold')
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),

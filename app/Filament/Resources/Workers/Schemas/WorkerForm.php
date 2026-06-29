@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -78,6 +79,16 @@ class WorkerForm
                   ->label('أجر الساعة المتوقع')
                   ->numeric()
                   ->required(),
+
+                Radio::make('currency')
+                  ->label('العملة')
+                  ->options([
+                    'SYP' => 'ليرة سورية',
+                    'USD' => 'دولار أمريكي',
+                  ])
+                  ->inline()
+                  ->required(),
+
                 Select::make('payment_method')
                   ->label('طريقة الدفع المفضلة')
                   ->options([

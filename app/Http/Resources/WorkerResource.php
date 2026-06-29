@@ -31,6 +31,7 @@ class WorkerResource extends JsonResource
       'work_hours'           => $this->work_hours,
       'commitment_level'     => $this->commitment_level,
       'expected_hourly_rate' => $this->expected_hourly_rate,
+      'currency'             => $this->currency,
       'payment_method'       => $this->payment_method,
 
       'referral_code'        => new ReferralCodeResource($this->whenLoaded('referralCode')),

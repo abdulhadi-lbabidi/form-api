@@ -30,6 +30,8 @@ return new class extends Migration
       $table->string('commitment_level');
       $table->decimal('expected_hourly_rate', 8, 2);
 
+      $table->enum('currency', ['SYP', 'USD'])->default('SYP');
+
       $table->enum('payment_method', ['weekly', 'monthly']);
 
 

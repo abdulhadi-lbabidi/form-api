@@ -40,6 +40,8 @@ class CreateWorkerRequest extends FormRequest
       'commitment_level'     => ['required', 'string', 'max:255'],
       'expected_hourly_rate' => ['required', 'numeric', 'min:0'],
 
+      'currency'             => ['required', Rule::in(['SYP', 'USD'])],
+
       'payment_method'       => ['required', Rule::in(['weekly', 'monthly'])],
     ];
   }

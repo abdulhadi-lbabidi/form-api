@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
   'work_hours',
   'commitment_level',
   'expected_hourly_rate',
+  'currency',
   'payment_method',
   'referral_code_id'
 ])]

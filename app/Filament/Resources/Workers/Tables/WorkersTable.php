@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class WorkersTable
@@ -50,6 +51,18 @@ class WorkersTable
           ->label('أجر الساعة')
           ->sortable()
           ->weight('medium')
+          ->formatStateUsing(
+            fn($record) => $record->currency === 'USD'
+              ? "$ {$record->expected_hourly_rate}"
+              : "{$record->expected_hourly_rate} ل.س"
+          )
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
+
+
+        TextColumn::make('expected_hourly_rate')
+          ->label('أجر الساعة')
+          ->sortable()
+          ->weight('medium')
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
         TextColumn::make('payment_method')
@@ -70,7 +83,12 @@ class WorkersTable
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
       ->filters([
-        //
+        SelectFilter::make('currency')
+          ->label('العملة')
+          ->options([
+            'SYP' => 'ليرة سورية',
+            'USD' => 'دولار أمريكي',
+          ]),
       ])
       ->recordActions([
         ViewAction::make(),
