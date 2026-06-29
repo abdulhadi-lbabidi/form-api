@@ -31,10 +31,10 @@ class AdminPanelProvider extends PanelProvider
       ->path('admin')
       ->login()
       ->brandName('Form Builder')
-      ->brandLogo(asset('logo-dark.png'))
+      // ->brandLogo(asset('logo-dark.png'))
       ->brandLogoHeight('4rem')
-      ->darkModeBrandLogo(asset('logo.svg'))
-      ->favicon(asset('logo.svg'))
+      // ->darkModeBrandLogo(asset('logo.svg'))
+      // ->favicon(asset('logo.svg'))
       ->colors([
         'primary' => Color::Teal,
       ])
