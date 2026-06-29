@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 
 class SubscriptionService
 {
@@ -19,6 +20,16 @@ class SubscriptionService
 
   public function create(array $data): Subscription
   {
+    $isBooked = Subscription::where('time_id', $data['time_id'])
+      ->whereIn('status', ['active', 'pending'])
+      ->whereDate('created_at', now()->toDateString())
+      ->exists();
+
+    if ($isBooked) {
+      throw ValidationException::withMessages([
+        'time_id' => ['الفترة الزمنية المختارة غير متاحة حالياً لأنها محجوزة.'],
+      ]);
+    }
     return Subscription::create($data);
   }
 
