@@ -25,6 +25,7 @@ class TimeResource extends Resource
   protected static ?string $navigationLabel = 'أوقات الدوام';
   protected static ?string $modelLabel = 'وقت';
   protected static ?string $pluralModelLabel = 'أوقات الدوام';
+  protected static ?int $navigationSort = 5;
   protected static ?string $recordTitleAttribute = 'Time';
 
   public static function form(Schema $schema): Schema

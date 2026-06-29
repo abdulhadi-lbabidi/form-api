@@ -25,7 +25,7 @@ class ReferralCodeResource extends Resource
   protected static ?string $navigationLabel = 'أكواد الإحالة';
   protected static ?string $modelLabel = 'كود إحالة';
   protected static ?string $pluralModelLabel = 'أكواد الإحالة';
-
+  protected static ?int $navigationSort = 3;
   protected static ?string $recordTitleAttribute = 'ReferralCode';
 
   public static function form(Schema $schema): Schema

@@ -24,7 +24,7 @@ class CompanyResource extends Resource
   protected static ?string $navigationLabel = 'الشركات';
   protected static ?string $modelLabel = 'شركة';
   protected static ?string $pluralModelLabel = 'الشركات';
-
+  protected static ?int $navigationSort = 1;
 
   protected static ?string $recordTitleAttribute = 'Company';
 

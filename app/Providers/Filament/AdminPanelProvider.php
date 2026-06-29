@@ -39,6 +39,10 @@ class AdminPanelProvider extends PanelProvider
         'primary' => Color::Teal,
       ])
       ->font('Cairo')
+      ->sidebarCollapsibleOnDesktop()
+      ->sidebarWidth('18rem')
+      ->collapsedSidebarWidth('4.5rem')
+
       ->renderHook(
         \Filament\View\PanelsRenderHook::HEAD_END,
         fn(): \Illuminate\Support\HtmlString => new \Illuminate\Support\HtmlString('

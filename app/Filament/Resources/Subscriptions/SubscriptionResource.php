@@ -27,7 +27,7 @@ class SubscriptionResource extends Resource
   protected static ?string $modelLabel = 'حجز جديد';
 
   protected static ?string $pluralModelLabel = 'الحجوزات';
-
+  protected static ?int $navigationSort = 4;
   protected static ?string $recordTitleAttribute = 'Subscription';
 
   public static function form(Schema $schema): Schema
