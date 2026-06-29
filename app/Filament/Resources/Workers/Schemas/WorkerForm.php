@@ -77,7 +77,6 @@ class WorkerForm
                 TextInput::make('expected_hourly_rate')
                   ->label('أجر الساعة المتوقع')
                   ->numeric()
-                  ->prefix('$')
                   ->required(),
                 Select::make('payment_method')
                   ->label('طريقة الدفع المفضلة')

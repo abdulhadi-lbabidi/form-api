@@ -48,7 +48,6 @@ class WorkersTable
 
         TextColumn::make('expected_hourly_rate')
           ->label('أجر الساعة')
-          ->prefix('$')
           ->sortable()
           ->weight('medium')
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
