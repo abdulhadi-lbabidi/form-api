@@ -58,13 +58,6 @@ class WorkersTable
           )
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
-
-        TextColumn::make('expected_hourly_rate')
-          ->label('أجر الساعة')
-          ->sortable()
-          ->weight('medium')
-          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
-
         TextColumn::make('payment_method')
           ->label('طريقة الدفع')
           ->badge()

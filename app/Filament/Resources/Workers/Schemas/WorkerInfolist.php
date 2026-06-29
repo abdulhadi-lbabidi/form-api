@@ -98,11 +98,7 @@ class WorkerInfolist
               )
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
-            TextEntry::make('expected_hourly_rate')
-              ->label('أجر الساعة المتوقع')
-              ->prefix('$ ')
-              ->weight('bold')
-              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
+
 
             TextEntry::make('payment_method')
               ->label('طريقة الدفع')
