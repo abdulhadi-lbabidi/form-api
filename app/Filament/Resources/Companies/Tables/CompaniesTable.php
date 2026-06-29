@@ -18,33 +18,50 @@ class CompaniesTable
         TextColumn::make('company_name')
           ->label('اسم الشركة')
           ->searchable()
-          ->sortable(),
+          ->sortable()
+          ->weight('bold'),
 
         TextColumn::make('business_type')
           ->label('نوع العمل')
           ->searchable()
-          ->toggleable(),
+          ->toggleable()
+          ->badge()
+          ->color('gray'),
 
         TextColumn::make('owner_name')
           ->label('المالك')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-user'),
 
         TextColumn::make('work_location')
           ->label('الموقع')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-map-pin')
+          ->color('primary'),
 
         TextColumn::make('email')
           ->label('البريد الإلكتروني')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-envelope')
+          ->copyable()
+          ->copyMessage('تم نسخ البريد الإلكتروني')
+          ->url(fn($record) => "mailto:{$record->email}"),
 
         TextColumn::make('phone_number')
           ->label('رقم الهاتف')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-phone')
+          ->copyable()
+          ->copyMessage('تم نسخ رقم الهاتف')
+          ->url(fn($record) => "tel:{$record->phone_number}")
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d')
           ->sortable()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
       ->filters([
         //

@@ -15,32 +15,43 @@ class WorkersTable
   {
     return $table
       ->columns([
-        TextColumn::make('first_name')
-          ->label('الاسم الأول')
-          ->searchable()
-          ->sortable(),
-
-        TextColumn::make('last_name')
-          ->label('الكنية')
-          ->searchable()
-          ->sortable(),
+        TextColumn::make('full_name')
+          ->label('الاسم الكامل')
+          ->searchable(query: function ($query, string $search) {
+            $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
+          })
+          ->sortable(['first_name'])
+          ->weight('bold')
+          ->state(fn($record) => "{$record->first_name} {$record->last_name}"),
 
         TextColumn::make('phone_whatsapp')
-          ->label('رقم الهاتف')
-          ->searchable(),
+          ->label('رقم الهاتف / واتساب')
+          ->searchable()
+          ->icon('heroicon-m-phone')
+          ->copyable()
+          ->copyMessage('تم نسخ رقم الهاتف')
+          ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
         TextColumn::make('city')
           ->label('المدينة')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-map-pin')
+          ->color('primary'),
 
         TextColumn::make('primary_profession')
           ->label('المهنة')
-          ->searchable(),
+          ->searchable()
+          ->icon('heroicon-m-briefcase')
+          ->badge()
+          ->color('gray'),
 
         TextColumn::make('expected_hourly_rate')
           ->label('أجر الساعة')
           ->prefix('$')
-          ->sortable(),
+          ->sortable()
+          ->weight('medium')
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
         TextColumn::make('payment_method')
           ->label('طريقة الدفع')
@@ -55,7 +66,9 @@ class WorkersTable
         TextColumn::make('created_at')
           ->label('تاريخ التسجيل')
           ->dateTime('Y-m-d')
-          ->sortable(),
+          ->sortable()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
       ->filters([
         //

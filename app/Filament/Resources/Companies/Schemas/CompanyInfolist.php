@@ -14,23 +14,51 @@ class CompanyInfolist
     return $schema
       ->components([
         Section::make('تفاصيل سجل الشركة')
+          ->description('المعلومات الأساسية وبيانات الاتصال والموقع الرئيسي للشركة.')
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(3)->schema([
-              TextEntry::make('company_name')->label('اسم الشركة'),
-              TextEntry::make('business_type')->label('نوع العمل'),
-              TextEntry::make('owner_name')->label('اسم المالك'),
+              TextEntry::make('company_name')
+                ->label('اسم الشركة')
+                ->weight('bold'),
+
+              TextEntry::make('business_type')
+                ->label('نوع العمل')
+                ->badge()
+                ->color('gray'),
+
+              TextEntry::make('owner_name')
+                ->label('اسم المالك')
+                ->icon('heroicon-m-user'),
             ]),
 
             Grid::make(3)->schema([
-              TextEntry::make('work_location')->label('موقع العمل'),
-              TextEntry::make('email')->label('البريد الإلكتروني')->icon('heroicon-m-envelope'),
-              TextEntry::make('phone_number')->label('رقم الهاتف')->icon('heroicon-m-phone'),
+              TextEntry::make('work_location')
+                ->label('موقع العمل')
+                ->icon('heroicon-m-map-pin')
+                ->color('primary'),
+
+              TextEntry::make('email')
+                ->label('البريد الإلكتروني')
+                ->icon('heroicon-m-envelope')
+                ->color('info')
+                ->copyable()
+                ->copyMessage('تم نسخ البريد الإلكتروني')
+                ->url(fn($record) => "mailto:{$record->email}"),
+
+              TextEntry::make('phone_number')
+                ->label('رقم الهاتف')
+                ->icon('heroicon-m-phone')
+                ->color('success')
+                ->copyable()
+                ->copyMessage('تم نسخ رقم الهاتف')
+                ->url(fn($record) => "tel:{$record->phone_number}")
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']),
             ]),
 
             TextEntry::make('problems_faced')
-              ->label('المشاكل المذكورة')
-              ->placeholder('لا يوجد مشاكل مسجلة')
+              ->label('المشاكل التي تواجهها الشركة (إن وجدت)')
+              ->placeholder('لا توجد مشاكل مسجلة أو تحديات تواجه سير العمل حالياً.')
               ->columnSpanFull(),
           ])->columnSpanFull(),
 
@@ -39,7 +67,11 @@ class CompanyInfolist
           ->compact()
           ->columns(2)
           ->schema([
-            TextEntry::make('created_at')->label('تاريخ الإنشاء')->dateTime('Y-m-d H:i A'),
+            TextEntry::make('created_at')
+              ->label('تاريخ تسجيل الشركة')
+              ->icon('heroicon-m-calendar')
+              ->dateTime('Y-m-d H:i A')
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), // أرقام إنجليزية
           ])->columnSpanFull(),
       ]);
   }

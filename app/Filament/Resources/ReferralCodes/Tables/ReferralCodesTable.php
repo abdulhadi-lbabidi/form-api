@@ -21,37 +21,48 @@ class ReferralCodesTable
           ->searchable()
           ->sortable()
           ->weight('bold')
-          ->copyable(),
+          ->fontFamily('mono')
+          ->copyable()
+          ->copyMessage('تم نسخ كود الإحالة بنجاح')
+          ->icon('heroicon-m-clipboard-document-check')
+          ->color('primary'),
 
         TextColumn::make('referralable_type')
           ->label('نوع المستفيد')
-          ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل'),
+          ->badge()
+          ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل')
+          ->color(fn($state) => $state === 'App\Models\Company' ? 'info' : 'purple'),
 
         TextColumn::make('owner_name')
           ->label('اسم صاحب الكود')
+          ->icon('heroicon-m-user')
           ->state(function ($record) {
             return $record->referralable?->company_name
               ?? ($record->referralable ? "{$record->referralable->first_name} {$record->referralable->last_name}" : '-');
           }),
 
-        TextColumn::make('usage_limit')
-          ->label('الحد')
-          ->sortable()
-          ->placeholder('∞'),
-
         TextColumn::make('times_used')
-          ->label('عدد مرات الاستخدام')
-          ->sortable(),
+          ->label('الاستخدام / الحد')
+          ->sortable()
+          ->state(function ($record) {
+            $limit = $record->usage_limit ?? '∞';
+            return "{$record->times_used} / {$limit}";
+          })
+          ->color(fn($record) => $record->usage_limit && $record->times_used >= $record->usage_limit ? 'danger' : 'gray')
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: 500;']),
 
         TextColumn::make('expires_at')
           ->label('تاريخ الانتهاء')
           ->dateTime('Y-m-d')
           ->sortable()
-          ->placeholder('مفتوح'),
+          ->placeholder('مفتوح')
+          ->icon('heroicon-m-calendar')
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
         IconColumn::make('is_active')
-          ->label('نشط')
-          ->boolean(),
+          ->label('حالة الكود')
+          ->boolean()
+          ->sortable(),
       ])
       ->filters([
         //

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Subscriptions\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -21,10 +20,19 @@ class SubscriptionForm
           ->schema([
             Select::make('time_id')
               ->label('الفترة الزمنية')
-              ->relationship('time', 'work_time') // يعرض وقت العمل بدلاً من الرقم
+              ->relationship('time', 'work_time')
               ->required()
               ->searchable()
-              ->preload(),
+              ->preload()
+              ->disableOptionWhen(function ($value, $record) {
+                $isReserved = \App\Models\Subscription::where('time_id', $value)
+                  ->whereIn('status', ['active', 'pending'])
+                  ->whereDate('created_at', now()->toDateString())
+                  ->when($record, fn($query) => $query->where('id', '!=', $record->id))
+                  ->exists();
+
+                return $isReserved;
+              }),
 
             Select::make('status')
               ->label('حالة الاشتراك')

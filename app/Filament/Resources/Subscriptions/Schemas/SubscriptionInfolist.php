@@ -14,21 +14,36 @@ class SubscriptionInfolist
     return $schema
       ->components([
         Section::make('تفاصيل سجل الاشتراك')
+          ->description('معلومات الفترة الزمنية المحجوزة وحالة تفعيل الاشتراك الحالية.')
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(2)->schema([
               TextEntry::make('time.work_time')
                 ->label('الفترة الزمنية')
                 ->icon('heroicon-m-clock')
-                ->weight('bold'),
+                ->weight('bold')
+                ->color('primary'),
 
               TextEntry::make('status')
-                ->label('حالة الاشتراك'),
+                ->label('حالة الاشتراك')
+                ->badge()
+                ->color(fn(string $state): string => match ($state) {
+                  'active' => 'success',
+                  'pending' => 'warning',
+                  'canceled' => 'danger',
+                  default => 'gray',
+                })
+                ->formatStateUsing(fn(string $state): string => match ($state) {
+                  'pending' => 'قيد الانتظار',
+                  'active' => 'نشط',
+                  'canceled' => 'ملغي',
+                  default => $state,
+                }),
             ]),
 
             TextEntry::make('note')
-              ->label('الملاحظات')
-              ->placeholder('لا توجد ملاحظات مسجلة')
+              ->label('الملاحظات الإضافية')
+              ->placeholder('لا توجد ملاحظات مسجلة لهذا الاشتراك حالياً.')
               ->columnSpanFull(),
           ])->columnSpanFull(),
 
@@ -39,11 +54,11 @@ class SubscriptionInfolist
           ->schema([
             TextEntry::make('created_at')
               ->label('تاريخ الإنشاء')
-              ->dateTime('Y-m-d H:i A'),
+              ->icon('heroicon-m-calendar')
+              ->dateTime('Y-m-d H:i A')
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: sans-serif;']),
 
-            TextEntry::make('updated_at')
-              ->label('آخر تحديث')
-              ->dateTime('Y-m-d H:i A'),
+
           ])->columnSpanFull(),
       ]);
   }

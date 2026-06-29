@@ -15,40 +15,56 @@ class ReferralCodeInfolist
     return $schema
       ->components([
         Section::make('تفاصيل كود الإحالة')
+          ->description('معلومات تتبع كود الإحالة ونوع المستفيد منه ومعدلات استخدامه الحالية.')
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(3)->schema([
               TextEntry::make('code')
                 ->label('كود الإحالة')
                 ->weight('bold')
-                ->copyable(), // يتيح للمشرف نسخ الكود بضغطة زر واحدة!
+                ->fontFamily('mono') // خط مميز للأكواد
+                ->color('primary')
+                ->copyable()
+                ->copyMessage('تم نسخ كود الإحالة بنجاح')
+                ->icon('heroicon-m-clipboard-document-check'),
 
               TextEntry::make('referralable_type')
-                ->label('نوع الكيان')
-                ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل'),
+                ->label('نوع الكيان المستفيد')
+                ->badge() // تحويله لشارة ملونة
+                ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل')
+                ->color(fn($state) => $state === 'App\Models\Company' ? 'info' : 'purple'),
 
-              TextEntry::make('referralable')
-                ->label('اسم المستفيد')
-                ->formatStateUsing(fn($record) => $record->referralable?->company_name ?? ($record->referralable?->first_name . ' ' . $record->referralable?->last_name)),
+              TextEntry::make('owner_name') // اعتمدنا نفس المنطق المرن لجلب الاسم بالكامل
+                ->label('اسم صاحب الكود')
+                ->icon('heroicon-m-user')
+                ->state(function ($record) {
+                  return $record->referralable?->company_name
+                    ?? ($record->referralable ? "{$record->referralable->first_name} {$record->referralable->last_name}" : '-');
+                }),
             ]),
 
             Grid::make(3)->schema([
-              TextEntry::make('usage_limit')
-                ->label('الحد الأقصى للاستخدام')
-                ->placeholder('غير محدود'),
-
               TextEntry::make('times_used')
-                ->label('مرات الاستخدام الفعلية'),
+                ->label('الاستخدام الحالي / الحد الأقصى')
+                ->icon('heroicon-m-arrow-trending-up')
+                ->state(function ($record) {
+                  $limit = $record->usage_limit ?? '∞';
+                  return "{$record->times_used} / {$limit}";
+                })
+                ->color(fn($record) => $record->usage_limit && $record->times_used >= $record->usage_limit ? 'danger' : 'gray')
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']), // أرقام إنجليزية
 
               TextEntry::make('expires_at')
-                ->label('تاريخ الانتهاء')
+                ->label('تاريخ انتهاء الصلاحية')
+                ->icon('heroicon-m-calendar')
                 ->dateTime('Y-m-d H:i A')
-                ->placeholder('لا ينتهي'),
-            ]),
+                ->placeholder('مفتوح الصلاحية (لا ينتهي)')
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), // أرقام إنجليزية
 
-            IconEntry::make('is_active')
-              ->label('حالة الكود')
-              ->boolean(),
+              IconEntry::make('is_active')
+                ->label('حالة الكود بالنظام')
+                ->boolean(),
+            ]),
           ])->columnSpanFull(),
       ]);
   }

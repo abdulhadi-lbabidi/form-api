@@ -19,15 +19,21 @@ class SubscriptionsTable
           ->label('الفترة الزمنية')
           ->searchable()
           ->sortable(),
-
         TextColumn::make('status')
           ->label('حالة الاشتراك')
           ->searchable()
+          ->badge()
           ->formatStateUsing(fn(string $state): string => match ($state) {
             'pending' => 'قيد الانتظار',
             'active' => 'نشط',
             'canceled' => 'ملغي',
             default => $state,
+          })
+          ->color(fn(string $state): string => match ($state) {
+            'active' => 'success',
+            'pending' => 'warning',
+            'canceled' => 'danger',
+            default => 'gray',
           }),
 
         TextColumn::make('created_at')
@@ -35,10 +41,7 @@ class SubscriptionsTable
           ->dateTime('Y-m-d')
           ->sortable(),
 
-        TextColumn::make('updated_at')
-          ->label('تاريخ التعديل')
-          ->dateTime('Y-m-d')
-          ->sortable(),
+
       ])
       ->filters([
         //
