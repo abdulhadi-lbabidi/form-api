@@ -15,6 +15,10 @@ return new class extends Migration
       $table->id();
       $table->string('company_name');
       $table->string('business_type');
+      $table->string('code')
+        ->nullable()
+        ->unique();
+      $table->boolean('is_verified')->nullable();
       $table->text('problems_faced')->nullable();
       $table->string('work_location');
       $table->string('email')->unique();

@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,6 +16,26 @@ class CompaniesTable
   {
     return $table
       ->columns([
+
+
+        IconColumn::make('is_verified')
+          ->label('التوثيق')
+          ->boolean()
+          ->trueIcon('heroicon-m-check-circle')
+          ->falseIcon('heroicon-m-x-circle')
+          ->trueColor('success')
+          ->falseColor('danger'),
+
+        TextColumn::make('code')
+          ->label('رمز الشركة')
+          ->searchable()
+          ->sortable()
+          ->placeholder('غير موثق بعد')
+          ->weight('bold')
+          ->fontFamily('mono')
+          ->color('primary'),
+
+
         TextColumn::make('company_name')
           ->label('اسم الشركة')
           ->searchable()

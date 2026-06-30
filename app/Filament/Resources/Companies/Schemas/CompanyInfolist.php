@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -65,13 +66,33 @@ class CompanyInfolist
         Section::make('التواريخ والنظام')
           ->icon('heroicon-o-clock')
           ->compact()
-          ->columns(2)
+          ->columns(3)
           ->schema([
+
+            TextEntry::make('code')
+              ->label('رمز الشركة الفريد')
+              ->placeholder('لم يتم التوليد (غير موثقة)')
+              ->fontFamily('mono')
+              ->weight('bold')
+              ->color('primary')
+              ->icon('heroicon-m-qr-code')
+              ->copyable()
+              ->copyMessage('تم نسخ الرمز بنجاح'),
+
+            IconEntry::make('is_verified')
+              ->label('حالة التوثيق')
+              ->boolean()
+              ->trueIcon('heroicon-m-check-circle')
+              ->falseIcon('heroicon-m-x-circle')
+              ->trueColor('success')
+              ->falseColor('danger'),
+
+
             TextEntry::make('created_at')
               ->label('تاريخ تسجيل الشركة')
               ->icon('heroicon-m-calendar')
               ->dateTime('Y-m-d H:i A')
-              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), // أرقام إنجليزية
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), 
           ])->columnSpanFull(),
       ]);
   }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
 
 #[Fillable([
   'first_name',
@@ -20,10 +21,12 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
   'other_professions',
   'work_hours',
   'commitment_level',
-  'expected_hourly_rate',
-  'currency',
+  'expected_hourly_rate_usd',
+  'expected_hourly_rate_syp',
   'payment_method',
-  'referral_code_id'
+  'code',
+  'is_verified',
+  'form_referral_code'
 ])]
 class Worker extends Model
 {
@@ -37,6 +40,17 @@ class Worker extends Model
         'is_active'   => true,
         'expires_at'  => null,
       ]);
+    });
+
+    static::updating(function (Worker $company) {
+      if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
+
+        do {
+          $generatedCode = 'W-' . Str::upper(Str::random(10));
+        } while (static::where('code', $generatedCode)->exists());
+
+        $company->code = $generatedCode;
+      }
     });
   }
   public function referralCode(): MorphOne

@@ -30,6 +30,8 @@ class UpdateCompanyRequest extends FormRequest
       'business_type'  => ['sometimes', 'required', 'string', 'max:255'],
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['sometimes', 'required', 'string', 'max:255'],
+      'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
+      'is_verified' => ['nullable', 'boolean'],
       'email'          => [
         'sometimes',
         'required',

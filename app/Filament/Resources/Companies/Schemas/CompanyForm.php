@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Companies\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -17,6 +18,14 @@ class CompanyForm
           ->description('أدخل تفاصيل الشركة ونوع العمل وموقعها الرئيسي.')
           ->columns(2)
           ->schema([
+
+            Toggle::make('is_verified')
+              ->label('حالة التوثيق (Verified)')
+              ->helperText('تفعيل هذا الخيار سيقوم بتوليد رمز فريد للشركة بشكل تلقائي.')
+              ->onColor('success')
+              ->offColor('danger')
+              ->columnSpanFull(),
+
             TextInput::make('company_name')
               ->label('اسم الشركة')
               ->required()

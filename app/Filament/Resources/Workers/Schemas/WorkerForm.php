@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
-use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 
@@ -21,6 +21,14 @@ class WorkerForm
             Tabs\Tab::make('المعلومات الشخصية')
               ->columns(2)
               ->schema([
+
+                Toggle::make('is_verified')
+                  ->label('حالة التوثيق (Verified)')
+                  ->helperText('تفعيل التوثيق سيقوم بتوليد رمز فريد للعامل تلقائياً.')
+                  ->onColor('success')
+                  ->offColor('danger')
+                  ->columnSpanFull(),
+
                 TextInput::make('first_name')
                   ->label('الاسم الأول')
                   ->required(),
@@ -59,6 +67,13 @@ class WorkerForm
                 TextInput::make('residential_area')
                   ->label('منطقة السكن / العنوان')
                   ->required(),
+
+                TextInput::make('form_referral_code')
+                  ->label('سجل بواسطة كود الإحالة')
+                  ->placeholder('لم يسجل عبر كود')
+                  ->disabled()
+                  ->dehydrated(false),
+
               ]),
 
             Tabs\Tab::make('المهنة والتفاصيل المالية')
@@ -75,19 +90,22 @@ class WorkerForm
                   ->label('مستوى الالتزام')
                   ->placeholder('مثال: دوام كامل، جزئي...')
                   ->required(),
-                TextInput::make('expected_hourly_rate')
-                  ->label('أجر الساعة المتوقع')
-                  ->numeric()
-                  ->required(),
 
-                Radio::make('currency')
-                  ->label('العملة')
-                  ->options([
-                    'SYP' => 'ليرة سورية',
-                    'USD' => 'دولار أمريكي',
-                  ])
-                  ->inline()
-                  ->required(),
+                TextInput::make('expected_hourly_rate_usd')
+                  ->label('أجر الساعة المتوقع (USD)')
+                  ->numeric()
+                  ->prefix('$')
+                  ->default(0)
+                  ->formatStateUsing(fn($state) => $state ?? 0)
+                  ->mutateDehydratedStateUsing(fn($state) => empty($state) ? 0 : $state),
+
+                TextInput::make('expected_hourly_rate_syp')
+                  ->label('أجر الساعة المتوقع (SYP)')
+                  ->numeric()
+                  ->prefix('ل.س')
+                  ->default(0)
+                  ->formatStateUsing(fn($state) => $state ?? 0)
+                  ->mutateDehydratedStateUsing(fn($state) => empty($state) ? 0 : $state),
 
                 Select::make('payment_method')
                   ->label('طريقة الدفع المفضلة')

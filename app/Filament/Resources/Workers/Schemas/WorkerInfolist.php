@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -88,14 +89,10 @@ class WorkerInfolist
               ->badge()
               ->color('gray'),
 
-            TextEntry::make('expected_hourly_rate')
+            TextEntry::make('expected_hourly_rate_usd')
               ->label('أجر الساعة المتوقع')
               ->weight('bold')
-              ->formatStateUsing(
-                fn($record) => $record->currency === 'USD'
-                  ? "$ {$record->expected_hourly_rate}"
-                  : "{$record->expected_hourly_rate} ل.س"
-              )
+              ->formatStateUsing(fn($record) => "$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
 
@@ -106,6 +103,33 @@ class WorkerInfolist
               ->color(fn($state) => $state === 'weekly' ? 'warning' : 'success')
               ->formatStateUsing(fn($state) => $state === 'weekly' ? 'أسبوعي' : 'شهري'),
           ])->columnSpanFull(),
+
+        Section::make('بيانات النظام والإحالات')
+          ->icon('heroicon-o-cog')
+          ->columns(3)
+          ->schema([
+            TextEntry::make('code')
+              ->label('رمز العامل')
+              ->placeholder('غير موثق بعد')
+              ->weight('bold')
+              ->fontFamily('mono')
+              ->color('primary'),
+
+            IconEntry::make('is_verified')
+              ->label('حالة التوثيق')
+              ->boolean()
+              ->trueIcon('heroicon-m-check-circle')
+              ->falseIcon('heroicon-m-x-circle')
+              ->trueColor('success')
+              ->falseColor('danger'),
+
+            TextEntry::make('form_referral_code')
+              ->label('مسجل عن طريق كود إحالة')
+              ->placeholder('تسجيل مباشر (بدون كود)')
+              ->badge()
+              ->color('info'),
+          ])->columnSpanFull(),
+
 
         Section::make('تفاصيل وخبرات إضافية')
           ->icon('heroicon-o-document-plus')

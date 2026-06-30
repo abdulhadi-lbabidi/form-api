@@ -43,6 +43,11 @@ class CreateWorkerRequest extends FormRequest
       'currency'             => ['required', Rule::in(['SYP', 'USD'])],
 
       'payment_method'       => ['required', Rule::in(['weekly', 'monthly'])],
+
+      'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
+      'is_verified' => ['nullable', 'boolean'],
+      'form_referral_code' => ['nullable', 'string', 'max:255'],
+
     ];
   }
 }

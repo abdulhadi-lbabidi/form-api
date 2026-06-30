@@ -6,8 +6,9 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class WorkersTable
@@ -16,6 +17,25 @@ class WorkersTable
   {
     return $table
       ->columns([
+
+        IconColumn::make('is_verified')
+          ->label('التوثيق')
+          ->boolean()
+          ->trueIcon('heroicon-m-check-circle')
+          ->falseIcon('heroicon-m-x-circle')
+          ->trueColor('success')
+          ->falseColor('danger'),
+
+        TextColumn::make('code')
+          ->label('رمز العامل')
+          ->searchable()
+          ->sortable()
+          ->placeholder('غير موثق بعد')
+          ->weight('bold')
+          ->fontFamily('mono')
+          ->color('warning'),
+
+
         TextColumn::make('full_name')
           ->label('الاسم الكامل')
           ->searchable(query: function ($query, string $search) {
@@ -47,16 +67,20 @@ class WorkersTable
           ->badge()
           ->color('gray'),
 
-        TextColumn::make('expected_hourly_rate')
+        TextColumn::make('expected_hourly_rate_usd')
           ->label('أجر الساعة')
           ->sortable()
           ->weight('medium')
-          ->formatStateUsing(
-            fn($record) => $record->currency === 'USD'
-              ? "$ {$record->expected_hourly_rate}"
-              : "{$record->expected_hourly_rate} ل.س"
-          )
+          ->formatStateUsing(fn($record) => "$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
+
+        TextColumn::make('form_referral_code')
+          ->label('كود الإحالة المُستخدَم')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->toggleable(isToggledHiddenByDefault: true),
+
+
 
         TextColumn::make('payment_method')
           ->label('طريقة الدفع')
@@ -76,12 +100,11 @@ class WorkersTable
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
       ->filters([
-        SelectFilter::make('currency')
-          ->label('العملة')
-          ->options([
-            'SYP' => 'ليرة سورية',
-            'USD' => 'دولار أمريكي',
-          ]),
+        TernaryFilter::make('is_verified')
+          ->label('حالة التوثيق')
+          ->placeholder('الكل')
+          ->trueLabel('العمال الموثقين')
+          ->falseLabel('العمال غير الموثقين'),
       ])
       ->recordActions([
         ViewAction::make(),
