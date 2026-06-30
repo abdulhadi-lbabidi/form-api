@@ -39,7 +39,7 @@ class StatsOverview extends BaseWidget
           'style' => 'font-variant-numeric: lnum; font-family: cairo;',
         ]),
 
-      Stat::make('الاشتراكات النشطة', $activeSubscriptions)
+      Stat::make('الحجوزات النشطة', $activeSubscriptions)
         ->description("يوجد {$pendingSubscriptions} في قيد الانتظار")
         ->descriptionIcon('heroicon-m-credit-card')
         ->color($pendingSubscriptions > 0 ? 'warning' : 'success')
