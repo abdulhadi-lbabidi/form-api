@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+use App\MediaLibrary\WorkerPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 #[Fillable([
   'first_name',
@@ -28,8 +35,9 @@ use Illuminate\Support\Str;
   'is_verified',
   'form_referral_code'
 ])]
-class Worker extends Model
+class Worker extends Model implements HasMedia
 {
+  use HasFactory, InteractsWithMedia;
 
   protected static function booted(): void
   {
@@ -53,6 +61,26 @@ class Worker extends Model
       }
     });
   }
+
+
+  protected static function booting(): void
+  {
+    PathGeneratorFactory::setCustomPathGenerators(
+      static::class,
+      WorkerPathGenerator::class
+    );
+  }
+
+  public function registerMediaConversions(?Media $media = null): void
+  {
+    $this->addMediaConversion('default')
+      ->fit(Fit::Max, 1000, 1000)
+      ->quality(70)
+      ->format('webp')
+      ->nonQueued();
+  }
+
+
   public function referralCode(): MorphOne
   {
     return $this->morphOne(ReferralCode::class, 'referralable');

@@ -18,6 +18,7 @@ class WorkersTable
     return $table
       ->columns([
 
+
         IconColumn::make('is_verified')
           ->label('التوثيق')
           ->boolean()

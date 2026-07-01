@@ -7,6 +7,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class CompanyInfolist
 {
@@ -92,7 +93,19 @@ class CompanyInfolist
               ->label('تاريخ تسجيل الشركة')
               ->icon('heroicon-m-calendar')
               ->dateTime('Y-m-d H:i A')
-              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), 
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+          ])->columnSpanFull(),
+
+        Section::make('الوثائق والمرفقات الرسمية')
+          ->icon('heroicon-o-paper-clip')
+          ->description('الأوراق الثبوتية والصور المرفوعة الخاصة بالشركة.')
+          ->schema([
+            SpatieMediaLibraryImageEntry::make('image')
+              ->label('الملفات المستندة')
+              ->collection('companies')
+              ->square()
+              ->columnSpanFull()
+
           ])->columnSpanFull(),
       ]);
   }

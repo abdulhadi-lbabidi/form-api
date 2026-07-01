@@ -17,15 +17,26 @@ class WorkerService
     return Worker::with('referralCode')->findOrFail($id);
   }
 
-  public function create(array $data): Worker
+  public function create(array $data, $imageFile = null)
   {
-    return Worker::create($data);
+    $worker = Worker::create($data);
+
+    if ($imageFile) {
+      $worker->addMedia($imageFile)->toMediaCollection('workers');
+    }
+
+    return $worker;
   }
 
-  public function update(int $id, array $data): Worker
+  public function update(Worker $worker, array $data, $imageFile = null)
   {
-    $worker = $this->findOne($id);
     $worker->update($data);
+
+    if ($imageFile) {
+      $worker->clearMediaCollection('workers');
+      $worker->addMedia($imageFile)->toMediaCollection('workers');
+    }
+
     return $worker;
   }
 

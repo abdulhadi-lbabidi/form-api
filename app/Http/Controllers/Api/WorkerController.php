@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Worker\CreateWorkerRequest;
 use App\Http\Requests\Worker\UpdateWorkerRequest;
 use App\Http\Resources\WorkerResource;
+use App\Models\Worker;
 use App\Service\WorkerService;
 
 class WorkerController extends Controller
@@ -22,11 +23,14 @@ class WorkerController extends Controller
 
   public function store(CreateWorkerRequest $request)
   {
-    $worker = $this->workerService->create($request->validated());
-    return response()->json([
-      'data'    => new WorkerResource($worker)
-    ], 201);
+    $validated = $request->validated();
+    $worker = $this->workerService->create(
+      $validated,
+      $request->file('image')
+    );
+    return new WorkerResource($worker);
   }
+
 
   public function show(int $id): WorkerResource
   {
@@ -34,14 +38,16 @@ class WorkerController extends Controller
     return new WorkerResource($worker);
   }
 
-  public function update(UpdateWorkerRequest $request, int $id)
+  public function update(Worker $worker, UpdateWorkerRequest $request)
   {
-    $worker = $this->workerService->update($id, $request->validated());
-    return response()->json([
-      'data'    => new WorkerResource($worker)
-    ], 200);
+    $validated = $request->validated();
+    $newWorker = $this->workerService->update(
+      $worker,
+      $validated,
+      $request->file('image')
+    );
+    return new WorkerResource($newWorker);
   }
-
   public function destroy(int $id)
   {
     $this->workerService->delete($id);

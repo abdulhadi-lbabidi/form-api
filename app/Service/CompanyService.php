@@ -17,17 +17,29 @@ class CompanyService
     return Company::with('referralCode')->findOrFail($id);
   }
 
-  public function create(array $data): Company
-  {
-    return Company::create($data);
-  }
 
-  public function update(int $id, array $data): Company
+  public function create(array $data, $imageFile = null)
   {
-    $company = $this->findOne($id);
-    $company->update($data);
+    $company = Company::create($data);
+    if ($imageFile) {
+      $company->addMedia($imageFile)->toMediaCollection('companies');
+    }
     return $company;
   }
+
+
+  public function update(Company $company, array $data, $imageFile = null)
+  {
+    $company->update($data);
+    if ($imageFile) {
+      $company->clearMediaCollection('companies');
+      $company->addMedia($imageFile)->toMediaCollection('companies');
+    }
+    return $company;
+  }
+
+
+
 
   public function delete(int $id): bool
   {

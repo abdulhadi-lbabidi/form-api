@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
+use App\Models\Company;
 use App\Service\CompanyService;
 
 class CompanyController extends Controller
@@ -22,7 +23,12 @@ class CompanyController extends Controller
 
   public function store(CreateCompanyRequest $request)
   {
-    $company = $this->companyService->create($request->validated());
+    $validated = $request->validated();
+    $company = $this->companyService->create(
+      $validated,
+      $request->file('image')
+    );
+
     return response()->json([
       'data'    => new CompanyResource($company)
     ], 201);
@@ -34,13 +40,19 @@ class CompanyController extends Controller
     return new CompanyResource($company);
   }
 
-  public function update(UpdateCompanyRequest $request, int $id)
+
+  public function update(Company $category, UpdateCompanyRequest $request)
   {
-    $company = $this->companyService->update($id, $request->validated());
-    return response()->json([
-      'data'    => new CompanyResource($company)
-    ], 200);
+    $validated = $request->validated();
+    $newCategory = $this->companyService->update(
+      $category,
+      $validated,
+      $request->file('image')
+    );
+    return new CompanyResource($newCategory);
   }
+
+
 
   public function destroy(int $id)
   {

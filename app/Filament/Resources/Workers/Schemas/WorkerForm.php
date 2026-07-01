@@ -8,6 +8,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Schemas\Components\Section;
 
 class WorkerForm
 {
@@ -117,7 +119,32 @@ class WorkerForm
                 Textarea::make('other_professions')
                   ->label('مهارات أو مهن أخرى يجيدها')
                   ->columnSpanFull(),
+
+
+
+
+
+
+
               ]),
+
+            Tabs\Tab::make('المرفقات والوثائق')
+              ->schema([
+                Section::make('الوثائق والملفات الرسمية (الهوية، الشهادات، إلخ)')
+                  ->description('ارفع الصورة الشخصية والأوراق الثبوتية الخاصة بالعامل.')
+                  ->schema([
+                    SpatieMediaLibraryFileUpload::make('image')
+                      ->label('الملفات المرفوعة')
+                      ->collection('workers')
+                      ->disk('public')
+                      ->image()
+                      ->multiple()
+                      ->reorderable()
+                      ->columnSpanFull(),
+                  ]),
+              ]),
+
+
           ]),
       ]);
   }

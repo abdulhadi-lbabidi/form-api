@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 #[Fillable([
   'company_name',
@@ -18,10 +25,10 @@ use Illuminate\Support\Str;
   'code',
   'is_verified',
 ])]
-class Company extends Model
+class Company extends Model implements HasMedia
 {
 
-
+  use HasFactory, InteractsWithMedia;
   protected static function booted(): void
   {
     static::created(function (Company $company) {
@@ -44,6 +51,23 @@ class Company extends Model
         $company->code = $generatedCode;
       }
     });
+  }
+
+  protected static function booting(): void
+  {
+    PathGeneratorFactory::setCustomPathGenerators(
+      static::class,
+      CompanyPathGenerator::class
+    );
+  }
+
+  public function registerMediaConversions(?Media $media = null): void
+  {
+    $this->addMediaConversion('default')
+      ->fit(Fit::Max, 1000, 1000)
+      ->quality(70)
+      ->format('webp')
+      ->nonQueued();
   }
 
   public function referralCode(): MorphOne

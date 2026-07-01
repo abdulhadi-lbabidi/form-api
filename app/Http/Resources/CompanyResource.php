@@ -24,6 +24,12 @@ class CompanyResource extends JsonResource
       'phone_number'   => $this->phone_number,
       'owner_name'     => $this->owner_name,
 
+      'file' => $this->getFirstMediaUrl('companies', 'default'),
+      'all_files' => $this->getMedia('companies')->map(function ($media) {
+        return $media->getUrl('default');
+      }),
+
+
       'referral_code'  => new ReferralCodeResource($this->whenLoaded('referralCode')),
 
       'created_at'     => $this->created_at?->toIso8601String(),

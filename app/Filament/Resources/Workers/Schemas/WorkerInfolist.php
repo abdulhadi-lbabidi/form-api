@@ -7,6 +7,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class WorkerInfolist
 {
@@ -139,6 +140,18 @@ class WorkerInfolist
               ->label('مهارات أو مهن أخرى يجيدها')
               ->placeholder('لا يوجد مهن إضافية مسجلة لهذا العامل'),
           ])->columnSpanFull(),
+
+        Section::make('الوثائق والصور الشخصية المرفوعة')
+          ->icon('heroicon-o-paper-clip')
+          ->description('الصور الشخصية والأوراق الرسمية الثبوتية المرفوعة في سجل العامل.')
+          ->schema([
+            SpatieMediaLibraryImageEntry::make('image')
+              ->label('الملفات والوثائق المتاحة')
+              ->collection('workers')
+              ->square()
+              ->columnSpanFull(),
+          ])->columnSpanFull(),
+
       ]);
   }
 }

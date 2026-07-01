@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+
 
 class CompanyForm
 {
@@ -61,7 +63,23 @@ class CompanyForm
               ->label('المشاكل التي تواجهها الشركة (إن وجدت)')
               ->placeholder('اكتب هنا أي تحديات أو مشاكل تواجه سير العمل...')
               ->columnSpanFull(),
+
+
           ])->columnSpanFull(),
+
+        Section::make('الوثائق والملفات الرسمية (الهوية، الشهادات، إلخ)')
+          ->description('ارفع الصورة الشخصية والأوراق الثبوتية الخاصة بالشركة.')
+          ->columnSpanFull()
+          ->schema([
+            SpatieMediaLibraryFileUpload::make('image')
+              ->label('الملفات المرفوعة')
+              ->collection('companies')
+              ->disk('public')
+              ->image()
+              ->multiple()
+              ->reorderable()
+              ->columnSpanFull(),
+          ]),
       ]);
   }
 }

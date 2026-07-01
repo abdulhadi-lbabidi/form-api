@@ -36,6 +36,12 @@ class WorkerResource extends JsonResource
 
       'referral_code'        => new ReferralCodeResource($this->whenLoaded('referralCode')),
 
+      'file' => $this->getFirstMediaUrl('workers', 'default'),
+      'all_files' => $this->getMedia('workers')->map(function ($media) {
+        return $media->getUrl('default');
+      }),
+
+
       'created_at'           => $this->created_at?->toIso8601String(),
     ];
   }
