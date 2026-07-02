@@ -33,6 +33,10 @@ class CompanyForm
               ->required()
               ->maxLength(255),
 
+            TextInput::make('city')
+              ->label('المدينة / المحافظة')
+              ->required(),
+
             TextInput::make('business_type')
               ->label('نوع العمل / النشاط')
               ->required()
@@ -63,6 +67,12 @@ class CompanyForm
               ->label('المشاكل التي تواجهها الشركة (إن وجدت)')
               ->placeholder('اكتب هنا أي تحديات أو مشاكل تواجه سير العمل...')
               ->columnSpanFull(),
+
+            TextInput::make('form_referral_code')
+              ->label('سجل بواسطة كود الإحالة')
+              ->placeholder('لم يسجل عبر كود')
+              ->disabled()
+              ->dehydrated(false),
 
 
           ])->columnSpanFull(),

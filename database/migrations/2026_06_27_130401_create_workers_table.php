@@ -14,14 +14,11 @@ return new class extends Migration
   {
     Schema::create('workers', function (Blueprint $table) {
       $table->id();
-
       $table->string('code')
         ->nullable()
         ->unique();
-
       $table->string('form_referral_code')
         ->nullable();
-
       $table->string('first_name');
       $table->string('last_name');
       $table->string('father_name');
@@ -32,18 +29,13 @@ return new class extends Migration
       $table->string('residential_area');
       $table->string('marital_status');
       $table->boolean('is_verified')->nullable();
-
       $table->string('primary_profession');
       $table->text('other_professions')->nullable();
       $table->string('work_hours');
       $table->string('commitment_level');
       $table->decimal('expected_hourly_rate_usd', 8, 2);
       $table->decimal('expected_hourly_rate_syp', 8, 2);
-
       $table->enum('payment_method', ['weekly', 'monthly']);
-
-
-
       $table->timestamps();
     });
   }

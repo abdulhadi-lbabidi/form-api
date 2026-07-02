@@ -25,6 +25,8 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'owner_name',
   'code',
   'is_verified',
+  'form_referral_code',
+  'city'
 ])]
 class Company extends Model implements HasMedia
 {

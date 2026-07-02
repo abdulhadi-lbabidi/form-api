@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Models\Company;
+use App\Models\ReferralCode;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CompanyService
 {
@@ -16,16 +18,36 @@ class CompanyService
   {
     return Company::with('referralCode')->findOrFail($id);
   }
+  // public function create(array $data, $imageFile = null)
+  // {
+  //   $company = Company::create($data);
+  //   if ($imageFile) {
+  //     $company->addMedia($imageFile)->toMediaCollection('companies');
+  //   }
+  //   return $company;
+  // }
 
 
   public function create(array $data, $imageFile = null)
   {
-    $company = Company::create($data);
-    if ($imageFile) {
-      $company->addMedia($imageFile)->toMediaCollection('companies');
-    }
-    return $company;
+    return DB::transaction(function () use ($data, $imageFile) {
+      $company = Company::create($data);
+      if (!empty($data['form_referral_code'])) {
+        $referralCode = ReferralCode::where('code', $data['form_referral_code'])
+          ->where('is_active', true)
+          ->first();
+        if ($referralCode && (is_null($referralCode->usage_limit) || $referralCode->times_used < $referralCode->usage_limit)) {
+          $referralCode->increment('times_used');
+        }
+      }
+      if ($imageFile) {
+        $company->addMedia($imageFile)->toMediaCollection('companies');
+      }
+
+      return $company;
+    });
   }
+
 
 
   public function update(Company $company, array $data, $imageFile = null)

@@ -27,6 +27,7 @@ class UpdateCompanyRequest extends FormRequest
 
     return [
       'company_name'   => ['sometimes', 'required', 'string', 'max:255'],
+      'city'                 => ['sometimes', 'required', 'string', 'max:255'],
       'business_type'  => ['sometimes', 'required', 'string', 'max:255'],
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['sometimes', 'required', 'string', 'max:255'],
@@ -41,6 +42,7 @@ class UpdateCompanyRequest extends FormRequest
       ],
       'phone_number'   => ['sometimes', 'required', 'string', 'max:20'],
       'owner_name'     => ['sometimes', 'required', 'string', 'max:255'],
+      'form_referral_code' => ['nullable', 'string', 'max:255'],
     ];
   }
 }

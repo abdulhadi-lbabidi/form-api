@@ -43,6 +43,13 @@ class CompaniesTable
           ->sortable()
           ->weight('bold'),
 
+
+        TextColumn::make('city')
+          ->label('المدينة')
+          ->searchable()
+          ->icon('heroicon-m-map-pin')
+          ->color('primary'),
+
         TextColumn::make('business_type')
           ->label('نوع العمل')
           ->searchable()
@@ -77,6 +84,12 @@ class CompaniesTable
           ->copyMessage('تم نسخ رقم الهاتف')
           ->url(fn($record) => "tel:{$record->phone_number}")
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('form_referral_code')
+          ->label('كود الإحالة المُستخدَم')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->toggleable(isToggledHiddenByDefault: true),
 
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')

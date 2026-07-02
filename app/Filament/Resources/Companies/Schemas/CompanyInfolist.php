@@ -24,6 +24,11 @@ class CompanyInfolist
                 ->label('اسم الشركة')
                 ->weight('bold'),
 
+              TextEntry::make('city')
+                ->label('المدينة / المحافظة')
+                ->icon('heroicon-m-map-pin')
+                ->color('primary'),
+
               TextEntry::make('business_type')
                 ->label('نوع العمل')
                 ->badge()
@@ -87,6 +92,12 @@ class CompanyInfolist
               ->falseIcon('heroicon-m-x-circle')
               ->trueColor('success')
               ->falseColor('danger'),
+
+            TextEntry::make('form_referral_code')
+              ->label('مسجل عن طريق كود إحالة')
+              ->placeholder('تسجيل مباشر (بدون كود)')
+              ->badge()
+              ->color('info'),
 
 
             TextEntry::make('created_at')

@@ -24,6 +24,7 @@ class CreateCompanyRequest extends FormRequest
   {
     return [
       'company_name'   => ['required', 'string', 'max:255'],
+      'city'                 => ['required', 'string', 'max:255'],
       'business_type'  => ['required', 'string', 'max:255'],
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['required', 'string', 'max:255'],
@@ -32,6 +33,7 @@ class CreateCompanyRequest extends FormRequest
       'owner_name'     => ['required', 'string', 'max:255'],
       'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
       'is_verified' => ['nullable', 'boolean'],
+      'form_referral_code' => ['nullable', 'string', 'max:255'],
     ];
   }
 }
