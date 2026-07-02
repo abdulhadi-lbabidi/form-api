@@ -37,9 +37,9 @@ class UpdateWorkerRequest extends FormRequest
       'other_professions'    => ['nullable', 'string'],
       'work_hours'           => ['sometimes', 'required', 'string', 'max:255'],
       'commitment_level'     => ['sometimes', 'required', 'string', 'max:255'],
-      'expected_hourly_rate' => ['sometimes', 'required', 'numeric', 'min:0'],
+      'expected_hourly_rate_usd' => ['sometimes', 'numeric', 'min:0'],
+      'expected_hourly_rate_syp' => ['sometimes', 'numeric', 'min:0'],
 
-      'currency'             => ['sometimes', 'required', Rule::in(['SYP', 'USD'])],
 
       'payment_method'       => ['sometimes', 'required', Rule::in(['weekly', 'monthly'])],
 

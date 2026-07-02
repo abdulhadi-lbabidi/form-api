@@ -41,11 +41,11 @@ class CompanyController extends Controller
   }
 
 
-  public function update(Company $category, UpdateCompanyRequest $request)
+  public function update(Company $company, UpdateCompanyRequest $request)
   {
     $validated = $request->validated();
     $newCategory = $this->companyService->update(
-      $category,
+      $company,
       $validated,
       $request->file('image')
     );
