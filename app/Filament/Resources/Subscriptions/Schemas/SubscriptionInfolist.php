@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Subscriptions\Schemas;
 
+use App\Models\Company;
+use App\Models\Worker;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -18,6 +20,26 @@ class SubscriptionInfolist
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(2)->schema([
+
+              TextEntry::make('subscribable')
+                ->label('المشترك')
+                ->icon(fn($record) => $record?->subscribable_type === Company::class ? 'heroicon-m-building-office' : 'heroicon-m-user')
+                ->weight('bold')
+                ->state(function ($record) {
+                  if (!$record || !$record->subscribable) return '—';
+
+                  if ($record->subscribable_type === Company::class) {
+                    return "شركة: " . $record->subscribable->company_name;
+                  }
+
+                  if ($record->subscribable_type === Worker::class) {
+                    return "عامل: " . $record->subscribable->first_name . ' ' . $record->subscribable->last_name;
+                  }
+
+                  return '—';
+                }),
+
+
               TextEntry::make('time.work_time')
                 ->label('الفترة الزمنية')
                 ->icon('heroicon-m-clock')

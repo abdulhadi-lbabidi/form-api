@@ -4,6 +4,7 @@ namespace App\Http\Requests\Subscription;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateSubscriptionRequest extends FormRequest
 {
@@ -26,6 +27,29 @@ class CreateSubscriptionRequest extends FormRequest
       'time_id' => ['required', 'integer', 'exists:times,id'],
       'status'  => ['required', 'string', 'max:255'],
       'note'    => ['nullable', 'string'],
+
+
+      'subscribable_type' => [
+        'required',
+        'string',
+        Rule::in(['App\Models\Company', 'App\Models\Worker'])
+      ],
+
+      'subscribable_id' => [
+        'required',
+        'integer',
+        function ($attribute, $value, $fail) {
+          $type = $this->input('subscribable_type');
+          if ($type && class_exists($type)) {
+            $exists = $type::where('id', $value)->exists();
+            if (!$exists) {
+              $fail('المشترك المحدد غير موجود في النظام.');
+            }
+          }
+        }
+      ],
+
+
     ];
   }
 }

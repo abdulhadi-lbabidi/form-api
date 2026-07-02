@@ -28,4 +28,17 @@ class EditSubscription extends EditRecord
   {
     return $this->getResource()::getUrl('index');
   }
+
+  protected function mutateFormDataBeforeSave(array $data): array
+  {
+    if (!empty($data['subscribable_combined'])) {
+      [$type, $id] = explode(':', $data['subscribable_combined']);
+      $data['subscribable_type'] = $type;
+      $data['subscribable_id'] = $id;
+    }
+
+    unset($data['subscribable_combined']);
+
+    return $data;
+  }
 }

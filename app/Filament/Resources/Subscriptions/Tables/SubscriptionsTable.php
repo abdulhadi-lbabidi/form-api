@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Subscriptions\Tables;
 
+use App\Models\Company;
+use App\Models\Worker;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -15,6 +17,34 @@ class SubscriptionsTable
   {
     return $table
       ->columns([
+
+        TextColumn::make('subscribable')
+          ->label('المشترك')
+          ->state(function ($record) {
+            if (!$record->subscribable) return '—';
+
+            if ($record->subscribable_type === Company::class) {
+              return "🏢 " . $record->subscribable->company_name;
+            }
+
+            if ($record->subscribable_type === Worker::class) {
+              return "👤 " . $record->subscribable->first_name . ' ' . $record->subscribable->last_name;
+            }
+
+            return '—';
+          })
+          ->searchable(query: function ($query, string $search) {
+            $query->whereHasMorph('subscribable', [Company::class, Worker::class], function ($q, $type) use ($search) {
+              if ($type === Company::class) {
+                $q->where('company_name', 'like', "%{$search}%");
+              }
+              if ($type === Worker::class) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%");
+              }
+            });
+          }),
+
         TextColumn::make('time.work_time')
           ->label('الفترة الزمنية')
           ->searchable()

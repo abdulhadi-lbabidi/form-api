@@ -6,6 +6,7 @@ use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
@@ -73,5 +74,9 @@ class Company extends Model implements HasMedia
   public function referralCode(): MorphOne
   {
     return $this->morphOne(ReferralCode::class, 'referralable');
+  }
+  public function subscriptions(): MorphMany
+  {
+    return $this->morphMany(Subscription::class, 'subscribable');
   }
 }
