@@ -25,7 +25,7 @@ return new class extends Migration
         ->nullable();
       $table->string('work_location');
       $table->string('email')->unique();
-      $table->string('phone_number');
+      $table->string('phone_number')->unique();
       $table->string('owner_name');
       $table->timestamps();
     });

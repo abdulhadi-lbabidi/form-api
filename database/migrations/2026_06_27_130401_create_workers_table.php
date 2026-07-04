@@ -23,7 +23,7 @@ return new class extends Migration
       $table->string('last_name');
       $table->string('father_name');
       $table->string('mother_fullname')->nullable();
-      $table->string('phone_whatsapp');
+      $table->string('phone_whatsapp')->unique();
       $table->integer('age');
       $table->string('city');
       $table->string('residential_area');

@@ -40,7 +40,7 @@ class UpdateCompanyRequest extends FormRequest
         'max:255',
         Rule::unique('companies', 'email')->ignore($companyId)
       ],
-      'phone_number'   => ['sometimes', 'required', 'string', 'max:20'],
+      'phone_number'   => ['sometimes', 'required', 'string', 'max:20', Rule::unique('companies', 'phone_number')->ignore($companyId)],
       'owner_name'     => ['sometimes', 'required', 'string', 'max:255'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
     ];

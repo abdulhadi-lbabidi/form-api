@@ -28,7 +28,7 @@ class UpdateWorkerRequest extends FormRequest
       'last_name'            => ['sometimes', 'required', 'string', 'max:255'],
       'father_name'          => ['sometimes', 'required', 'string', 'max:255'],
       'mother_fullname'      => ['sometimes', 'required', 'string', 'max:255'],
-      'phone_whatsapp'       => ['sometimes', 'required', 'string', 'max:20'],
+      'phone_whatsapp'       => ['sometimes', 'required', 'string', 'max:20', 'unique:workers,phone_whatsapp'],
       'age'                  => ['sometimes', 'required', 'integer', 'min:15', 'max:100'],
       'city'                 => ['sometimes', 'required', 'string', 'max:255'],
       'residential_area'     => ['sometimes', 'required', 'string', 'max:255'],
