@@ -26,7 +26,7 @@ class CompanyController extends Controller
     $validated = $request->validated();
     $company = $this->companyService->create(
       $validated,
-      $request->file('image')
+      $request->file('image') ?? []
     );
 
     return response()->json([

@@ -28,9 +28,9 @@ class CompanyService
   // }
 
 
-  public function create(array $data, $imageFile = null)
+  public function create(array $data, $imageFiles = null)
   {
-    return DB::transaction(function () use ($data, $imageFile) {
+    return DB::transaction(function () use ($data, $imageFiles) {
       $company = Company::create($data);
       if (!empty($data['form_referral_code'])) {
         $referralCode = ReferralCode::where('code', $data['form_referral_code'])
@@ -40,8 +40,15 @@ class CompanyService
           $referralCode->increment('times_used');
         }
       }
-      if ($imageFile) {
-        $company->addMedia($imageFile)->toMediaCollection('companies');
+
+      if (!empty($imageFiles) && is_array($imageFiles)) {
+        foreach ($imageFiles as $file) {
+          if ($file) {
+            $company->addMedia($file)->toMediaCollection('companies');
+          }
+        }
+      } elseif ($imageFiles) {
+        $company->addMedia($imageFiles)->toMediaCollection('companies');
       }
 
       return $company;

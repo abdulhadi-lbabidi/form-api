@@ -26,7 +26,7 @@ class WorkerController extends Controller
     $validated = $request->validated();
     $worker = $this->workerService->create(
       $validated,
-      $request->file('image')
+      $request->file('image') ?? []
     );
     return new WorkerResource($worker);
   }

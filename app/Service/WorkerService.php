@@ -31,9 +31,9 @@ class WorkerService
   // }
 
 
-  public function create(array $data, $imageFile = null)
+  public function create(array $data, $imageFiles = null)
   {
-    return DB::transaction(function () use ($data, $imageFile) {
+    return DB::transaction(function () use ($data, $imageFiles) {
       $worker = Worker::create($data);
       if (!empty($data['form_referral_code'])) {
         $referralCode = ReferralCode::where('code', $data['form_referral_code'])
@@ -43,9 +43,21 @@ class WorkerService
           $referralCode->increment('times_used');
         }
       }
-      if ($imageFile) {
-        $worker->addMedia($imageFile)->toMediaCollection('workers');
+      // if ($imageFile) {
+      //   $worker->addMedia($imageFile)->toMediaCollection('workers');
+      // }
+
+      if (!empty($imageFiles) && is_array($imageFiles)) {
+        foreach ($imageFiles as $file) {
+          if ($file) {
+            $worker->addMedia($file)->toMediaCollection('companies');
+          }
+        }
+      } elseif ($imageFiles) {
+        $worker->addMedia($imageFiles)->toMediaCollection('companies');
       }
+
+
 
       return $worker;
     });
