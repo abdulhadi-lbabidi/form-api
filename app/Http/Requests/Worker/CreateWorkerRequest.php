@@ -33,21 +33,16 @@ class CreateWorkerRequest extends FormRequest
       'city'                 => ['required', 'string', 'max:255'],
       'residential_area'     => ['required', 'string', 'max:255'],
       'marital_status'       => ['required', 'string', 'max:255'],
-
       'primary_profession'   => ['required', 'string', 'max:255'],
       'other_professions'    => ['nullable', 'string'],
       'work_hours'           => ['required', 'string', 'max:255'],
       'commitment_level'     => ['required', 'string', 'max:255'],
       'expected_hourly_rate_usd' => ['required', 'numeric', 'min:0'],
       'expected_hourly_rate_syp' => ['required', 'numeric', 'min:0'],
-
-
       'payment_method'       => ['required', Rule::in(['weekly', 'monthly'])],
-
       'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
-
     ];
   }
 }

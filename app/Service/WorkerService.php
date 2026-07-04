@@ -50,11 +50,11 @@ class WorkerService
       if (!empty($imageFiles) && is_array($imageFiles)) {
         foreach ($imageFiles as $file) {
           if ($file) {
-            $worker->addMedia($file)->toMediaCollection('companies');
+            $worker->addMedia($file)->toMediaCollection('workers');
           }
         }
       } elseif ($imageFiles) {
-        $worker->addMedia($imageFiles)->toMediaCollection('companies');
+        $worker->addMedia($imageFiles)->toMediaCollection('workers');
       }
 
 

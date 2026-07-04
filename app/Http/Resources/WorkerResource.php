@@ -30,12 +30,10 @@ class WorkerResource extends JsonResource
       'other_professions'    => $this->other_professions,
       'work_hours'           => $this->work_hours,
       'commitment_level'     => $this->commitment_level,
-      'expected_hourly_rate' => $this->expected_hourly_rate,
-      'currency'             => $this->currency,
+      'expected_hourly_rate_usd' => $this->expected_hourly_rate_usd,
+      'expected_hourly_rate_syp' => $this->expected_hourly_rate_syp,
       'payment_method'       => $this->payment_method,
-
       'referral_code'        => new ReferralCodeResource($this->whenLoaded('referralCode')),
-
       'file' => $this->getFirstMediaUrl('workers', 'default'),
       'all_files' => $this->getMedia('workers')->map(function ($media) {
         return $media->getUrl('default');
