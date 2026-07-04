@@ -38,6 +38,7 @@ class WorkerResource extends JsonResource
       'all_files' => $this->getMedia('workers')->map(function ($media) {
         return $media->getUrl('default');
       }),
+      'form_referral_code' => $this->form_referral_code,
 
 
       'created_at'           => $this->created_at?->toIso8601String(),

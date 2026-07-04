@@ -27,10 +27,9 @@ class CompanyResource extends JsonResource
       'all_files' => $this->getMedia('companies')->map(function ($media) {
         return $media->getUrl('default');
       }),
-
+      'form_referral_code' => $this->form_referral_code,
 
       'referral_code'  => new ReferralCodeResource($this->whenLoaded('referralCode')),
-
       'created_at'     => $this->created_at?->toIso8601String(),
     ];
   }
