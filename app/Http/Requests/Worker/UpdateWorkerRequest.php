@@ -23,12 +23,19 @@ class UpdateWorkerRequest extends FormRequest
    */
   public function rules(): array
   {
+    $workerId = $this->route('worker');
     return [
       'first_name'           => ['sometimes', 'required', 'string', 'max:255'],
       'last_name'            => ['sometimes', 'required', 'string', 'max:255'],
       'father_name'          => ['sometimes', 'required', 'string', 'max:255'],
       'mother_fullname'      => ['sometimes', 'required', 'string', 'max:255'],
-      'phone_whatsapp'       => ['sometimes', 'required', 'string', 'max:20', 'unique:workers,phone_whatsapp'],
+      'phone_whatsapp'       => [
+        'sometimes',
+        'required',
+        'string',
+        'max:20',
+        Rule::unique('workers', 'phone_whatsapp')->ignore($workerId)
+      ],
       'age'                  => ['sometimes', 'required', 'integer', 'min:15', 'max:100'],
       'city'                 => ['sometimes', 'required', 'string', 'max:255'],
       'residential_area'     => ['sometimes', 'required', 'string', 'max:255'],
@@ -40,7 +47,7 @@ class UpdateWorkerRequest extends FormRequest
       'expected_hourly_rate_usd' => ['sometimes', 'numeric', 'min:0'],
       'expected_hourly_rate_syp' => ['sometimes', 'numeric', 'min:0'],
       'payment_method'       => ['sometimes', 'required', Rule::in(['weekly', 'monthly'])],
-      'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
+      'code'                 => ['nullable', 'string', 'max:255', Rule::unique('workers', 'code')->ignore($workerId)],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
 
