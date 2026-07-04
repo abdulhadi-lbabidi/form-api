@@ -27,7 +27,7 @@ class CreateWorkerRequest extends FormRequest
       'first_name'           => ['required', 'string', 'max:255'],
       'last_name'            => ['required', 'string', 'max:255'],
       'father_name'          => ['required', 'string', 'max:255'],
-      'mother_fullname'      => ['required', 'string', 'max:255'],
+      'mother_fullname'      => ['nullable', 'string', 'max:255'],
       'phone_whatsapp'       => ['required', 'string', 'max:20'],
       'age'                  => ['required', 'integer', 'min:15', 'max:100'],
       'city'                 => ['required', 'string', 'max:255'],
