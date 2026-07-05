@@ -39,7 +39,7 @@ class CreateWorkerRequest extends FormRequest
       'working_status'           => ['required', 'string', 'max:255'],
       'commitment_level'     => ['required', 'string', 'max:255'],
       'expected_hourly_rate_usd' => ['nullable', 'numeric', 'min:0'],
-      'expected_hourly_rate_syp' => ['nullable', 'numeric', 'min:0'],
+      'expected_hourly_rate_syp' => ['required', 'numeric', 'min:0'],
       'payment_method'       => ['required', Rule::in(['weekly', 'monthly'])],
       'code'                 => ['nullable', 'string', 'max:255', 'unique:workers,code'],
       'is_verified' => ['nullable', 'boolean'],
