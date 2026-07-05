@@ -29,6 +29,7 @@ class WorkerResource extends JsonResource
       'primary_profession'   => $this->primary_profession,
       'other_professions'    => $this->other_professions,
       'work_hours'           => $this->work_hours,
+      'working_status'           => $this->working_status,
       'commitment_level'     => $this->commitment_level,
       'expected_hourly_rate_usd' => $this->expected_hourly_rate_usd,
       'expected_hourly_rate_syp' => $this->expected_hourly_rate_syp,
