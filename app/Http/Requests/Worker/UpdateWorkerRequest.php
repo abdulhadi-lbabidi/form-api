@@ -36,7 +36,7 @@ class UpdateWorkerRequest extends FormRequest
         'max:20',
         Rule::unique('workers', 'phone_whatsapp')->ignore($workerId)
       ],
-      'age'                  => ['sometimes', 'required', 'integer', 'min:15', 'max:100'],
+      'age' => ['sometimes', 'required', 'date', 'before:today'],
       'city'                 => ['sometimes', 'required', 'string', 'max:255'],
       'residential_area'     => ['sometimes', 'required', 'string', 'max:255'],
       'marital_status'       => ['sometimes', 'required', 'string', 'max:255'],

@@ -9,6 +9,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Illuminate\Support\Carbon;
 
 class WorkerInfolist
 {
@@ -35,8 +36,9 @@ class WorkerInfolist
 
             Grid::make(3)->schema([
               TextEntry::make('age')
-                ->label('العمر')
+                ->label('العمر الحالي')
                 ->icon('heroicon-m-calendar-days')
+                ->formatStateUsing(fn($state) => Carbon::parse($state)->age . ' سنة')
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family:cairo;']),
 
               TextEntry::make('marital_status')

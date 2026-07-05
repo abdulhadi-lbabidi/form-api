@@ -41,6 +41,14 @@ class Worker extends Model implements HasMedia
 {
   use HasFactory, InteractsWithMedia;
 
+  protected function casts(): array
+  {
+    return [
+      'age' => 'date',
+    ];
+  }
+
+
   protected static function booted(): void
   {
     static::created(function (Worker $worker) {

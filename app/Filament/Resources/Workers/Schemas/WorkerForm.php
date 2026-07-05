@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -43,10 +44,13 @@ class WorkerForm
                 TextInput::make('mother_fullname')
                   ->label('اسم الأم الكامل')
                   ->required(),
-                TextInput::make('age')
-                  ->label('العمر')
-                  ->numeric()
-                  ->required(),
+
+                DatePicker::make('age')
+                  ->label('تاريخ الميلاد')
+                  ->required()
+                  ->native(false)
+                  ->displayFormat('Y-m-d'),
+
                 Select::make('marital_status')
                   ->label('الحالة الاجتماعية')
                   ->options([
