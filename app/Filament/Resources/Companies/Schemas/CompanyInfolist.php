@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use App\Models\ReferralCode;
+use App\Models\Company;
+use App\Models\Worker;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -70,14 +73,14 @@ class CompanyInfolist
               ->columnSpanFull(),
           ])->columnSpanFull(),
 
-        Section::make('التواريخ والنظام')
+        Section::make('التواريخ والنظام والإحالات')
           ->icon('heroicon-o-clock')
           ->compact()
           ->columns(3)
           ->schema([
 
             TextEntry::make('code')
-              ->label('رمز الشركة الفريد')
+              ->label('رمز الشركة الفريد (سيرفر)')
               ->placeholder('لم يتم التوليد (غير موثقة)')
               ->fontFamily('mono')
               ->weight('bold')
@@ -94,18 +97,54 @@ class CompanyInfolist
               ->trueColor('success')
               ->falseColor('danger'),
 
-            TextEntry::make('form_referral_code')
-              ->label('مسجل عن طريق كود إحالة')
-              ->placeholder('تسجيل مباشر (بدون كود)')
-              ->badge()
-              ->color('info'),
-
-
             TextEntry::make('created_at')
               ->label('تاريخ تسجيل الشركة')
               ->icon('heroicon-m-calendar')
               ->dateTime('Y-m-d H:i A')
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+            TextEntry::make('referralCode.code')
+              ->label('كود الإحالة الخاص بالشركة')
+              ->placeholder('لا يوجد كود إحالة')
+              ->badge()
+              ->color('success')
+              ->icon('heroicon-m-gift')
+              ->copyable(),
+
+            TextEntry::make('form_referral_code')
+              ->label('سجلت بكود إحالة رقم')
+              ->placeholder('تسجيل مباشر (بدون كود)')
+              ->badge()
+              ->color('info'),
+
+            TextEntry::make('invited_by')
+              ->label('تمت الدعوة بواسطة')
+              ->placeholder('لا يوجد داعٍ (تسجيل مباشر)')
+              ->icon('heroicon-m-user-plus')
+              ->weight('bold')
+              ->color('warning')
+              ->state(function ($record) {
+                if (empty($record->form_referral_code)) {
+                  return null;
+                }
+
+                $referral = ReferralCode::with('referralable')->where('code', $record->form_referral_code)->first();
+
+                if ($referral && $referral->referralable) {
+                  $owner = $referral->referralable;
+
+                  if ($owner instanceof Company) {
+                    return $owner->company_name . ' (شركة)';
+                  }
+
+                  if ($owner instanceof Worker) {
+                    return $owner->first_name . ' ' . $owner->last_name . ' (عامل)';
+                  }
+                }
+
+                return $record->form_referral_code;
+              }),
+
           ])->columnSpanFull(),
 
         Section::make('الوثائق والمرفقات الرسمية')
@@ -117,7 +156,6 @@ class CompanyInfolist
               ->collection('companies')
               ->square()
               ->columnSpanFull()
-
               ->hintAction(
                 Action::make('download_document')
                   ->label('تحميل الملفات')
@@ -131,9 +169,6 @@ class CompanyInfolist
                     }
                   })
               )
-
-
-
           ])->columnSpanFull(),
       ]);
   }

@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use App\Models\ReferralCode;
+use App\Models\Company;
+use App\Models\Worker;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -103,8 +106,6 @@ class WorkerInfolist
               ->formatStateUsing(fn($record) => "$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
 
-
-
             TextEntry::make('payment_method')
               ->label('طريقة الدفع')
               ->badge()
@@ -117,7 +118,7 @@ class WorkerInfolist
           ->columns(3)
           ->schema([
             TextEntry::make('code')
-              ->label('رمز العامل')
+              ->label('رمز العامل الفريد (سيرفر)')
               ->placeholder('غير موثق بعد')
               ->weight('bold')
               ->fontFamily('mono')
@@ -131,13 +132,49 @@ class WorkerInfolist
               ->trueColor('success')
               ->falseColor('danger'),
 
+            TextEntry::make('referralCode.code')
+              ->label('كود الإحالة الخاص بالعامل')
+              ->placeholder('لا يوجد كود إحالة')
+              ->badge()
+              ->color('success')
+              ->icon('heroicon-m-gift')
+              ->copyable(),
+
             TextEntry::make('form_referral_code')
-              ->label('مسجل عن طريق كود إحالة')
+              ->label('سجل بكود إحالة رقم')
               ->placeholder('تسجيل مباشر (بدون كود)')
               ->badge()
               ->color('info'),
-          ])->columnSpanFull(),
 
+            TextEntry::make('invited_by')
+              ->label('تمت الدعوة بواسطة')
+              ->placeholder('لا يوجد داعٍ (تسجيل مباشر)')
+              ->icon('heroicon-m-user-plus')
+              ->weight('bold')
+              ->color('warning')
+              ->state(function ($record) {
+                if (empty($record->form_referral_code)) {
+                  return null;
+                }
+
+                $referral = ReferralCode::with('referralable')->where('code', $record->form_referral_code)->first();
+
+                if ($referral && $referral->referralable) {
+                  $owner = $referral->referralable;
+
+                  if ($owner instanceof Company) {
+                    return $owner->company_name . ' (شركة)';
+                  }
+
+                  if ($owner instanceof Worker) {
+                    return $owner->first_name . ' ' . $owner->last_name . ' (عامل)';
+                  }
+                }
+
+                return $record->form_referral_code;
+              }),
+
+          ])->columnSpanFull(),
 
         Section::make('تفاصيل وخبرات إضافية')
           ->icon('heroicon-o-document-plus')
