@@ -24,9 +24,7 @@ return new class extends Migration
       $table->string('father_name');
       $table->string('mother_fullname')->nullable();
       $table->string('phone_whatsapp')->unique();
-
       $table->date('age');
-
       $table->string('city');
       $table->string('residential_area');
       $table->string('marital_status');
@@ -35,6 +33,7 @@ return new class extends Migration
       $table->text('other_professions')->nullable();
       $table->string('work_hours');
       $table->string('commitment_level');
+      $table->string('working_status');
       $table->decimal('expected_hourly_rate_usd', 8, 2);
       $table->decimal('expected_hourly_rate_syp', 8, 2);
       $table->enum('payment_method', ['weekly', 'monthly']);

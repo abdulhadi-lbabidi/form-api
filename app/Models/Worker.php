@@ -34,6 +34,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'expected_hourly_rate_syp',
   'payment_method',
   'code',
+  'working_status',
   'is_verified',
   'form_referral_code'
 ])]

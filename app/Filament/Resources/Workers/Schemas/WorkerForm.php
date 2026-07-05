@@ -108,6 +108,16 @@ class WorkerForm
                   ])
                   ->required(),
 
+                Select::make('working_status')
+                  ->label('حالة العمل الحالية')
+                  ->options([
+                    'working_now' => 'اعمل حالياً',
+                    'not_working' => 'لا أعمل حالياً',
+                    'part_time'   => 'نعم بدوام جزئي',
+                    'full_time'   => 'نعم بدوام كامل',
+                  ])
+                  ->required(),
+
 
                 TextInput::make('expected_hourly_rate_usd')
                   ->label('أجر الساعة المتوقع (USD)')

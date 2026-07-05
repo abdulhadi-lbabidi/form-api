@@ -36,6 +36,7 @@ class CreateWorkerRequest extends FormRequest
       'primary_profession'   => ['required', 'string', 'max:255'],
       'other_professions'    => ['nullable', 'string'],
       'work_hours'           => ['required', 'string', 'max:255'],
+      'working_status'           => ['required', 'string', 'max:255'],
       'commitment_level'     => ['required', 'string', 'max:255'],
       'expected_hourly_rate_usd' => ['required', 'numeric', 'min:0'],
       'expected_hourly_rate_syp' => ['required', 'numeric', 'min:0'],

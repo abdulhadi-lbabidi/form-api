@@ -100,6 +100,24 @@ class WorkerInfolist
               ->badge()
               ->color('gray'),
 
+            TextEntry::make('working_status')
+              ->label('حالة العمل الحالية')
+              ->badge()
+              ->color(fn($state) => match ($state) {
+                'working_now' => 'success',
+                'not_working' => 'danger',
+                'part_time'   => 'warning',
+                'full_time'   => 'info',
+                default       => 'gray',
+              })
+              ->formatStateUsing(fn($state) => match ($state) {
+                'working_now' => 'تعمل حالياً',
+                'not_working' => 'لا أعمل حالياً',
+                'part_time'   => 'نعم بدوام جزئي',
+                'full_time'   => 'نعم بدوام كامل',
+                default       => $state,
+              }),
+
             TextEntry::make('expected_hourly_rate_usd')
               ->label('أجر الساعة المتوقع')
               ->weight('bold')

@@ -43,6 +43,7 @@ class UpdateWorkerRequest extends FormRequest
       'primary_profession'   => ['sometimes', 'required', 'string', 'max:255'],
       'other_professions'    => ['nullable', 'string'],
       'work_hours'           => ['sometimes', 'required', 'string', 'max:255'],
+      'working_status'           => ['required', 'string', 'max:255'],
       'commitment_level'     => ['sometimes', 'required', 'string', 'max:255'],
       'expected_hourly_rate_usd' => ['sometimes', 'numeric', 'min:0'],
       'expected_hourly_rate_syp' => ['sometimes', 'numeric', 'min:0'],
