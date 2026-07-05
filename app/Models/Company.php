@@ -36,7 +36,7 @@ class Company extends Model implements HasMedia
   {
     static::created(function (Company $company) {
       $company->referralCode()->create([
-        'usage_limit' => 10,
+        'usage_limit' => 100,
         'times_used'  => 0,
         'is_active'   => true,
         'expires_at'  => null,

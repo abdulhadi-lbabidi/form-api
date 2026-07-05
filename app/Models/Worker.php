@@ -53,7 +53,7 @@ class Worker extends Model implements HasMedia
   {
     static::created(function (Worker $worker) {
       $worker->referralCode()->create([
-        'usage_limit' => 10,
+        'usage_limit' => 100,
         'times_used'  => 0,
         'is_active'   => true,
         'expires_at'  => null,
@@ -64,7 +64,7 @@ class Worker extends Model implements HasMedia
       if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
 
         do {
-          $generatedCode = 'W-' . Str::upper(Str::random(10));
+          $generatedCode = 'Wok-' . Str::upper(Str::random(10));
         } while (static::where('code', $generatedCode)->exists());
 
         $company->code = $generatedCode;

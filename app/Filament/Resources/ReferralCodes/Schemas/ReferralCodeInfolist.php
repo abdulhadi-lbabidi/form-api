@@ -22,7 +22,7 @@ class ReferralCodeInfolist
               TextEntry::make('code')
                 ->label('كود الإحالة')
                 ->weight('bold')
-                ->fontFamily('mono') // خط مميز للأكواد
+                ->fontFamily('mono')
                 ->color('primary')
                 ->copyable()
                 ->copyMessage('تم نسخ كود الإحالة بنجاح')
@@ -30,11 +30,11 @@ class ReferralCodeInfolist
 
               TextEntry::make('referralable_type')
                 ->label('نوع الكيان المستفيد')
-                ->badge() // تحويله لشارة ملونة
+                ->badge()
                 ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل')
                 ->color(fn($state) => $state === 'App\Models\Company' ? 'info' : 'purple'),
 
-              TextEntry::make('owner_name') // اعتمدنا نفس المنطق المرن لجلب الاسم بالكامل
+              TextEntry::make('owner_name')
                 ->label('اسم صاحب الكود')
                 ->icon('heroicon-m-user')
                 ->state(function ($record) {
@@ -52,14 +52,14 @@ class ReferralCodeInfolist
                   return "{$record->times_used} / {$limit}";
                 })
                 ->color(fn($record) => $record->usage_limit && $record->times_used >= $record->usage_limit ? 'danger' : 'gray')
-                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']), // أرقام إنجليزية
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']),
 
               TextEntry::make('expires_at')
                 ->label('تاريخ انتهاء الصلاحية')
                 ->icon('heroicon-m-calendar')
                 ->dateTime('Y-m-d H:i A')
                 ->placeholder('مفتوح الصلاحية (لا ينتهي)')
-                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']), // أرقام إنجليزية
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
               IconEntry::make('is_active')
                 ->label('حالة الكود بالنظام')

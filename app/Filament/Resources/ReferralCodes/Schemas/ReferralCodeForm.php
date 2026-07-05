@@ -20,7 +20,6 @@ class ReferralCodeForm
           ->icon('heroicon-o-ticket')
           ->columns(2)
           ->schema([
-            // اختيار نوع صاحب الكود
             Select::make('referralable_type')
               ->label('صاحب الكود (النوع)')
               ->options([
@@ -28,9 +27,8 @@ class ReferralCodeForm
                 'App\Models\Worker' => 'عامل',
               ])
               ->required()
-              ->live(), // يجعل الحقل تفاعلياً لتحديث الحقل التالي فوراً
+              ->live(),
 
-            // اختيار الكيان المحدد بناءً على النوع المختار
             Select::make('referralable_id')
               ->label('اسم صاحب الكود')
               ->placeholder('اختر الجهة أولاً')
@@ -40,19 +38,17 @@ class ReferralCodeForm
                 $type = $get('referralable_type');
                 if (! $type) return [];
 
-                // إذا كان شركة نجلب أسماء الشركات، وإذا كان عامل نجلب أسماء العمال
                 return $type === 'App\Models\Company'
                   ? \App\Models\Company::pluck('company_name', 'id')
                   : \App\Models\Worker::all()->mapWithKeys(fn($w) => [$w->id => "{$w->first_name} {$w->last_name}"]);
               }),
 
-            // حقل الكود (يظهر كتلميح عند الإنشاء ويولد تلقائياً، ويصبح ظاهراً عند التعديل)
             TextInput::make('code')
               ->label('كود الإحالة')
               ->placeholder('سيتم توليده تلقائياً')
-              ->disabled() // حماية لعدم التعديل اليدوي العشوائي
-              ->dehydrated(false) // عدم إرساله في الـ Request عند الإنشاء لأنه يتولد بالموديل
-              ->visible(fn($record) => $record !== null), // يظهر فقط عند التعديل أو العرض
+              ->disabled()
+              ->dehydrated(false)
+              ->visible(fn($record) => $record !== null),
 
             TextInput::make('usage_limit')
               ->label('حد الاستخدام الأقصى')
@@ -63,7 +59,7 @@ class ReferralCodeForm
               ->label('عدد مرات الاستخدام الحالي')
               ->numeric()
               ->default(0)
-              ->disabled(), // للمشاهدة فقط ولا يمكن تزويره يدوياً
+              ->disabled(), 
 
             DateTimePicker::make('expires_at')
               ->label('تاريخ انتهاء الصلاحية')
