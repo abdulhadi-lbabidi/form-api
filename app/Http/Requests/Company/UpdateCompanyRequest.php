@@ -45,7 +45,8 @@ class UpdateCompanyRequest extends FormRequest
       'contact_person_name'     => ['sometimes', 'required', 'string', 'max:255'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
 
-      'image'          => ['nullable', 'max:4096'],
+      'image'   => ['nullable', 'array'],
+      'image.*' => ['file', 'max:4096', 'mimes:jpeg,jpg,png,pdf,doc,docx,txt'],
     ];
   }
 }
