@@ -22,6 +22,7 @@ return new class extends Migration
       $table->string('first_name');
       $table->string('last_name');
       $table->string('father_name');
+      $table->string('full_name')->nullable();
       $table->string('mother_fullname')->nullable();
       $table->string('phone_whatsapp')->unique();
       $table->date('age');

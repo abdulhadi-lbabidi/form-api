@@ -24,6 +24,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'phone_whatsapp',
   'age',
   'city',
+  'full_name',
   'residential_area',
   'marital_status',
   'primary_profession',
@@ -52,6 +53,11 @@ class Worker extends Model implements HasMedia
 
   protected static function booted(): void
   {
+
+    static::creating(function (Worker $worker) {
+      $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+    });
+
     static::created(function (Worker $worker) {
       $worker->referralCode()->create([
         'usage_limit' => 100,
@@ -61,14 +67,18 @@ class Worker extends Model implements HasMedia
       ]);
     });
 
-    static::updating(function (Worker $company) {
-      if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
+    static::updating(function (Worker $worker) {
+      if ($worker->isDirty(['first_name', 'father_name', 'last_name'])) {
+        $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+      }
+
+      if ($worker->isDirty('is_verified') && $worker->is_verified && !$worker->code) {
 
         do {
           $generatedCode = 'Wok-' . Str::upper(Str::random(10));
         } while (static::where('code', $generatedCode)->exists());
 
-        $company->code = $generatedCode;
+        $worker->code = $generatedCode;
       }
     });
   }
