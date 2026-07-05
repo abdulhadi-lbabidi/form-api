@@ -140,6 +140,7 @@ class WorkerForm
                       ->image()
                       ->multiple()
                       ->reorderable()
+                      ->maxSize(4096)
                       ->columnSpanFull(),
                   ]),
               ]),

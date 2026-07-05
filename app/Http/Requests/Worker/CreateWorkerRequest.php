@@ -43,6 +43,8 @@ class CreateWorkerRequest extends FormRequest
       'code'                 => ['nullable', 'string', 'max:255', 'unique:workers,code'],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
+
+      'image'          => ['nullable', 'image', 'max:4096'],
     ];
   }
 }

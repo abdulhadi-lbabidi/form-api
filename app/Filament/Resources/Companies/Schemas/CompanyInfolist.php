@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
@@ -116,6 +117,22 @@ class CompanyInfolist
               ->collection('companies')
               ->square()
               ->columnSpanFull()
+
+              ->hintAction(
+                Action::make('download_document')
+                  ->label('تحميل الملفات')
+                  ->icon('heroicon-m-arrow-down-tray')
+                  ->color('primary')
+                  ->visible(fn($record) => $record && $record->hasMedia('companies'))
+                  ->action(function ($record) {
+                    $media = $record->getFirstMedia('companies');
+                    if ($media) {
+                      return response()->download($media->getPath(), $media->file_name);
+                    }
+                  })
+              )
+
+
 
           ])->columnSpanFull(),
       ]);

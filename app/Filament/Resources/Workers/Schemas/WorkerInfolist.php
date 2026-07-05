@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
@@ -149,7 +150,20 @@ class WorkerInfolist
               ->label('الملفات والوثائق المتاحة')
               ->collection('workers')
               ->square()
-              ->columnSpanFull(),
+              ->columnSpanFull()
+              ->hintAction(
+                Action::make('download_document')
+                  ->label('تحميل الملفات')
+                  ->icon('heroicon-m-arrow-down-tray')
+                  ->color('primary')
+                  ->visible(fn($record) => $record && $record->hasMedia('workers'))
+                  ->action(function ($record) {
+                    $media = $record->getFirstMedia('workers');
+                    if ($media) {
+                      return response()->download($media->getPath(), $media->file_name);
+                    }
+                  })
+              )
           ])->columnSpanFull(),
 
       ]);

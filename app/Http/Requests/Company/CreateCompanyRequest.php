@@ -29,11 +29,13 @@ class CreateCompanyRequest extends FormRequest
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['required', 'string', 'max:255'],
       'email'          => ['required', 'email', 'max:255', 'unique:companies,email'],
-      'phone_number'   => ['required', 'string', 'max:20','unique:companies,phone_number'],
+      'phone_number'   => ['required', 'string', 'max:20', 'unique:companies,phone_number'],
       'owner_name'     => ['required', 'string', 'max:255'],
       'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
+
+      'image'          => ['nullable', 'image', 'max:4096'],
     ];
   }
 }
