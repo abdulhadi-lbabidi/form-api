@@ -31,6 +31,7 @@ class CreateCompanyRequest extends FormRequest
       'email'          => ['required', 'email', 'max:255', 'unique:companies,email'],
       'phone_number'   => ['required', 'string', 'max:20', 'unique:companies,phone_number'],
       'owner_name'     => ['required', 'string', 'max:255'],
+      'contact_person_name'     => ['required', 'string', 'max:255'],
       'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],

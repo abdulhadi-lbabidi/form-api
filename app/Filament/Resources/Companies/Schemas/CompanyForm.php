@@ -47,6 +47,11 @@ class CompanyForm
               ->required()
               ->maxLength(255),
 
+            TextInput::make('contact_person_name')
+              ->label('اسم المسؤول المباشر عن التواصل')
+              ->required()
+              ->maxLength(255),
+
             TextInput::make('work_location')
               ->label('موقع العمل')
               ->required()

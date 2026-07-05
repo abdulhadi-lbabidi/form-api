@@ -21,6 +21,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'problems_faced',
   'work_location',
   'email',
+  'contact_person_name',
   'phone_number',
   'owner_name',
   'code',

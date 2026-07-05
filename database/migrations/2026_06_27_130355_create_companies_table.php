@@ -15,6 +15,8 @@ return new class extends Migration
       $table->id();
       $table->string('company_name');
       $table->string('business_type');
+      $table->string('owner_name');
+      $table->string('contact_person_name');
       $table->string('code')
         ->nullable()
         ->unique();
@@ -26,7 +28,6 @@ return new class extends Migration
       $table->string('work_location');
       $table->string('email')->unique();
       $table->string('phone_number')->unique();
-      $table->string('owner_name');
       $table->timestamps();
     });
   }
