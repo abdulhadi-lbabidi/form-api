@@ -28,7 +28,7 @@ class CreateCompanyRequest extends FormRequest
       'business_type'  => ['required', 'string', 'max:255'],
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['required', 'string', 'max:255'],
-      'email'          => ['required', 'email', 'max:255', 'unique:companies,email'],
+      'email'          => ['nullable', 'email', 'max:255', 'unique:companies,email'],
       'phone_number'   => ['required', 'string', 'max:20', 'unique:companies,phone_number'],
       'owner_name'     => ['required', 'string', 'max:255'],
       'contact_person_name'     => ['required', 'string', 'max:255'],
@@ -37,7 +37,7 @@ class CreateCompanyRequest extends FormRequest
       'form_referral_code' => ['nullable', 'string', 'max:255'],
 
       'image'   => ['nullable', 'array'],
-      'image.*' => ['file', 'max:4096', 'mimes:jpeg,jpg,png,pdf,doc,docx,txt'], 
+      'image.*' => ['file', 'max:4096', 'mimes:jpeg,jpg,png,pdf,doc,docx,txt'],
     ];
   }
 }

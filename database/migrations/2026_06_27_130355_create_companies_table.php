@@ -26,7 +26,7 @@ return new class extends Migration
       $table->string('form_referral_code')
         ->nullable();
       $table->string('work_location');
-      $table->string('email')->unique();
+      $table->string('email')->nullable();
       $table->string('phone_number')->unique();
       $table->timestamps();
     });
