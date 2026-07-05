@@ -55,7 +55,7 @@ class WorkerForm
                   ->label('الحالة الاجتماعية')
                   ->options([
                     'single' => 'عازب',
-                    'married' => 'متزوج',
+                    'married' => 'متزوج ويعول أسرة',
                     'other' => 'غير ذلك'
                   ])
                   ->required(),
@@ -88,14 +88,26 @@ class WorkerForm
                 TextInput::make('primary_profession')
                   ->label('المهنة الأساسية')
                   ->required(),
-                TextInput::make('work_hours')
-                  ->label('ساعات الدوام المتاحة')
-                  ->placeholder('مثال: 8 ساعات، صباحي...')
+
+
+                Select::make('work_hours')
+                  ->label('دوام العمل')
+                  ->options([
+                    'single' => 'صباحي',
+                    'married' => 'مسائي',
+                    'other' => 'ليلي'
+                  ])
                   ->required(),
-                TextInput::make('commitment_level')
-                  ->label('مستوى الالتزام')
-                  ->placeholder('مثال: دوام كامل، جزئي...')
+
+                Select::make('commitment_level')
+                  ->label('الاتزام بالعمل')
+                  ->options([
+                    'single' => 'دوام كامل',
+                    'married' => 'دوام جزئي',
+                    'other' => 'بالساعة'
+                  ])
                   ->required(),
+
 
                 TextInput::make('expected_hourly_rate_usd')
                   ->label('أجر الساعة المتوقع (USD)')

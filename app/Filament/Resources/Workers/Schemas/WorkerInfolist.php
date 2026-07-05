@@ -21,7 +21,7 @@ class WorkerInfolist
           ->icon('heroicon-o-user-circle')
           ->description('البيانات الشخصية الأساسية ومعلومات العائلة.')
           ->schema([
-            Grid::make(4)->schema([
+            Grid::make(3)->schema([
               TextEntry::make('first_name')
                 ->label('الاسم الأول')
                 ->weight('bold'),
@@ -36,9 +36,13 @@ class WorkerInfolist
 
             Grid::make(3)->schema([
               TextEntry::make('age')
-                ->label('العمر الحالي')
+                ->label('تاريخ الميلاد (العمر)')
                 ->icon('heroicon-m-calendar-days')
-                ->formatStateUsing(fn($state) => Carbon::parse($state)->age . ' سنة')
+                ->formatStateUsing(function ($state) {
+                  if (!$state) return '-';
+                  $date = Carbon::parse($state);
+                  return $date->format('Y-m-d') . ' (' . $date->age . ' سنة)';
+                })
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family:cairo;']),
 
               TextEntry::make('marital_status')
