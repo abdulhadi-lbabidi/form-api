@@ -28,7 +28,7 @@ class WorkerController extends Controller
       $validated,
       $request->file('image') ?? []
     );
-    $worker->load('referralCode');
+    $worker->load(['referralCode', 'marketingSources']);
 
     return new WorkerResource($worker);
   }

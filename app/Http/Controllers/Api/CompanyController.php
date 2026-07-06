@@ -28,7 +28,7 @@ class CompanyController extends Controller
       $validated,
       $request->file('image') ?? []
     );
-    $company->load('referralCode');
+    $company->load(['referralCode', 'marketingSources']);
     return response()->json([
       'data'    => new CompanyResource($company)
     ], 201);

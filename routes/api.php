@@ -13,9 +13,16 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+/*
+|--------------------------------------------------------------------------
+| Public API (NO AUTH)
+|--------------------------------------------------------------------------
+*/
 
-Route::apiResource('companies', CompanyController::class);
-Route::apiResource('workers', WorkerController::class);
-Route::apiResource('times', TimeController::class);
-Route::apiResource('marketing-sources', MarketingSourceController::class);
-Route::apiResource('subscriptions', SubscriptionController::class);
+Route::middleware(['setLocale'])->group(function () {
+  Route::apiResource('companies', CompanyController::class);
+  Route::apiResource('workers', WorkerController::class);
+  Route::apiResource('times', TimeController::class);
+  Route::apiResource('marketing-sources', MarketingSourceController::class);
+  Route::apiResource('subscriptions', SubscriptionController::class);
+});
