@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     $this->call([
       AdminSeeder::class,
       TimeSeeder::class,
+      MarketingSourceSeeder::class,
     ]);
   }
 }

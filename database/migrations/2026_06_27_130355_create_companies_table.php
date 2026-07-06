@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MarketingSource;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,12 @@ return new class extends Migration
   {
     Schema::create('companies', function (Blueprint $table) {
       $table->id();
+
+      $table->foreignIdFor(MarketingSource::class)
+        ->nullable()
+        ->constrained()
+        ->nullOnDelete();
+
       $table->string('company_name');
       $table->string('business_type');
       $table->string('owner_name');

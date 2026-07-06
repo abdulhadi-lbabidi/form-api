@@ -6,6 +6,7 @@ use App\MediaLibrary\WorkerPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -21,6 +22,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'last_name',
   'father_name',
   'mother_fullname',
+  'marketing_source_id',
   'phone_whatsapp',
   'age',
   'city',
@@ -101,6 +103,10 @@ class Worker extends Model implements HasMedia
       ->nonQueued();
   }
 
+  public function marketingSource(): BelongsTo
+  {
+    return $this->belongsTo(MarketingSource::class);
+  }
 
   public function referralCode(): MorphOne
   {

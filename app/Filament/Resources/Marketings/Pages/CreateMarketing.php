@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\Companies\Pages;
+namespace App\Filament\Resources\Marketings\Pages;
 
-use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Marketings\MarketingResource;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Actions;
 
 
-class CreateCompany extends CreateRecord
+class CreateMarketing extends CreateRecord
 {
-  protected static string $resource = CompanyResource::class;
+  protected static string $resource = MarketingResource::class;
+
   protected function getHeaderActions(): array
   {
     return [

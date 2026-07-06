@@ -6,6 +6,7 @@ use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'company_name',
   'business_type',
   'problems_faced',
+  'marketing_source_id',
   'work_location',
   'email',
   'contact_person_name',
@@ -73,6 +75,13 @@ class Company extends Model implements HasMedia
       ->format('webp')
       ->nonQueued();
   }
+
+
+  public function marketingSource(): BelongsTo
+  {
+    return $this->belongsTo(MarketingSource::class);
+  }
+
 
   public function referralCode(): MorphOne
   {
