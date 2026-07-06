@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -20,7 +21,6 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'company_name',
   'business_type',
   'problems_faced',
-  'marketing_source_id',
   'work_location',
   'email',
   'contact_person_name',
@@ -77,9 +77,13 @@ class Company extends Model implements HasMedia
   }
 
 
-  public function marketingSource(): BelongsTo
+  public function marketingSources(): MorphToMany
   {
-    return $this->belongsTo(MarketingSource::class);
+    return $this->morphToMany(
+      MarketingSource::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
   }
 
 

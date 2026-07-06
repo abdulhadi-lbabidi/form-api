@@ -18,15 +18,8 @@ return new class extends Migration
       $table->string('code')
         ->nullable()
         ->unique();
-
-      $table->foreignIdFor(MarketingSource::class)
-        ->nullable()
-        ->constrained()
-        ->nullOnDelete();
-
       $table->string('form_referral_code')
         ->nullable();
-
       $table->string('first_name');
       $table->string('last_name');
       $table->string('father_name');

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -22,7 +23,6 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'last_name',
   'father_name',
   'mother_fullname',
-  'marketing_source_id',
   'phone_whatsapp',
   'age',
   'city',
@@ -103,9 +103,13 @@ class Worker extends Model implements HasMedia
       ->nonQueued();
   }
 
-  public function marketingSource(): BelongsTo
+  public function marketingSources(): MorphToMany
   {
-    return $this->belongsTo(MarketingSource::class);
+    return $this->morphToMany(
+      MarketingSource::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
   }
 
   public function referralCode(): MorphOne

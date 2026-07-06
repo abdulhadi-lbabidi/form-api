@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -67,6 +68,12 @@ class CompanyForm
               ->label('رقم الهاتف')
               ->required()
               ->maxLength(255),
+
+            CheckboxList::make('marketingSources') // نفس اسم الدالة بالجمع في المودل
+              ->relationship('marketingSources', 'name')
+              ->getOptionLabelFromRecordUsing(fn($record) => $record->translated_name) // لعرض الاسم المترجم
+              ->label('مصادر التعرف علينا')
+              ->columns(3),
 
             Textarea::make('problems_faced')
               ->label('المشاكل التي تواجهها الشركة (إن وجدت)')

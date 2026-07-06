@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 #[Fillable([
   'name',
@@ -29,12 +30,21 @@ class MarketingSource extends Model
   }
 
 
-  public function workers(): HasMany
+  public function companies(): MorphToMany
   {
-    return $this->hasMany(Worker::class);
+    return $this->morphedByMany(
+      Company::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
   }
-  public function companies(): HasMany
+
+  public function workers(): MorphToMany
   {
-    return $this->hasMany(Company::class);
+    return $this->morphedByMany(
+      Worker::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
   }
 }

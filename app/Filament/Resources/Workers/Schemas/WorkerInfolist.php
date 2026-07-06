@@ -8,6 +8,7 @@ use App\Models\Worker;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\RepeatableEntry; // تم استيراد هذا المكون
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -93,12 +94,30 @@ class WorkerInfolist
 
             TextEntry::make('work_hours')
               ->label('ساعات العمل المتاحة')
-              ->icon('heroicon-m-clock'),
+              ->icon('heroicon-m-clock')
+              ->formatStateUsing(fn($state) => match ($state) {
+                'morning'  => 'صباحي',
+                'evening'  => 'مسائي',
+                'night'    => 'ليلي',
+                'flexible' => 'مرن',
+                default    => $state,
+              }),
 
             TextEntry::make('commitment_level')
               ->label('مستوى الالتزام')
               ->badge()
-              ->color('gray'),
+              ->color(fn($state) => match ($state) {
+                'full_time' => 'success',
+                'part_time' => 'warning',
+                'hourly'    => 'info',    
+                default     => 'gray',
+              })
+              ->formatStateUsing(fn($state) => match ($state) {
+                'full_time' => 'دوام كامل',
+                'part_time' => 'دوام جزئي',
+                'hourly'    => 'بالساعة',
+                default     => $state,
+              }),
 
             TextEntry::make('working_status')
               ->label('حالة العمل الحالية')
@@ -117,6 +136,13 @@ class WorkerInfolist
                 'full_time'   => 'نعم بدوام كامل',
                 default       => $state,
               }),
+
+            TextEntry::make('marketingSources.name')
+              ->label('مصادر التعرف علينا')
+              ->state(fn($record) => $record->marketingSources->map(fn($source) => $source->translated_name)->toArray())
+              ->badge()
+              ->color('warning')
+              ->placeholder('لم يتم تحديد أي مصدر'),
 
             TextEntry::make('expected_hourly_rate_usd')
               ->label('أجر الساعة المتوقع')
@@ -227,6 +253,73 @@ class WorkerInfolist
               )
           ])->columnSpanFull(),
 
+        Section::make('سجل تقييمات العامل')
+          ->icon('heroicon-o-star')
+          ->description('مراجعات تقييم الأداء والملاحظات والرايات الحمراء المسجلة للعامل.')
+          ->schema([
+            RepeatableEntry::make('ratings')
+              ->label('التقييمات المسجلة')
+              ->placeholder('لا توجد تقييمات مسجلة لهذا العامل حتى الآن.')
+              ->columns(3)
+              ->schema([
+                TextEntry::make('user.name')
+                  ->label('المقيّم')
+                  ->icon('heroicon-m-user')
+                  ->weight('bold'),
+
+                TextEntry::make('created_at')
+                  ->label('تاريخ التقييم')
+                  ->dateTime('Y-m-d')
+                  ->color('gray'),
+
+                IconEntry::make('is_verified')
+                  ->label('حالة توثيق التقييم')
+                  ->boolean()
+                  ->trueColor('success')
+                  ->falseColor('warning'),
+
+                TextEntry::make('skill_level')
+                  ->label('مستوى المهارة')
+                  ->badge()
+                  ->color('primary'),
+
+                TextEntry::make('communication_level')
+                  ->label('مستوى التواصل')
+                  ->badge()
+                  ->color('info'),
+
+                TextEntry::make('seriousness_level')
+                  ->label('مستوى الجدية والالتزام')
+                  ->badge()
+                  ->color('success'),
+
+                TextEntry::make('skill_matching')
+                  ->label('مطابقة المهارة المطلوبة')
+                  ->badge()
+                  ->color('gray'),
+
+                IconEntry::make('red_flag')
+                  ->label('راية حمراء / تحذير')
+                  ->boolean()
+                  ->trueIcon('heroicon-m-flag')
+                  ->falseIcon('heroicon-m-minus')
+                  ->trueColor('danger')
+                  ->falseColor('gray'),
+
+                TextEntry::make('notes')
+                  ->label('ملاحظات المقيّم')
+                  ->placeholder('لا توجد تفاصيل إضافية')
+                  ->columnSpanFull(),
+
+                TextEntry::make('verification_notes')
+                  ->label('ملاحظات التوثيق والإدارة')
+                  ->placeholder('-')
+                  ->visible(fn($state) => !empty($state))
+                  ->columnSpanFull(),
+              ])
+              ->grid(2)
+              ->columnSpanFull(),
+          ])->columnSpanFull(),
       ]);
   }
 }

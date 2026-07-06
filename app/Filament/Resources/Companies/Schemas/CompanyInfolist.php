@@ -117,6 +117,14 @@ class CompanyInfolist
               ->badge()
               ->color('info'),
 
+            TextEntry::make('marketingSources.name')
+              ->label('مصادر التعرف علينا')
+              ->state(fn($record) => $record->marketingSources->map(fn($source) => $source->translated_name)->toArray())
+              ->badge()
+              ->color('warning')
+              ->placeholder('لم يتم تحديد أي مصدر'),
+
+
             TextEntry::make('invited_by')
               ->label('تمت الدعوة بواسطة')
               ->placeholder('لا يوجد داعٍ (تسجيل مباشر)')
@@ -146,6 +154,8 @@ class CompanyInfolist
               }),
 
           ])->columnSpanFull(),
+
+
 
         Section::make('الوثائق والمرفقات الرسمية')
           ->icon('heroicon-o-paper-clip')

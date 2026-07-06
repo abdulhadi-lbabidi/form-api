@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -91,20 +92,20 @@ class WorkerForm
 
 
                 Select::make('work_hours')
-                  ->label('دوام العمل')
+                  ->label('دوام العمل المتاح')
                   ->options([
-                    'single' => 'صباحي',
-                    'married' => 'مسائي',
-                    'other' => 'ليلي'
+                    'morning' => 'صباحي',
+                    'evening' => 'مسائي',
+                    'night' => 'ليلي',
                   ])
                   ->required(),
 
                 Select::make('commitment_level')
-                  ->label('الاتزام بالعمل')
+                  ->label('الالتزام بالعمل')
                   ->options([
-                    'single' => 'دوام كامل',
-                    'married' => 'دوام جزئي',
-                    'other' => 'بالساعة'
+                    'full_time' => 'دوام كامل',
+                    'part_time' => 'دوام جزئي',
+                    'hourly' => 'بالساعة'
                   ])
                   ->required(),
 
@@ -117,6 +118,12 @@ class WorkerForm
                     'full_time'   => 'نعم بدوام كامل',
                   ])
                   ->required(),
+
+                CheckboxList::make('marketingSources')
+                  ->relationship('marketingSources', 'name')
+                  ->getOptionLabelFromRecordUsing(fn($record) => $record->translated_name)
+                  ->label('مصادر التعرف علينا')
+                  ->columns(3),
 
 
                 TextInput::make('expected_hourly_rate_usd')
@@ -145,13 +152,6 @@ class WorkerForm
                 Textarea::make('other_professions')
                   ->label('مهارات أو مهن أخرى يجيدها')
                   ->columnSpanFull(),
-
-
-
-
-
-
-
               ]),
 
             Tabs\Tab::make('المرفقات والوثائق')
