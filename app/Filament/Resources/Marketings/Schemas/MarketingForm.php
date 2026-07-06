@@ -27,7 +27,7 @@ class MarketingForm
               ->placeholder('مثال: Facebook, Google Search')
               ->required()
               ->maxLength(255),
-          ]),
+          ])->columnSpanFull(),
       ]);
   }
 }
