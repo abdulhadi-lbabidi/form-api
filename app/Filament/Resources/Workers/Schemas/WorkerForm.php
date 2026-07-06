@@ -42,8 +42,8 @@ class WorkerForm
                   ->label('اسم الأب')
                   ->required(),
                 TextInput::make('mother_fullname')
-                  ->label('اسم الأم الكامل')
-                  ->required(),
+                  ->label('اسم الأم الكامل'),
+
 
                 DatePicker::make('age')
                   ->label('تاريخ الميلاد')

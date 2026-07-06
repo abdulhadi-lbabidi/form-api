@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
@@ -38,12 +39,9 @@ class WorkersTable
 
         TextColumn::make('full_name')
           ->label('الاسم الكامل')
-          ->searchable(query: function ($query, string $search) {
-            $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
-          })
+
           ->sortable(['first_name'])
-          ->weight('bold')
-          ->state(fn($record) => "{$record->first_name} {$record->last_name}"),
+          ->weight('bold'),
 
         TextColumn::make('phone_whatsapp')
           ->label('رقم الهاتف / واتساب')
@@ -105,6 +103,14 @@ class WorkersTable
           ->placeholder('الكل')
           ->trueLabel('العمال الموثقين')
           ->falseLabel('العمال غير الموثقين'),
+
+        SelectFilter::make('payment_method')
+          ->label('طريقة الدفع')
+          ->placeholder('الكل')
+          ->options([
+            'weekly' => 'أسبوعي',
+            'monthly' => 'شهري',
+          ]),
       ])
       ->recordActions([
         ViewAction::make(),
