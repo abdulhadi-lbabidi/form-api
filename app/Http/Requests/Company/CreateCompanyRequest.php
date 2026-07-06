@@ -38,6 +38,9 @@ class CreateCompanyRequest extends FormRequest
 
       'image'   => ['nullable', 'array'],
       'image.*' => ['file', 'max:4096', 'mimes:jpeg,jpg,png,pdf,doc,docx,txt'],
+
+      'marketing_source_ids'   => ['nullable', 'array'],
+      'marketing_source_ids.*' => ['integer', 'exists:marketing_sources,id'],
     ];
   }
 }

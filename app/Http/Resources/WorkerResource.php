@@ -40,6 +40,7 @@ class WorkerResource extends JsonResource
         return $media->getUrl('default');
       }),
       'form_referral_code' => $this->form_referral_code,
+      'marketing_sources' => MarketingSourceResource::collection($this->whenLoaded('marketingSources')),
 
 
       'created_at'           => $this->created_at?->toIso8601String(),

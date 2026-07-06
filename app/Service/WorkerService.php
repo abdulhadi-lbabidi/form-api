@@ -11,12 +11,12 @@ class WorkerService
 {
   public function findAll(): Collection
   {
-    return Worker::with('referralCode')->get();
+    return Worker::with(['referralCode', 'marketingSources'])->get();
   }
 
   public function findOne(int $id): Worker
   {
-    return Worker::with('referralCode')->findOrFail($id);
+    return Worker::with(['referralCode', 'marketingSources'])->findOrFail($id);
   }
 
   // public function create(array $data, $imageFile = null)
@@ -35,6 +35,12 @@ class WorkerService
   {
     return DB::transaction(function () use ($data, $imageFiles) {
       $worker = Worker::create($data);
+
+      // Sync marketing sources
+      if (!empty($data['marketing_source_ids'])) {
+        $worker->marketingSources()->sync($data['marketing_source_ids']);
+      }
+      // Sync referral code
       if (!empty($data['form_referral_code'])) {
         $referralCode = ReferralCode::where('code', $data['form_referral_code'])
           ->where('is_active', true)
@@ -47,6 +53,7 @@ class WorkerService
       //   $worker->addMedia($imageFile)->toMediaCollection('workers');
       // }
 
+      // Sync image
       if (!empty($imageFiles) && is_array($imageFiles)) {
         foreach ($imageFiles as $file) {
           if ($file) {
@@ -67,7 +74,10 @@ class WorkerService
   public function update(Worker $worker, array $data, $imageFile = null)
   {
     $worker->update($data);
-
+    // Sync marketing sources
+    if (isset($data['marketing_source_ids'])) {
+      $worker->marketingSources()->sync($data['marketing_source_ids']);
+    }
     if ($imageFile) {
       $worker->clearMediaCollection('workers');
       $worker->addMedia($imageFile)->toMediaCollection('workers');

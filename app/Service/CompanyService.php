@@ -11,12 +11,12 @@ class CompanyService
 {
   public function findAll(): Collection
   {
-    return Company::with('referralCode')->get();
+    return Company::with(['referralCode', 'marketingSources'])->get();
   }
 
   public function findOne(int $id): Company
   {
-    return Company::with('referralCode')->findOrFail($id);
+    return Company::with(['referralCode', 'marketingSources'])->findOrFail($id);
   }
   // public function create(array $data, $imageFile = null)
   // {
@@ -32,6 +32,13 @@ class CompanyService
   {
     return DB::transaction(function () use ($data, $imageFiles) {
       $company = Company::create($data);
+
+      // Sync marketing sources
+      if (!empty($data['marketing_source_ids'])) {
+        $company->marketingSources()->sync($data['marketing_source_ids']);
+      }
+
+      //  Sync referral code
       if (!empty($data['form_referral_code'])) {
         $referralCode = ReferralCode::where('code', $data['form_referral_code'])
           ->where('is_active', true)
@@ -41,6 +48,7 @@ class CompanyService
         }
       }
 
+      // Sync image
       if (!empty($imageFiles) && is_array($imageFiles)) {
         foreach ($imageFiles as $file) {
           if ($file) {
@@ -60,6 +68,10 @@ class CompanyService
   public function update(Company $company, array $data, $imageFile = null)
   {
     $company->update($data);
+
+    if (isset($data['marketing_source_ids'])) {
+      $company->marketingSources()->sync($data['marketing_source_ids']);
+    }
     if ($imageFile) {
       $company->clearMediaCollection('companies');
       $company->addMedia($imageFile)->toMediaCollection('companies');
