@@ -130,17 +130,13 @@ class WorkerForm
                   ->label('أجر الساعة المتوقع (USD)')
                   ->numeric()
                   ->prefix('$')
-                  ->default(0)
-                  ->formatStateUsing(fn($state) => $state ?? 0)
-                  ->mutateDehydratedStateUsing(fn($state) => empty($state) ? 0 : $state),
+                  ->default(0.00),
 
                 TextInput::make('expected_hourly_rate_syp')
                   ->label('أجر الساعة المتوقع (SYP)')
                   ->numeric()
                   ->prefix('ل.س')
-                  ->default(0)
-                  ->formatStateUsing(fn($state) => $state ?? 0)
-                  ->mutateDehydratedStateUsing(fn($state) => empty($state) ? 0 : $state),
+                  ->default(0.00),
 
                 Select::make('payment_method')
                   ->label('طريقة الدفع المفضلة')

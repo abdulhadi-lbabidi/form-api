@@ -5,11 +5,8 @@ namespace App\Filament\Resources\Marketings\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class MarketingsTable
@@ -33,14 +30,14 @@ class MarketingsTable
 
         TextColumn::make('workers_count')
           ->label('العمال المسجلين')
-          ->counts('workers')
+          ->state(fn($record) => $record->workers()->count())
           ->badge()
           ->color('success')
           ->alignCenter(),
 
         TextColumn::make('companies_count')
           ->label('الشركات المسجلة')
-          ->counts('companies')
+          ->state(fn($record) => $record->companies()->count())
           ->badge()
           ->color('info')
           ->alignCenter(),

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MarketingResource\CreateMarketingSourceRequest;
-use App\Http\Requests\MarketingResource\UpdateMarketingSourceRequest;
+use App\Http\Requests\MarketingSource\CreateMarketingSourceRequest;
+use App\Http\Requests\MarketingSource\UpdateMarketingSourceRequest;
 use App\Http\Resources\MarketingSourceResource;
 use App\Service\MarketingSourceService;
 

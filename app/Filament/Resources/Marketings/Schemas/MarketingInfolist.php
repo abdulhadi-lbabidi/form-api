@@ -24,10 +24,12 @@ class MarketingInfolist
 
               TextEntry::make('name.ar')
                 ->label('الاسم بالعربية')
+                ->placeholder('غير مدخل')
                 ->color('gray'),
 
               TextEntry::make('name.en')
                 ->label('الاسم بالإنجليزية')
+                ->placeholder('غير مدخل')
                 ->color('gray'),
             ]),
 
