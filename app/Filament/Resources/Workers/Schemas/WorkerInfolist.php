@@ -51,7 +51,6 @@ class WorkerInfolist
 
               TextEntry::make('marital_status')
                 ->label('الحالة الاجتماعية')
-                ->badge()
                 ->color(fn($state) => match ($state) {
                   'single' => 'info',
                   'married' => 'success',
@@ -105,11 +104,10 @@ class WorkerInfolist
 
             TextEntry::make('commitment_level')
               ->label('مستوى الالتزام')
-              ->badge()
               ->color(fn($state) => match ($state) {
                 'full_time' => 'success',
                 'part_time' => 'warning',
-                'hourly'    => 'info',    
+                'hourly'    => 'info',
                 default     => 'gray',
               })
               ->formatStateUsing(fn($state) => match ($state) {
@@ -121,7 +119,6 @@ class WorkerInfolist
 
             TextEntry::make('working_status')
               ->label('حالة العمل الحالية')
-              ->badge()
               ->color(fn($state) => match ($state) {
                 'working_now' => 'success',
                 'not_working' => 'danger',
@@ -152,9 +149,19 @@ class WorkerInfolist
 
             TextEntry::make('payment_method')
               ->label('طريقة الدفع')
-              ->badge()
-              ->color(fn($state) => $state === 'weekly' ? 'warning' : 'success')
-              ->formatStateUsing(fn($state) => $state === 'weekly' ? 'أسبوعي' : 'شهري'),
+              ->color(fn($state) => match ($state) {
+                'daily' => 'info',
+                'weekly' => 'warning',
+                'monthly' => 'success',
+                default => 'gray',
+              })
+              ->formatStateUsing(fn($state) => match ($state) {
+                'daily' => 'يومي',
+                'weekly' => 'أسبوعي',
+                'monthly' => 'شهري',
+                default => $state,
+              }),
+
           ])->columnSpanFull(),
 
         Section::make('بيانات النظام والإحالات')
@@ -179,7 +186,6 @@ class WorkerInfolist
             TextEntry::make('referralCode.code')
               ->label('كود الإحالة الخاص بالعامل')
               ->placeholder('لا يوجد كود إحالة')
-              ->badge()
               ->color('success')
               ->icon('heroicon-m-gift')
               ->copyable(),
@@ -187,7 +193,6 @@ class WorkerInfolist
             TextEntry::make('form_referral_code')
               ->label('سجل بكود إحالة رقم')
               ->placeholder('تسجيل مباشر (بدون كود)')
-              ->badge()
               ->color('info'),
 
             TextEntry::make('invited_by')

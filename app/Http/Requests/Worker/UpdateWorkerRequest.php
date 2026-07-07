@@ -47,7 +47,7 @@ class UpdateWorkerRequest extends FormRequest
       'commitment_level'     => ['sometimes', 'required', 'string', 'max:255'],
       'expected_hourly_rate_usd' => ['sometimes', 'numeric', 'min:0'],
       'expected_hourly_rate_syp' => ['sometimes', 'numeric', 'min:0'],
-      'payment_method'       => ['sometimes', 'required', Rule::in(['weekly', 'monthly'])],
+      'payment_method'       => ['sometimes', 'required', Rule::in(['weekly', 'monthly', 'daily'])],
       'code'                 => ['nullable', 'string', 'max:255', Rule::unique('workers', 'code')->ignore($workerId)],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],

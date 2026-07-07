@@ -36,13 +36,11 @@ class MarketingInfolist
             Grid::make(2)->schema([
               TextEntry::make('workers_count')
                 ->label('عدد العمال المسجلين عبره')
-                ->badge()
                 ->color('success')
                 ->state(fn($record) => $record->workers()->count() . ' عامل'),
 
               TextEntry::make('companies_count')
                 ->label('عدد الشركات المسجلة عبره')
-                ->badge()
                 ->color('info')
                 ->state(fn($record) => $record->companies()->count() . ' شركة'),
             ]),

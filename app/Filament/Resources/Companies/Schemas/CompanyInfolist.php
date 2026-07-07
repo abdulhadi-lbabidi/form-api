@@ -35,7 +35,6 @@ class CompanyInfolist
 
               TextEntry::make('business_type')
                 ->label('نوع العمل')
-                ->badge()
                 ->color('gray'),
 
               TextEntry::make('owner_name')
@@ -106,7 +105,6 @@ class CompanyInfolist
             TextEntry::make('referralCode.code')
               ->label('كود الإحالة الخاص بالشركة')
               ->placeholder('لا يوجد كود إحالة')
-              ->badge()
               ->color('success')
               ->icon('heroicon-m-gift')
               ->copyable(),

@@ -55,7 +55,6 @@ class SubscriptionInfolist
 
               TextEntry::make('status')
                 ->label('حالة الاشتراك')
-                ->badge()
                 ->color(fn(string $state): string => match ($state) {
                   'active' => 'success',
                   'pending' => 'warning',

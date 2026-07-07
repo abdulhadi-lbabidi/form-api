@@ -30,7 +30,6 @@ class ReferralCodeInfolist
 
               TextEntry::make('referralable_type')
                 ->label('نوع الكيان المستفيد')
-                ->badge()
                 ->formatStateUsing(fn($state) => $state === 'App\Models\Company' ? 'شركة' : 'عامل')
                 ->color(fn($state) => $state === 'App\Models\Company' ? 'info' : 'purple'),
 

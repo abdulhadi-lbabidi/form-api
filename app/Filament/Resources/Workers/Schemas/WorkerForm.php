@@ -143,6 +143,7 @@ class WorkerForm
                   ->options([
                     'weekly' => 'أسبوعي',
                     'monthly' => 'شهري',
+                    'daily' => 'يومي',
                   ])
                   ->required(),
                 Textarea::make('other_professions')

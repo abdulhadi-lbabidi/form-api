@@ -48,9 +48,7 @@ class MarketingsTable
           ->sortable()
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
-      ->filters([
-        //
-      ])
+      ->filters([])
       ->recordActions([
         ViewAction::make(),
         EditAction::make(),
