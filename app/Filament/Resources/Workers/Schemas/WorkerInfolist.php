@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Worker;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\RepeatableEntry; // تم استيراد هذا المكون
 use Filament\Schemas\Components\Grid;
@@ -14,6 +15,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Illuminate\Support\Carbon;
+use ZipArchive;
 
 class WorkerInfolist
 {
@@ -234,29 +236,6 @@ class WorkerInfolist
               ->placeholder('لا يوجد مهن إضافية مسجلة لهذا العامل'),
           ])->columnSpanFull(),
 
-        Section::make('الوثائق والصور الشخصية المرفوعة')
-          ->icon('heroicon-o-paper-clip')
-          ->description('الصور الشخصية والأوراق الرسمية الثبوتية المرفوعة في سجل العامل.')
-          ->schema([
-            SpatieMediaLibraryImageEntry::make('image')
-              ->label('الملفات والوثائق المتاحة')
-              ->collection('workers')
-              ->square()
-              ->columnSpanFull()
-              ->hintAction(
-                Action::make('download_document')
-                  ->label('تحميل الملفات')
-                  ->icon('heroicon-m-arrow-down-tray')
-                  ->color('primary')
-                  ->visible(fn($record) => $record && $record->hasMedia('workers'))
-                  ->action(function ($record) {
-                    $media = $record->getFirstMedia('workers');
-                    if ($media) {
-                      return response()->download($media->getPath(), $media->file_name);
-                    }
-                  })
-              )
-          ])->columnSpanFull(),
 
         Section::make('سجل تقييمات العامل')
           ->icon('heroicon-o-star')
@@ -325,6 +304,99 @@ class WorkerInfolist
               ->grid(2)
               ->columnSpanFull(),
           ])->columnSpanFull(),
+
+        // Section::make('الوثائق والصور الشخصية المرفوعة')
+        //   ->icon('heroicon-o-paper-clip')
+        //   ->description('الصور الشخصية والأوراق الرسمية الثبوتية المرفوعة في سجل العامل.')
+        //   ->schema([
+        //     SpatieMediaLibraryImageEntry::make('image')
+        //       ->label('الملفات والوثائق المتاحة')
+        //       ->collection('workers')
+        //       ->square()
+        //       ->columnSpanFull()
+        //       ->hintAction(
+        //         Action::make('download_document')
+        //           ->label('تحميل الملفات')
+        //           ->icon('heroicon-m-arrow-down-tray')
+        //           ->color('primary')
+        //           ->visible(fn($record) => $record && $record->hasMedia('workers'))
+        //           ->action(function ($record) {
+        //             $media = $record->getFirstMedia('workers');
+        //             if ($media) {
+        //               return response()->download($media->getPath(), $media->file_name);
+        //             }
+        //           })
+        //       )
+        //   ])->columnSpanFull(),
+
+
+        Section::make('الوثائق والمرفقات الرسمية')
+          ->icon('heroicon-o-paper-clip')
+          ->description('الأوراق الثبوتية والصور المرفوعة الخاصة بالشركة.')
+          ->headerActions([
+            Action::make('download_all')
+              ->label('تحميل جميع الملفات (ZIP)')
+              ->icon('heroicon-m-arrow-down-tray')
+              ->color('primary')
+              ->visible(fn($record) => $record && $record->media()->exists())
+              ->action(function ($record) {
+                $mediaCollection = $record->getMedia('workers');
+
+                if ($mediaCollection->isEmpty()) {
+                  return;
+                }
+
+                $zipFileName = 'company_' . $record->id . '_documents.zip';
+                $zipPath = storage_path('app/public/' . $zipFileName);
+
+                $zip = new ZipArchive;
+                if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                  foreach ($mediaCollection as $media) {
+                    if (file_exists($media->getPath())) {
+                      $zip->addFile($media->getPath(), $media->file_name);
+                    }
+                  }
+                  $zip->close();
+                }
+
+                return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
+              })
+          ])
+          ->schema([
+            RepeatableEntry::make('media')
+              ->label('الملفات والمستندات المرفوعة')
+              ->schema([
+                ImageEntry::make('file_name')
+                  ->label('')
+                  ->visible(fn($record) => $record && str_starts_with($record->mime_type, 'image/'))
+                  ->state(fn($record) => $record?->getUrl())
+                  ->square()
+                  ->size(80)
+                  ->hintAction(
+                    Action::make('download_img')
+                      ->label('تحميل')
+                      ->icon('heroicon-m-arrow-down-tray')
+                      ->action(fn($record) => response()->download($record->getPath(), $record->file_name))
+                  ),
+
+                TextEntry::make('file_name')
+                  ->label('')
+                  ->icon('heroicon-o-document-text')
+                  ->color('warning')
+                  ->visible(fn($record) => $record && !str_starts_with($record->mime_type, 'image/'))
+                  ->weight('bold')
+                  ->hintAction(
+                    Action::make('download_doc')
+                      ->label('تحميل الملف')
+                      ->icon('heroicon-m-arrow-down-tray')
+                      ->action(fn($record) => response()->download($record->getPath(), $record->file_name))
+                  ),
+              ])
+              ->grid(4)
+              ->columnSpanFull(),
+          ])->columnSpanFull(),
+
+
       ]);
   }
 }
