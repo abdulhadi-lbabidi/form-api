@@ -30,7 +30,7 @@ return new class extends Migration
       $table->string('city');
       $table->string('residential_area');
       $table->string('marital_status');
-      $table->boolean('is_verified')->nullable();
+      $table->boolean('is_verified')->default(false)->nullable();
       $table->string('primary_profession');
       $table->text('other_professions')->nullable();
       $table->string('work_hours');
@@ -38,7 +38,7 @@ return new class extends Migration
       $table->string('working_status');
       $table->decimal('expected_hourly_rate_usd', 8, 2);
       $table->decimal('expected_hourly_rate_syp', 8, 2);
-      $table->enum('payment_method', ['weekly', 'monthly','daily']);
+      $table->enum('payment_method', ['weekly', 'monthly', 'daily']);
       $table->timestamps();
     });
   }

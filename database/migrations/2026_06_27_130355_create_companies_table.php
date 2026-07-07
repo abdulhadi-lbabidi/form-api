@@ -22,7 +22,7 @@ return new class extends Migration
         ->nullable()
         ->unique();
       $table->string('city');
-      $table->boolean('is_verified')->nullable();
+      $table->boolean('is_verified')->default(false)->nullable();
       $table->text('problems_faced')->nullable();
       $table->string('form_referral_code')
         ->nullable();
