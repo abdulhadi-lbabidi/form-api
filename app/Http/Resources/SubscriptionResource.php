@@ -19,7 +19,7 @@ class SubscriptionResource extends JsonResource
       'status'     => $this->status,
       'note'       => $this->note,
       'time_id'    => $this->time_id,
-
+      'date'       => $this->date,
       'time'       => new TimeResource($this->whenLoaded('time')),
 
       'created_at' => $this->created_at?->toIso8601String(),

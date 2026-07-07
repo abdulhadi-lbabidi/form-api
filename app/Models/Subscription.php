@@ -10,12 +10,18 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 #[Fillable([
   'time_id',
   'status',
+  'date',
   'note',
   'subscribable_id',
   'subscribable_type',
 ])]
 class Subscription extends Model
 {
+
+  protected $casts = [
+    'date' => 'date',
+  ];
+
   public function time(): BelongsTo
   {
     return $this->belongsTo(Time::class);

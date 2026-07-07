@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Subscriptions\Schemas;
 use App\Models\Company;
 use App\Models\Subscription;
 use App\Models\Worker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
@@ -18,12 +19,10 @@ class SubscriptionForm
     return $schema
       ->components([
         Section::make('معلومات الاشتراك')
-          ->description('ابحث عن اسم المشترك مباشرة وحدد الفترة الزمنية.')
+          ->description('ابحث عن اسم المشترك مباشرة وحدد التاريخ والفترة الزمنية.')
           ->icon('heroicon-o-credit-card')
           ->columns(2)
           ->schema([
-
-
 
             Select::make('subscribable_combined')
               ->label('ابحث عن المشترك (شركة أو عامل)')
@@ -43,7 +42,6 @@ class SubscriptionForm
 
                 return $companies + $workers;
               })
-
               ->getSearchResultsUsing(function (string $search): array {
                 $companies = Company::where('company_name', 'like', "%{$search}%")
                   ->limit(15)
@@ -60,7 +58,6 @@ class SubscriptionForm
 
                 return $companies + $workers;
               })
-
               ->getOptionLabelUsing(function ($value): ?string {
                 if (empty($value)) return null;
                 [$type, $id] = explode(':', $value);
@@ -74,30 +71,42 @@ class SubscriptionForm
                   ? "🏢 شركة: {$model->company_name}"
                   : "👤 عامل: {$model->first_name} {$model->last_name}";
               })
-
               ->afterStateHydrated(function (Select $component, $record) {
                 if ($record && $record->subscribable_type && $record->subscribable_id) {
                   $component->state("{$record->subscribable_type}:{$record->subscribable_id}");
                 }
               }),
 
+            // 1. إضافة حقل التاريخ وجعله تفاعلي (live) ليؤثر على الفترات الزمنية فوراً
+            DatePicker::make('date')
+              ->label('تاريخ الحجز')
+              ->required()
+              ->native(false)
+              ->displayFormat('Y-m-d')
+              ->minDate(now()->startOfDay()) // منع حجز تواريخ قديمة
+              ->live(),
 
-
-
+            // 2. تحديث حقل الفترة الزمنية ليفحص بناءً على التاريخ المختار
             Select::make('time_id')
               ->label('الفترة الزمنية')
               ->relationship('time', 'work_time')
               ->required()
               ->searchable()
               ->preload()
-              ->disableOptionWhen(function ($value, $record) {
-                $isReserved = Subscription::where('time_id', $value)
+              ->disabled(fn(Get $get) => empty($get('date'))) // تعطيل الحقل حتى يتم اختيار تاريخ أولاً
+              ->disableOptionWhen(function ($value, Get $get, $record) {
+                $selectedDate = $get('date');
+
+                if (empty($selectedDate)) {
+                  return false;
+                }
+
+                // الفحص في قاعدة البيانات بناءً على التاريخ المختار في الفورم وليس تاريخ اليوم
+                return Subscription::where('time_id', $value)
+                  ->where('date', $selectedDate)
                   ->whereIn('status', ['active', 'pending'])
-                  ->whereDate('created_at', now()->toDateString())
                   ->when($record, fn($query) => $query->where('id', '!=', $record->id))
                   ->exists();
-
-                return $isReserved;
               }),
 
             Select::make('status')

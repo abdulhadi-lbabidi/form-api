@@ -39,6 +39,13 @@ class SubscriptionInfolist
                   return '—';
                 }),
 
+              TextEntry::make('date')
+                ->label('تاريخ الحجز')
+                ->icon('heroicon-m-calendar-days')
+                ->date('Y-m-d')
+                ->weight('bold')
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: sans-serif;']),
+
 
               TextEntry::make('time.work_time')
                 ->label('الفترة الزمنية')

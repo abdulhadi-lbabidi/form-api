@@ -16,7 +16,7 @@ class SubscriptionsTable
   public static function configure(Table $table): Table
   {
     return $table
-      ->defaultSort('created_at', 'desc')
+      ->defaultSort('date', 'desc')
       ->columns([
         TextColumn::make('subscribable')
           ->label('المشترك')
@@ -44,6 +44,14 @@ class SubscriptionsTable
               }
             });
           }),
+
+        TextColumn::make('date')
+          ->label('تاريخ الحجز')
+          ->date('Y-m-d')
+          ->sortable()
+          ->searchable()
+          ->icon('heroicon-m-calendar-days')
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: sans-serif;']),
 
         TextColumn::make('time.work_time')
           ->label('الفترة الزمنية')

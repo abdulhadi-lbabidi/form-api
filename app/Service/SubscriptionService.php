@@ -21,13 +21,13 @@ class SubscriptionService
   public function create(array $data): Subscription
   {
     $isBooked = Subscription::where('time_id', $data['time_id'])
+      ->where('date', $data['date'])
       ->whereIn('status', ['active', 'pending'])
-      ->whereDate('created_at', now()->toDateString())
       ->exists();
 
     if ($isBooked) {
       throw ValidationException::withMessages([
-        'time_id' => ['الفترة الزمنية المختارة غير متاحة حالياً لأنها محجوزة.'],
+        'time_id' => ['الفترة الزمنية المختارة غير متاحة في هذا التاريخ لأنها محجوزة.'],
       ]);
     }
     return Subscription::create($data);
@@ -36,6 +36,24 @@ class SubscriptionService
   public function update(int $id, array $data): Subscription
   {
     $subscription = $this->findOne($id);
+
+    if (isset($data['time_id']) || isset($data['date'])) {
+      $timeId = $data['time_id'] ?? $subscription->time_id;
+      $date   = $data['date'] ?? $subscription->date;
+
+      $isBooked = Subscription::where('time_id', $timeId)
+        ->where('date', $date)
+        ->where('id', '!=', $id)  
+        ->whereIn('status', ['active', 'pending'])
+        ->exists();
+
+      if ($isBooked) {
+        throw ValidationException::withMessages([
+          'time_id' => ['الفترة الزمنية المختارة غير متاحة في هذا التاريخ لأنها محجوزة.'],
+        ]);
+      }
+    }
+
     $subscription->update($data);
     return $subscription;
   }
