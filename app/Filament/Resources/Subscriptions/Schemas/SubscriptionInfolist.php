@@ -67,6 +67,14 @@ class SubscriptionInfolist
                   'canceled' => 'ملغي',
                   default => $state,
                 }),
+
+              TextEntry::make('phone_number')
+                ->label('رقم الهاتف')
+                ->icon('heroicon-m-phone')
+                ->placeholder('لا يوجد رقم هاتف مسجل')
+                ->weight('bold')
+                ->extraAttributes(['style' => 'direction: ltr; text-align: right; font-variant-numeric: lnum; font-family: sans-serif;']),
+
             ]),
 
             TextEntry::make('note')

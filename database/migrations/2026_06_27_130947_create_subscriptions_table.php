@@ -17,6 +17,7 @@ return new class extends Migration
       $table->foreignIdFor(Time::class)->constrained()->cascadeOnDelete();
       $table->date('date');
       $table->morphs('subscribable');
+      $table->string('phone_number')->nullable();
       $table->enum('status', ['pending', 'active', 'canceled'])->default('pending');
       $table->text('note')->nullable();
       $table->timestamps();

@@ -27,6 +27,7 @@ class UpdateSubscriptionRequest extends FormRequest
       'time_id' => ['sometimes', 'required', 'integer', 'exists:times,id'],
       'status'  => ['sometimes', 'required', 'string', 'max:255'],
       'note'    => ['nullable', 'string'],
+      'phone_number' => ['sometimes', 'required', 'string', 'max:255'],
       'date' => ['sometimes', 'date', 'date_format:Y-m-d', 'after_or_equal:' . now()->toDateString()],
       'subscribable_type' => [
         'sometimes',

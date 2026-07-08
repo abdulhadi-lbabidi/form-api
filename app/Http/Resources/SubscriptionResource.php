@@ -18,6 +18,7 @@ class SubscriptionResource extends JsonResource
       'id'         => $this->id,
       'status'     => $this->status,
       'note'       => $this->note,
+      'phone_number' => $this->phone_number,
       'time_id'    => $this->time_id,
       'date'       => $this->date,
       'time'       => new TimeResource($this->whenLoaded('time')),

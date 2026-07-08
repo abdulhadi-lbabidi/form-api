@@ -27,6 +27,7 @@ class CreateSubscriptionRequest extends FormRequest
       'time_id' => ['required', 'integer', 'exists:times,id'],
       'status'  => ['required', 'string', 'max:255'],
       'note'    => ['nullable', 'string'],
+      'phone_number' => ['required', 'string', 'max:255'],
 
       'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:' . now()->toDateString()],
       'subscribable_type' => [

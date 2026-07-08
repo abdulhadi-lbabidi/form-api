@@ -8,6 +8,7 @@ use App\Models\Worker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
@@ -77,23 +78,21 @@ class SubscriptionForm
                 }
               }),
 
-            // 1. إضافة حقل التاريخ وجعله تفاعلي (live) ليؤثر على الفترات الزمنية فوراً
             DatePicker::make('date')
               ->label('تاريخ الحجز')
               ->required()
               ->native(false)
               ->displayFormat('Y-m-d')
-              ->minDate(now()->startOfDay()) // منع حجز تواريخ قديمة
+              ->minDate(now()->startOfDay())
               ->live(),
 
-            // 2. تحديث حقل الفترة الزمنية ليفحص بناءً على التاريخ المختار
             Select::make('time_id')
               ->label('الفترة الزمنية')
               ->relationship('time', 'work_time')
               ->required()
               ->searchable()
               ->preload()
-              ->disabled(fn(Get $get) => empty($get('date'))) // تعطيل الحقل حتى يتم اختيار تاريخ أولاً
+              ->disabled(fn(Get $get) => empty($get('date')))
               ->disableOptionWhen(function ($value, Get $get, $record) {
                 $selectedDate = $get('date');
 
@@ -101,7 +100,6 @@ class SubscriptionForm
                   return false;
                 }
 
-                // الفحص في قاعدة البيانات بناءً على التاريخ المختار في الفورم وليس تاريخ اليوم
                 return Subscription::where('time_id', $value)
                   ->where('date', $selectedDate)
                   ->whereIn('status', ['active', 'pending'])
@@ -118,6 +116,12 @@ class SubscriptionForm
               ])
               ->required()
               ->default('pending'),
+
+            TextInput::make('phone_number')
+              ->label('رقم الهاتف')
+              ->tel()
+              ->maxLength(20)
+              ->placeholder('مثال: +9639'),
 
             Textarea::make('note')
               ->label('ملاحظات إضافية')
