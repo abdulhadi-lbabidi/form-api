@@ -119,7 +119,6 @@ class SubscriptionForm
 
             TextInput::make('phone_number')
               ->label('رقم الهاتف')
-              ->tel()
               ->maxLength(20)
               ->placeholder('مثال: +9639'),
 

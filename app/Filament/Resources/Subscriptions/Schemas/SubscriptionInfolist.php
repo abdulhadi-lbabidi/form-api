@@ -19,7 +19,7 @@ class SubscriptionInfolist
           ->description('معلومات الفترة الزمنية المحجوزة وحالة تفعيل الاشتراك الحالية.')
           ->icon('heroicon-o-information-circle')
           ->schema([
-            Grid::make(2)->schema([
+            Grid::make(3)->schema([
 
               TextEntry::make('subscribable')
                 ->label('المشترك')
@@ -44,7 +44,7 @@ class SubscriptionInfolist
                 ->icon('heroicon-m-calendar-days')
                 ->date('Y-m-d')
                 ->weight('bold')
-                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: sans-serif;']),
+                ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
 
               TextEntry::make('time.work_time')
@@ -70,10 +70,8 @@ class SubscriptionInfolist
 
               TextEntry::make('phone_number')
                 ->label('رقم الهاتف')
-                ->icon('heroicon-m-phone')
                 ->placeholder('لا يوجد رقم هاتف مسجل')
-                ->weight('bold')
-                ->extraAttributes(['style' => 'direction: ltr; text-align: right; font-variant-numeric: lnum; font-family: sans-serif;']),
+                ->weight('bold'),
 
             ]),
 

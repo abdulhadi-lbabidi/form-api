@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
   'status',
   'date',
   'note',
+  'phone_number',
   'subscribable_id',
   'subscribable_type',
 ])]
