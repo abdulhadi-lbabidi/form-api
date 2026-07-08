@@ -25,30 +25,29 @@ class CreateSubscriptionRequest extends FormRequest
   {
     return [
       'time_id' => ['required', 'integer', 'exists:times,id'],
-      'status'  => ['required', 'string', 'max:255'],
+      'status'       => ['nullable', 'string', 'in:pending,active,canceled'],
       'note'    => ['nullable', 'string'],
       'phone_number' => ['required', 'string', 'max:255'],
-
       'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:' . now()->toDateString()],
-      'subscribable_type' => [
-        'required',
-        'string',
-        Rule::in(['App\Models\Company', 'App\Models\Worker'])
-      ],
+      // 'subscribable_type' => [
+      //   'required',
+      //   'string',
+      //   Rule::in(['App\Models\Company', 'App\Models\Worker'])
+      // ],
 
-      'subscribable_id' => [
-        'required',
-        'integer',
-        function ($attribute, $value, $fail) {
-          $type = $this->input('subscribable_type');
-          if ($type && class_exists($type)) {
-            $exists = $type::where('id', $value)->exists();
-            if (!$exists) {
-              $fail('المشترك المحدد غير موجود في النظام.');
-            }
-          }
-        }
-      ],
+      // 'subscribable_id' => [
+      //   'required',
+      //   'integer',
+      //   function ($attribute, $value, $fail) {
+      //     $type = $this->input('subscribable_type');
+      //     if ($type && class_exists($type)) {
+      //       $exists = $type::where('id', $value)->exists();
+      //       if (!$exists) {
+      //         $fail('المشترك المحدد غير موجود في النظام.');
+      //       }
+      //     }
+      //   }
+      // ],
 
 
     ];

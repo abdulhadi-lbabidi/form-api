@@ -17,9 +17,7 @@ class TimeResource extends JsonResource
     return [
       'id'            => $this->id,
       'work_time'     => $this->work_time,
-
       'subscriptions' => SubscriptionResource::collection($this->whenLoaded('subscriptions')),
-
       'created_at'    => $this->created_at?->toIso8601String(),
     ];
   }
