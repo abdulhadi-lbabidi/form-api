@@ -25,7 +25,6 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'email',
   'contact_person_name',
   'phone_number',
-  'phone_number',
   'owner_name',
   'code',
   'is_verified',
