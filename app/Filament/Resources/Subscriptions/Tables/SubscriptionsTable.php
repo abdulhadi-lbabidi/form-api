@@ -45,6 +45,15 @@ class SubscriptionsTable
             });
           }),
 
+        TextColumn::make('phone_number')
+          ->label('رقم الهاتف')
+          ->searchable()
+          ->icon('heroicon-m-phone')
+          ->copyable()
+          ->copyMessage('تم نسخ رقم الهاتف')
+          ->url(fn($record) => "tel:{$record->phone_number}")
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
         TextColumn::make('date')
           ->label('تاريخ الحجز')
           ->date('Y-m-d')

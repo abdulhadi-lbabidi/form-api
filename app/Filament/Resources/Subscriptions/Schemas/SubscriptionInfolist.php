@@ -20,7 +20,6 @@ class SubscriptionInfolist
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(3)->schema([
-
               TextEntry::make('subscribable')
                 ->label('المشترك')
                 ->icon(fn($record) => $record?->subscribable_type === Company::class ? 'heroicon-m-building-office' : 'heroicon-m-user')
@@ -67,6 +66,7 @@ class SubscriptionInfolist
                   'canceled' => 'ملغي',
                   default => $state,
                 }),
+
 
               TextEntry::make('phone_number')
                 ->label('رقم الهاتف')

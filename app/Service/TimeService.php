@@ -9,7 +9,7 @@ class TimeService
 {
   public function findAll(): Collection
   {
-    return Time::with('subscriptions')->get();
+    return Time::get();
   }
 
   public function findOne(int $id): Time
