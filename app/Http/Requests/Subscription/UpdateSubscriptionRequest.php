@@ -4,6 +4,7 @@ namespace App\Http\Requests\Subscription;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class UpdateSubscriptionRequest extends FormRequest
@@ -23,12 +24,28 @@ class UpdateSubscriptionRequest extends FormRequest
    */
   public function rules(): array
   {
+    $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+    $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
     return [
       'time_id' => ['sometimes', 'required', 'integer', 'exists:times,id'],
       'status'       => ['nullable', 'string', 'in:pending,active,canceled'],
       'note'    => ['nullable', 'string'],
       'phone_number' => ['sometimes', 'required', 'string', 'max:255'],
-      'date' => ['sometimes', 'date', 'date_format:Y-m-d', 'after_or_equal:' . now()->toDateString()],
+      'date' => [
+        'required',
+        'date',
+        'date_format:Y-m-d',
+        'after_or_equal:' . $startOfMonth,
+        'before_or_equal:' . $endOfMonth,
+        function ($attribute, $value, $fail) {
+          $date = Carbon::parse($value);
+
+          if ($date->isThursday() || $date->isFriday()) {
+            $fail('لا يمكن الحجز في أيام الخميس والجمعة.');
+          }
+        }
+      ],
+
       // 'subscribable_type' => [
       //   'sometimes',
       //   'required',
