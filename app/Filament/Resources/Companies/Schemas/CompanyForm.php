@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use App\Models\CompanyBranch;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -115,6 +118,88 @@ class CompanyForm
                   ]),
               ]),
 
+            Tabs\Tab::make('احتياجات فروع الشركة')
+              ->visible(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord)->schema([
+
+                Repeater::make('branches')
+                  ->relationship('branches')
+                  ->label('إدارة فروع الشركة واحتياجاتها')
+                  ->itemLabel(fn(array $state): ?string => $state['branch_name'] ?? 'فرع جديد واحتياجاته')
+                  ->collapsible()
+                  ->defaultItems(1)
+                  ->createItemButtonLabel('➕ إضافة فرع جديد واحتياجاته')
+                  ->schema([
+
+                    TextInput::make('branch_name')
+                      ->label('اسم الفرع')
+                      ->placeholder('مثال: الفرع الأساسي، فرع حلب، فرع المنطقة الصناعية...')
+                      ->required()
+                      ->maxLength(255),
+
+                    TextInput::make('location_address')
+                      ->label('عنوان وموقع الفرع التفصيلي (اختياري)')
+                      ->placeholder('اكتب عنوان الفرع هنا')
+                      ->maxLength(255),
+
+                    Repeater::make('needs')
+                      ->relationship('needs')
+                      ->label('المهن والعمالة المطلوبة لهذا الفرع')
+                      ->itemLabel(fn(array $state): ?string => $state['required_profession'] ?? 'صنعة جديدة')
+                      ->columns(2)
+                      ->createItemButtonLabel('🔹 إضافة صنعة/مهنة لهذا الفرع')
+                      ->schema([
+
+                        TextInput::make('required_workers_count')
+                          ->label('عدد العمال المطلوبين')
+                          ->numeric()
+                          ->minValue(1)
+                          ->required(),
+
+                        TextInput::make('required_profession')
+                          ->label('المهنة أو الصنعة المطلوبة')
+                          ->placeholder('مثال: نجار، كهربائي، حداد')
+                          ->required()
+                          ->maxLength(255),
+
+                        Select::make('needed_at')
+                          ->label('متى تحتاجهم؟')
+                          ->options([
+                            'today' => 'اليوم',
+                            'this_week' => 'خلال أسبوع',
+                            'this_month' => 'خلال شهر',
+                            'not_specified_yet' => 'غير محدد بعد',
+                          ])
+                          ->required(),
+
+                        Select::make('employment_type')
+                          ->label('نوع الدوام')
+                          ->options([
+                            'full_time' => 'دوام كامل',
+                            'part_time' => 'دوام جزئي',
+                            'daily_wage' => 'مياومة',
+                          ])
+                          ->required(),
+
+                        TextInput::make('offered_salary')
+                          ->label('الأجر المعروض (اختياري)')
+                          ->numeric(),
+
+                        Select::make('currency')
+                          ->label('العملة')
+                          ->options([
+                            'USD' => 'دولار',
+                            'SYP' => 'ليرة',
+                          ])
+                          ->required(fn($get) => filled($get('offered_salary'))),
+
+                        Textarea::make('additional_details')
+                          ->label('تفاصيل إضافية عن احتياجك')
+                          ->columnSpanFull(),
+                      ]),
+
+                  ]),
+              ]),
+            // end
           ]),
       ]);
   }

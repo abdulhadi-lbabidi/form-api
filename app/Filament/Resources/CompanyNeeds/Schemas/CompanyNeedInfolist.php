@@ -19,7 +19,7 @@ class CompanyNeedInfolist
           ->schema([
             Grid::make(3)->schema([
               TextEntry::make('branch.company.company_name')
-                ->label('الشركة الأم')
+                ->label('الشركة ')
                 ->color('primary')
                 ->weight('bold'),
 

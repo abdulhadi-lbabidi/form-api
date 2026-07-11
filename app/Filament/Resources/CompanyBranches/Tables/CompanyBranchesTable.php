@@ -17,7 +17,7 @@ class CompanyBranchesTable
       ->defaultSort('created_at', 'desc')
       ->columns([
         TextColumn::make('company.company_name')
-          ->label('الشركة الأم')
+          ->label('الشركة ')
           ->searchable()
           ->sortable()
           ->weight('bold')

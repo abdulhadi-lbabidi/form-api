@@ -14,13 +14,12 @@ class TimeSeeder extends Seeder
    */
   public function run(): void
   {
-    $startTime = Carbon::createFromTime(6, 0, 0);
+    $startTime = Carbon::createFromTime(16, 0, 0);
 
-    $endTime = Carbon::createFromTime(10, 0, 0);
+    $endTime = Carbon::createFromTime(22, 0, 0);
 
     while ($startTime->lessThanOrEqualTo($endTime)) {
 
-      // صياغة الوقت بشكل مقروء وأنق مثل: "06:00 AM - 06:15 AM"
       $currentPeriodStart = $startTime->format('h:i A');
       $currentPeriodEnd   = $startTime->copy()->addMinutes(15)->format('h:i A');
 

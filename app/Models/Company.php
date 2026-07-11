@@ -6,7 +6,7 @@ use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -35,6 +35,7 @@ class Company extends Model implements HasMedia
 {
 
   use HasFactory, InteractsWithMedia;
+
   protected static function booted(): void
   {
     static::created(function (Company $company) {
@@ -44,12 +45,16 @@ class Company extends Model implements HasMedia
         'is_active'   => true,
         'expires_at'  => null,
       ]);
+
+      $company->branches()->create([
+        'branch_name'      => 'أساسي',
+        'location_address' => null,
+      ]);
     });
 
 
     static::updating(function (Company $company) {
       if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
-
         do {
           $generatedCode = 'COMP-' . Str::upper(Str::random(10));
         } while (static::where('code', $generatedCode)->exists());
@@ -94,5 +99,15 @@ class Company extends Model implements HasMedia
   public function subscriptions(): MorphMany
   {
     return $this->morphMany(Subscription::class, 'subscribable');
+  }
+
+  public function branches(): HasMany
+  {
+    return $this->hasMany(CompanyBranch::class);
+  }
+
+  public function companyNeeds(): HasMany
+  {
+    return $this->hasMany(CompanyNeed::class);
   }
 }

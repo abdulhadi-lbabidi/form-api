@@ -14,13 +14,13 @@ class CompanyBranchInfolist
     return $schema
       ->components([
         Section::make('تفاصيل سجل فرع الشركة')
-          ->description('بيانات الفرع والارتباط بالشركة الأم.')
+          ->description('بيانات الفرع والارتباط بالشركة .')
           ->icon('heroicon-o-information-circle')
           ->schema([
             Grid::make(2)->schema([
 
               TextEntry::make('company.company_name')
-                ->label('الشركة الأم')
+                ->label('الشركة ')
                 ->icon('heroicon-m-building-office-2')
                 ->color('primary')
                 ->weight('bold'),

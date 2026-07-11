@@ -73,9 +73,7 @@ class Worker extends Model implements HasMedia
       if ($worker->isDirty(['first_name', 'father_name', 'last_name'])) {
         $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
       }
-
       if ($worker->isDirty('is_verified') && $worker->is_verified && !$worker->code) {
-
         do {
           $generatedCode = 'Wok-' . Str::upper(Str::random(10));
         } while (static::where('code', $generatedCode)->exists());

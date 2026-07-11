@@ -13,7 +13,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use ZipArchive;
 
 class CompanyInfolist
@@ -136,16 +135,12 @@ class CompanyInfolist
                 if (empty($record->form_referral_code)) {
                   return null;
                 }
-
                 $referral = ReferralCode::with('referralable')->where('code', $record->form_referral_code)->first();
-
                 if ($referral && $referral->referralable) {
                   $owner = $referral->referralable;
-
                   if ($owner instanceof Company) {
                     return $owner->company_name . ' (شركة)';
                   }
-
                   if ($owner instanceof Worker) {
                     return $owner->first_name . ' ' . $owner->last_name . ' (عامل)';
                   }
@@ -156,31 +151,6 @@ class CompanyInfolist
 
           ])->columnSpanFull(),
 
-
-
-        // Section::make('الوثائق والمرفقات الرسمية')
-        //   ->icon('heroicon-o-paper-clip')
-        //   ->description('الأوراق الثبوتية والصور المرفوعة الخاصة بالشركة.')
-        //   ->schema([
-        //     SpatieMediaLibraryImageEntry::make('image')
-        //       ->label('الملفات المستندة')
-        //       ->collection('companies')
-        //       ->square()
-        //       ->columnSpanFull()
-        //       ->hintAction(
-        //         Action::make('download_document')
-        //           ->label('تحميل الملفات')
-        //           ->icon('heroicon-m-arrow-down-tray')
-        //           ->color('primary')
-        //           ->visible(fn($record) => $record && $record->hasMedia('companies'))
-        //           ->action(function ($record) {
-        //             $media = $record->getFirstMedia('companies');
-        //             if ($media) {
-        //               return response()->download($media->getPath(), $media->file_name);
-        //             }
-        //           })
-        //       )
-        //   ])->columnSpanFull(),
 
         Section::make('الوثائق والمرفقات الرسمية')
           ->icon('heroicon-o-paper-clip')
@@ -247,6 +217,84 @@ class CompanyInfolist
               ->grid(4)
               ->columnSpanFull(),
           ])->columnSpanFull(),
+
+        Section::make('فروع الشركة واحتياجاتها من العمالة')
+          ->icon('heroicon-o-squares-2x2')
+          ->description('استعراض لجميع فروع الشركة الحالية والمهن المطلوبة لكل فرع.')
+          ->schema([
+            RepeatableEntry::make('branches')
+              ->grid(2)
+              ->schema([
+                Section::make(fn($record) => "📍 فرع: " . ($record->branch_name ?? 'بدون اسم'))
+                  ->compact()
+                  ->schema([
+                    TextEntry::make('location_address')
+                      ->label('عنوان الفرع التفصيلي')
+                      ->placeholder('لم يتم تحديد عنوان تفصيلي للفرع')
+                      ->icon('heroicon-m-map-pin')
+                      ->color('gray'),
+
+                    RepeatableEntry::make('needs')
+                      ->label('⚠️ المهن المطلوبة حالياً في هذا الفرع:')
+                      ->schema([
+                        Grid::make(2)->schema([
+                          TextEntry::make('required_profession')
+                            ->label('المهنة المطلوبة')
+                            ->weight('bold')
+                            ->color('primary'),
+
+                          TextEntry::make('required_workers_count')
+                            ->label('عدد العمال المطلوبين')
+
+                            ->color('danger')
+                            ->formatStateUsing(fn($state) => "{$state} عمال"),
+
+                          TextEntry::make('needed_at')
+                            ->label('تاريخ الاحتياج')
+
+                            ->color('info')
+                            ->formatStateUsing(fn($state) => match ($state) {
+                              'today' => 'اليوم',
+                              'this_week' => 'خلال أسبوع',
+                              'this_month' => 'خلال شهر',
+                              'not_specified_yet' => 'غير محدد بعد',
+                              default => $state,
+                            }),
+
+                          TextEntry::make('employment_type')
+                            ->label('نوع الدوام')
+
+                            ->color('warning')
+                            ->formatStateUsing(fn($state) => match ($state) {
+                              'full_time' => 'دوام كامل',
+                              'part_time' => 'دوام جزئي',
+                              'daily_wage' => 'مياومة',
+                              default => $state,
+                            }),
+
+                          TextEntry::make('offered_salary')
+                            ->label('الأجر المعروض')
+                            ->placeholder('غير محدد')
+                            ->icon('heroicon-m-banknotes')
+                            ->color('success')
+                            ->state(function ($record) {
+                              if (!$record->offered_salary) return null;
+                              $currency = $record->currency === 'USD' ? 'دولار' : 'ليرة';
+                              return "{$record->offered_salary} {$currency}";
+                            }),
+                        ]),
+
+                        TextEntry::make('additional_details')
+                          ->label('تفاصيل إضافية عن الاحتياج')
+                          ->placeholder('لا توجد تفاصيل إضافية.')
+                          ->columnSpanFull()
+                          ->size('sm'),
+                      ])
+                      ->columnSpanFull(),
+                  ]),
+              ])
+              ->columnSpanFull(),
+          ])->columnSpanFull()
       ]);
   }
 }
