@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class SubscriptionResource extends Resource
 {
@@ -28,6 +29,7 @@ class SubscriptionResource extends Resource
 
   protected static ?string $pluralModelLabel = 'الحجوزات';
   protected static ?int $navigationSort = 4;
+  protected static UnitEnum|string|null $navigationGroup = 'إدارة العمال والتشغيل';
   protected static ?string $recordTitleAttribute = 'Subscription';
 
   public static function form(Schema $schema): Schema

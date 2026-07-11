@@ -15,17 +15,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class TimeResource extends Resource
 {
   protected static ?string $model = Time::class;
-
   protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
-
   protected static ?string $navigationLabel = 'أوقات الدوام';
   protected static ?string $modelLabel = 'وقت';
   protected static ?string $pluralModelLabel = 'أوقات الدوام';
   protected static ?int $navigationSort = 5;
+  protected static UnitEnum|string|null $navigationGroup = 'إدارة العمال والتشغيل';
   protected static ?string $recordTitleAttribute = 'Time';
 
   public static function form(Schema $schema): Schema

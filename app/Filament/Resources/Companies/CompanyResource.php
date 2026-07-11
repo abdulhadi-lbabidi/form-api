@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class CompanyResource extends Resource
 {
@@ -25,6 +26,8 @@ class CompanyResource extends Resource
   protected static ?string $modelLabel = 'شركة';
   protected static ?string $pluralModelLabel = 'الشركات';
   protected static ?int $navigationSort = 1;
+
+  protected static UnitEnum|string|null $navigationGroup = 'إدارة الشركات';
 
   protected static ?string $recordTitleAttribute = 'Company';
 

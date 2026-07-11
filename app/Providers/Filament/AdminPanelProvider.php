@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -29,6 +30,24 @@ class AdminPanelProvider extends PanelProvider
       ->default()
       ->id('admin')
       ->path('admin')
+
+      ->navigationGroups([
+        NavigationGroup::make()
+          ->label('إدارة الشركات')
+          ->collapsible(true),
+
+        NavigationGroup::make()
+          ->label('إدارة العمال والتشغيل')
+          ->collapsible(true),
+
+        NavigationGroup::make()
+          ->label('التسويق والإحالات')
+          ->collapsible(true),
+
+        NavigationGroup::make()
+          ->label('إدارة النظام')
+          ->collapsible(true),
+      ])
       ->login()
       ->brandName('Form Builder')
       // ->brandLogo(asset('logo-dark.png'))
@@ -63,9 +82,7 @@ class AdminPanelProvider extends PanelProvider
         Dashboard::class,
       ])
       ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
-      ->widgets([
-        
-      ])
+      ->widgets([])
       ->middleware([
         EncryptCookies::class,
         AddQueuedCookiesToResponse::class,

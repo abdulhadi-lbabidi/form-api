@@ -17,6 +17,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class MarketingResource extends Resource
 {
@@ -27,7 +28,7 @@ class MarketingResource extends Resource
   protected static ?string $modelLabel = 'مصدر تسويقي';
   protected static ?string $pluralModelLabel = 'مصادر التسويق';
   protected static ?int $navigationSort = 4;
-
+  protected static UnitEnum|string|null $navigationGroup = 'التسويق والإحالات';
   protected static ?string $recordTitleAttribute = 'MarketingResource';
 
   public static function form(Schema $schema): Schema

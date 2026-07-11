@@ -15,17 +15,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ReferralCodeResource extends Resource
 {
   protected static ?string $model = ReferralCode::class;
-
   protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-ticket';
-
   protected static ?string $navigationLabel = 'أكواد الإحالة';
   protected static ?string $modelLabel = 'كود إحالة';
   protected static ?string $pluralModelLabel = 'أكواد الإحالة';
   protected static ?int $navigationSort = 3;
+  protected static UnitEnum|string|null $navigationGroup = 'التسويق والإحالات';
   protected static ?string $recordTitleAttribute = 'ReferralCode';
 
   public static function form(Schema $schema): Schema

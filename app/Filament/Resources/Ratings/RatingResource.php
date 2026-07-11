@@ -14,6 +14,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class RatingResource extends Resource
 {
@@ -26,7 +27,7 @@ class RatingResource extends Resource
   protected static ?string $pluralModelLabel = 'التقييمات';
 
   protected static ?int $navigationSort = 3;
-
+  protected static UnitEnum|string|null $navigationGroup = 'إدارة العمال والتشغيل';
   protected static ?string $recordTitleAttribute = 'Rating';
 
   public static function form(Schema $schema): Schema
