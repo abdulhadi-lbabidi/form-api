@@ -30,13 +30,21 @@ class WorkerInfolist
             Grid::make(3)->schema([
               TextEntry::make('first_name')
                 ->label('الاسم الأول')
+                ->placeholder(' لا يوجد')
+
                 ->weight('bold'),
               TextEntry::make('last_name')
                 ->label('العائلة')
+                ->placeholder(' لا يوجد')
+
                 ->weight('bold'),
               TextEntry::make('father_name')
+                ->placeholder(' لا يوجد')
+
                 ->label('اسم الأب'),
-              TextEntry::make('mother_fullname')
+              TextEntry::make('mother_name')
+                ->placeholder(' لا يوجد')
+
                 ->label('اسم الأم الكامل'),
             ]),
 
@@ -68,6 +76,8 @@ class WorkerInfolist
               TextEntry::make('phone_whatsapp')
                 ->label('رقم الهاتف / واتساب')
                 ->icon('heroicon-m-phone')
+                ->placeholder(' لا يوجد')
+
                 ->color('success')
                 ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']),
@@ -81,15 +91,20 @@ class WorkerInfolist
           ->schema([
             TextEntry::make('city')
               ->label('المدينة / المحافظة')
+              ->placeholder(' لا يوجد')
+
               ->icon('heroicon-m-map-pin')
               ->color('primary'),
 
             TextEntry::make('residential_area')
               ->label('المنطقة / السكن')
+              ->placeholder(' لا يوجد')
+
               ->icon('heroicon-m-map'),
 
             TextEntry::make('primary_profession')
               ->label('المهنة الأساسية')
+              ->placeholder(' لا يوجد')
               ->icon('heroicon-m-briefcase')
               ->weight('bold'),
 
@@ -140,11 +155,15 @@ class WorkerInfolist
               ->label('مصادر التعرف علينا')
               ->state(fn($record) => $record->marketingSources->map(fn($source) => $source->translated_name)->toArray())
               ->badge()
+              ->placeholder(' لا يوجد')
+
               ->color('warning')
               ->placeholder('لم يتم تحديد أي مصدر'),
 
             TextEntry::make('expected_hourly_rate_usd')
               ->label('أجر الساعة المتوقع')
+              ->placeholder(' لا يوجد')
+
               ->weight('bold')
               ->formatStateUsing(fn($record) => "$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
               ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),

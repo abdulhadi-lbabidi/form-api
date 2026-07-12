@@ -20,9 +20,9 @@ return new class extends Migration
         ->unique();
       $table->string('form_referral_code')
         ->nullable();
-      $table->string('first_name');
-      $table->string('last_name');
-      $table->string('father_name');
+      $table->string('first_name')->nullable();
+      $table->string('last_name')->nullable();
+      $table->string('father_name')->nullable();
       $table->string('full_name')->nullable();
       $table->string('mother_fullname')->nullable();
       $table->string('phone_whatsapp')->unique();
