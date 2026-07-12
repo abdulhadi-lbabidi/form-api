@@ -48,7 +48,7 @@ class Worker extends Model implements HasMedia
   protected function casts(): array
   {
     return [
-      'age' => 'date',
+      'age' => 'date:Y-m-d',
     ];
   }
 
