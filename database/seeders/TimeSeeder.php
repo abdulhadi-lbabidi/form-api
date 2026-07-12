@@ -15,13 +15,21 @@ class TimeSeeder extends Seeder
   public function run(): void
   {
     $startTime = Carbon::createFromTime(19, 0, 0);
-
     $endTime = Carbon::createFromTime(22, 45, 0);
 
     while ($startTime->lessThanOrEqualTo($endTime)) {
 
-      $currentPeriodStart = $startTime->format('h:i A');
-      $currentPeriodEnd   = $startTime->copy()->addMinutes(15)->format('h:i A');
+      $currentPeriodStart = str_replace(
+        ['AM', 'PM'],
+        ['صباحًا', 'مساءً'],
+        $startTime->format('h:i A')
+      );
+
+      $currentPeriodEnd = str_replace(
+        ['AM', 'PM'],
+        ['صباحًا', 'مساءً'],
+        $startTime->copy()->addMinutes(15)->format('h:i A')
+      );
 
       Time::create([
         'work_time' => "{$currentPeriodStart} - {$currentPeriodEnd}"

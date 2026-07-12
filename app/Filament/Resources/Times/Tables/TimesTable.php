@@ -19,10 +19,8 @@ class TimesTable
           ->label('وقت الدوام / الفترة')
           ->searchable()
           ->sortable()
-          ->weight('medium')
-          ->extraAttributes([
-            'style' => 'direction: ltr; text-align: right; font-variant-numeric: lnum; font-family: cairo;',
-          ]),
+          ->weight('medium'),
+
 
         TextColumn::make('created_at')
           ->label('تاريخ الإضافة')

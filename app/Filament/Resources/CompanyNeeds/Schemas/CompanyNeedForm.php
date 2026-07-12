@@ -21,10 +21,16 @@ class CompanyNeedForm
           ->schema([
 
             Select::make('company_branch_id')
-              ->relationship('branch', 'branch_name')
+              ->relationship(
+                name: 'branch',
+                titleAttribute: 'branch_name',
+                modifyQueryUsing: fn($query) => $query->join('companies', 'company_branches.company_id', '=', 'companies.id')
+                  ->select('company_branches.*', 'companies.company_name')
+              )
+              ->getOptionLabelFromRecordUsing(fn($record) => "{$record->company_name} - {$record->branch_name}")
               ->label('فرع الشركة')
               ->placeholder('اختر الفرع المحتاج للعمال')
-              ->searchable()
+              ->searchable(['companies.company_name', 'branch_name']) 
               ->preload()
               ->required()
               ->columnSpanFull(),
