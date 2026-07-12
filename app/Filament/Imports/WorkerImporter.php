@@ -17,60 +17,67 @@ class WorkerImporter extends Importer
     return [
       ImportColumn::make('code')
         ->rules(['max:255']),
+
       ImportColumn::make('form_referral_code')
         ->rules(['max:255']),
+
       ImportColumn::make('first_name')
-        ->requiredMapping()
-        ->rules(['required', 'max:255']),
+
+        ->rules(['max:255']),
       ImportColumn::make('last_name')
-        ->requiredMapping()
-        ->rules(['required', 'max:255']),
+
+        ->rules(['max:255']),
       ImportColumn::make('father_name')
-        ->requiredMapping()
-        ->rules(['required', 'max:255']),
+
+        ->rules(['max:255']),
       ImportColumn::make('full_name')
         ->rules(['max:255']),
+
       ImportColumn::make('mother_fullname')
         ->rules(['max:255']),
+
       ImportColumn::make('phone_whatsapp')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
       ImportColumn::make('age')
-        ->requiredMapping()
-        ->rules(['required', 'date']),
+        ->requiredMapping(),
+
       ImportColumn::make('city')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
       ImportColumn::make('residential_area')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
+
       ImportColumn::make('marital_status')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
+
       ImportColumn::make('is_verified')
         ->boolean()
         ->rules(['boolean']),
+
       ImportColumn::make('primary_profession')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
       ImportColumn::make('other_professions'),
+
       ImportColumn::make('work_hours')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
+
       ImportColumn::make('commitment_level')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
+
       ImportColumn::make('working_status')
-        ->requiredMapping()
-        ->rules(['required', 'max:255']),
+        ->rules(['max:255']),
       ImportColumn::make('expected_hourly_rate_usd')
-        ->requiredMapping()
         ->numeric()
-        ->rules(['required', 'integer']),
+        ->rules(['integer']),
       ImportColumn::make('expected_hourly_rate_syp')
-        ->requiredMapping()
         ->numeric()
-        ->rules(['required', 'integer']),
+        ->rules(['integer']),
       ImportColumn::make('payment_method')
         ->requiredMapping()
         ->rules(['required']),
