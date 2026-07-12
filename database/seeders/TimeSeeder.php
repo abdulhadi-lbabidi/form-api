@@ -14,9 +14,9 @@ class TimeSeeder extends Seeder
    */
   public function run(): void
   {
-    $startTime = Carbon::createFromTime(16, 0, 0);
+    $startTime = Carbon::createFromTime(19, 0, 0);
 
-    $endTime = Carbon::createFromTime(22, 0, 0);
+    $endTime = Carbon::createFromTime(22, 45, 0);
 
     while ($startTime->lessThanOrEqualTo($endTime)) {
 

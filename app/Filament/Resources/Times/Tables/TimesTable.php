@@ -14,13 +14,15 @@ class TimesTable
   public static function configure(Table $table): Table
   {
     return $table
-      ->defaultSort('created_at', 'desc')
       ->columns([
         TextColumn::make('work_time')
           ->label('وقت الدوام / الفترة')
           ->searchable()
           ->sortable()
-          ->weight('medium'),
+          ->weight('medium')
+          ->extraAttributes([
+            'style' => 'direction: ltr; text-align: right; font-variant-numeric: lnum; font-family: cairo;',
+          ]),
 
         TextColumn::make('created_at')
           ->label('تاريخ الإضافة')

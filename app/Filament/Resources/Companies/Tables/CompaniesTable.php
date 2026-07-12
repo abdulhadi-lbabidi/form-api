@@ -7,9 +7,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+
 
 class CompaniesTable
 {
@@ -42,6 +42,19 @@ class CompaniesTable
           ->sortable()
           ->weight('bold'),
 
+        TextColumn::make('owner_name')
+          ->label('المالك')
+          ->placeholder('لا يوجد')
+          ->searchable()
+          ->icon('heroicon-m-user'),
+
+        TextColumn::make('contact_person_name')
+          ->label(' المسؤول عن التواصل')
+          ->placeholder('لا يوجد')
+          ->searchable()
+          ->sortable()
+          ->weight('bold'),
+
 
         TextColumn::make('city')
           ->label('المدينة')
@@ -56,10 +69,7 @@ class CompaniesTable
           ->badge()
           ->color('gray'),
 
-        TextColumn::make('owner_name')
-          ->label('المالك')
-          ->searchable()
-          ->icon('heroicon-m-user'),
+
 
         TextColumn::make('work_location')
           ->label('الموقع')
@@ -71,6 +81,7 @@ class CompaniesTable
           ->label('البريد الإلكتروني')
           ->searchable()
           ->icon('heroicon-m-envelope')
+          ->placeholder('لا يوجد')
           ->copyable()
           ->copyMessage('تم نسخ البريد الإلكتروني')
           ->url(fn($record) => "mailto:{$record->email}"),
@@ -105,9 +116,24 @@ class CompaniesTable
         ViewAction::make(),
         EditAction::make(),
       ])
-      ->toolbarActions([
+      ->headerActions([
+        // ExportAction::make()
+        //   ->label('تصدير الكل لإكسيل')
+        //   ->color('success')
+        //   ->icon('heroicon-m-arrow-down-tray'),
+
+        // ImportAction::make()
+        //   ->importer(CompanyImporter::class)
+        //   ->label('استيراد من إكسيل')
+        //   ->color('info')
+        //   ->icon('heroicon-m-arrow-up-tray'),
+      ])
+      ->bulkActions([
         BulkActionGroup::make([
           DeleteBulkAction::make(),
+          // ExportBulkAction::make()
+          //   ->label('تصدير المحدد إلى Excel')
+          //   ->color('success'),
         ]),
       ]);
   }
