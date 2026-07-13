@@ -24,7 +24,7 @@ class RatingForm
           ->schema([
             Select::make('worker_id')
               ->relationship('worker', 'first_name')
-              ->getOptionLabelFromRecordUsing(fn($record) => "{$record->first_name} {$record->last_name} ({$record->phone_whatsapp})")
+              ->getOptionLabelFromRecordUsing(fn($record) => "{$record->full_name}({$record->phone_whatsapp})")
               ->label('العامل المستهدف')
               ->searchable(['first_name', 'last_name', 'phone_whatsapp'])
               ->preload()
