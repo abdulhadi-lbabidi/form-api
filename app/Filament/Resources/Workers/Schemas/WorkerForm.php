@@ -158,6 +158,22 @@ class WorkerForm
                 Textarea::make('other_professions')
                   ->label('مهارات أو مهن أخرى يجيدها')
                   ->columnSpanFull(),
+
+                Select::make('worker_status')
+                  ->label('حالة العامل بالنظام')
+                  ->options([
+                    'new_registered' => 'مسجّل جديد',
+                    'contacted'      => 'تم التواصل',
+                    'verified'       => 'تم التوثيق',
+                    'job_hunting'    => 'في مرحلة البحث عن عمل',
+                    'sent_to_client' => 'تم إرساله إلى صاحب العمل',
+                    'hired'          => 'تم التوظيف',
+                    'working_now'    => 'على رأس عمله',
+                    'frozen'         => 'مجمد / غير متاح',
+                    'blocked'        => 'محظور - غير كفوء',
+                  ])
+                  ->required()
+                  ->default('new_registered'),
               ]),
 
             // Attachments

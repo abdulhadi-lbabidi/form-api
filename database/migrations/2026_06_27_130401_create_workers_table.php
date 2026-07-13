@@ -39,6 +39,9 @@ return new class extends Migration
       $table->decimal('expected_hourly_rate_usd', 12, 2);
       $table->decimal('expected_hourly_rate_syp', 12, 2);
       $table->enum('payment_method', ['weekly', 'monthly', 'daily']);
+
+      $table->string('worker_status')->default('new_registered');
+
       $table->timestamps();
     });
   }

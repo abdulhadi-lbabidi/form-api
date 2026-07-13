@@ -51,6 +51,30 @@ class CompanyInfolist
                 ->label('اسم المالك')
                 ->placeholder('لا يوجد')
                 ->icon('heroicon-m-user'),
+
+              TextEntry::make('company_status')
+                ->label('حالة الشركة بالنظام')
+                ->formatStateUsing(fn(string $state): string => match ($state) {
+                  'new_lead'           => 'شركة جديدة',
+                  'contacted'           => 'تم التواصل',
+                  'active_opening'     => 'طلب شاغر نشط',
+                  'sourcing_matching'  => 'جاري ترشيح الكوادر',
+                  'interviews_underway' => 'في مرحلة المقابلات / الفحص',
+                  'order_fulfilled'    => 'تم تلبية الطلب بنجاح',
+                  'pending_commission' => 'بانتظار تحصيل العمولة',
+                  'inactive'            => 'غير نشط',
+                  'blocked'            => 'محظور',
+                  default               => $state,
+                })
+                ->color(fn(string $state): string => match ($state) {
+                  'new_lead'            => 'gray',
+                  'contacted'           => 'info',
+                  'active_opening'      => 'warning',
+                  'sourcing_matching', 'interviews_underway' => 'purple',
+                  'order_fulfilled', 'pending_commission'  => 'success',
+                  'inactive', 'blocked' => 'danger',
+                  default               => 'gray',
+                }),
             ]),
 
             Grid::make(3)->schema([

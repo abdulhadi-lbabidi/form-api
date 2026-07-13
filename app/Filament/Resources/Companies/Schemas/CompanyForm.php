@@ -100,6 +100,22 @@ class CompanyForm
                   ->placeholder('لم يسجل عبر كود')
                   ->disabled()
                   ->dehydrated(false),
+
+                Select::make('company_status')
+                  ->label('حالة الشركة / المنشأة')
+                  ->options([
+                    'new_lead'           => 'شركة جديدة',
+                    'contacted'           => 'تم التواصل',
+                    'active_opening'     => 'طلب شاغر نشط',
+                    'sourcing_matching'  => 'جاري ترشيح الكوادر',
+                    'interviews_underway' => 'في مرحلة المقابلات / الفحص',
+                    'order_fulfilled'    => 'تم تلبية الطلب بنجاح',
+                    'pending_commission' => 'بانتظار تحصيل العمولة',
+                    'inactive'            => 'غير نشط',
+                    'blocked'            => 'محظور',
+                  ])
+                  ->required()
+                  ->default('new_lead'),
               ]),
 
             Tabs\Tab::make('المرفقات والوثائق')

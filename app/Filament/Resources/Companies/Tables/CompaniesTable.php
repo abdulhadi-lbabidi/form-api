@@ -101,6 +101,32 @@ class CompaniesTable
           ->placeholder('لا يوجد')
           ->toggleable(isToggledHiddenByDefault: true),
 
+        TextColumn::make('company_status')
+          ->label('الحالة')
+          ->badge()
+          ->formatStateUsing(fn(string $state): string => match ($state) {
+            'new_lead'           => 'شركة جديدة',
+            'contacted'           => 'تم التواصل',
+            'active_opening'     => 'طلب شاغر نشط',
+            'sourcing_matching'  => 'جاري ترشيح الكوادر',
+            'interviews_underway' => 'في مرحلة المقابلات / الفحص',
+            'order_fulfilled'    => 'تم تلبية الطلب بنجاح',
+            'pending_commission' => 'بانتظار تحصيل العمولة',
+            'inactive'            => 'غير نشط',
+            'blocked'            => 'محظور',
+            default               => $state,
+          })
+          ->color(fn(string $state): string => match ($state) {
+            'new_lead'            => 'gray',
+            'contacted'           => 'info',
+            'active_opening'      => 'warning',
+            'sourcing_matching', 'interviews_underway' => 'purple',
+            'order_fulfilled'     => 'success',
+            'pending_commission'  => 'success',
+            'inactive', 'blocked' => 'danger',
+            default               => 'gray',
+          }),
+
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d')

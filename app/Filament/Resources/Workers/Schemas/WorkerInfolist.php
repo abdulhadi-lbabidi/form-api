@@ -41,7 +41,7 @@ class WorkerInfolist
                 ->placeholder(' لا يوجد')
                 ->label('اسم الأب'),
 
-              TextEntry::make('mother_name')
+              TextEntry::make('mother_fullname')
                 ->placeholder(' لا يوجد')
                 ->label('اسم الأم الكامل'),
 
@@ -203,6 +203,31 @@ class WorkerInfolist
               ->falseIcon('heroicon-m-x-circle')
               ->trueColor('success')
               ->falseColor('danger'),
+
+            TextEntry::make('worker_status')
+              ->label('حالة العامل بالنظام')
+
+              ->formatStateUsing(fn(string $state): string => match ($state) {
+                'new_registered' => 'مسجّل جديد',
+                'contacted'      => 'تم التواصل',
+                'verified'       => 'تم التوثيق',
+                'job_hunting'    => 'في مرحلة البحث عن عمل',
+                'sent_to_client' => 'تم إرساله إلى صاحب العمل',
+                'hired'          => 'تم التوظيف',
+                'working_now'    => 'على رأس عمله',
+                'frozen'         => 'مجمد / غير متاح',
+                'blocked'        => 'محظور - غير كفوء',
+                default          => $state,
+              })
+              ->color(fn(string $state): string => match ($state) {
+                'new_registered' => 'gray',
+                'contacted'      => 'info',
+                'job_hunting'    => 'warning',
+                'sent_to_client' => 'purple',
+                'verified', 'hired', 'working_now' => 'success',
+                'frozen', 'blocked' => 'danger',
+                default          => 'gray',
+              }),
 
             TextEntry::make('referralCode.code')
               ->label('كود الإحالة الخاص بالعامل')

@@ -39,7 +39,8 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'code',
   'working_status',
   'is_verified',
-  'form_referral_code'
+  'form_referral_code',
+  'worker_status',
 ])]
 class Worker extends Model implements HasMedia
 {
@@ -56,9 +57,9 @@ class Worker extends Model implements HasMedia
   protected static function booted(): void
   {
 
-    static::creating(function (Worker $worker) {
-      $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
-    });
+    // static::creating(function (Worker $worker) {
+    //   $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+    // });
 
     static::created(function (Worker $worker) {
       $worker->referralCode()->create([
@@ -70,9 +71,9 @@ class Worker extends Model implements HasMedia
     });
 
     static::updating(function (Worker $worker) {
-      if ($worker->isDirty(['first_name', 'father_name', 'last_name'])) {
-        $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
-      }
+      // if ($worker->isDirty(['first_name', 'father_name', 'last_name'])) {
+      //   $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+      // }
       if ($worker->isDirty('is_verified') && $worker->is_verified && !$worker->code) {
         do {
           $generatedCode = 'Wok-' . Str::upper(Str::random(10));

@@ -29,6 +29,7 @@ return new class extends Migration
       $table->string('work_location');
       $table->string('email')->nullable();
       $table->string('phone_number')->unique();
+      $table->string('company_status')->default('new_lead');
       $table->timestamps();
     });
   }
