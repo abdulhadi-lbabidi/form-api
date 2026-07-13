@@ -100,6 +100,7 @@ class WorkerForm
                     'morning' => 'صباحي',
                     'evening' => 'مسائي',
                     'night' => 'ليلي',
+                    'for_all_times' => 'متاح لجميع الأوقات'
                   ])
                   ->required(),
 
