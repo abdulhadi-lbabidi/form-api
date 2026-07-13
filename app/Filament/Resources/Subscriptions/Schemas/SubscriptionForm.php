@@ -38,7 +38,7 @@ class SubscriptionForm
 
                 $workers = Worker::limit(15)
                   ->get()
-                  ->mapWithKeys(fn($w) => ["App\Models\Worker:{$w->id}" => "👤 عامل: {$w->first_name} {$w->last_name}"])
+                  ->mapWithKeys(fn($w) => ["App\Models\Worker:{$w->id}" => "👤 عامل: {$w->full_name}"])
                   ->toArray();
 
                 return $companies + $workers;

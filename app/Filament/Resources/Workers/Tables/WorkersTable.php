@@ -49,9 +49,20 @@ class WorkersTable
           ->searchable()
           ->placeholder(' لا يوجد')
           ->icon('heroicon-m-phone')
-          ->copyable()
           ->copyMessage('تم نسخ رقم الهاتف')
-          ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
+          // ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
+
+          ->url(fn($record) => "https://wa.me/" . (function ($phone) {
+            $phone = preg_replace('/[^0-9]/', '', $phone);
+            if (str_starts_with($phone, '00')) {
+              $phone = substr($phone, 2);
+            }
+            if (str_starts_with($phone, '0')) {
+              $phone = '963' . substr($phone, 1);
+            }
+            return $phone;
+          })($record->phone_whatsapp), shouldOpenInNewTab: true)
+
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
         TextColumn::make('city')
