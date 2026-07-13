@@ -44,6 +44,11 @@ class WorkerInfolist
               TextEntry::make('mother_name')
                 ->placeholder(' لا يوجد')
                 ->label('اسم الأم الكامل'),
+
+
+              TextEntry::make('full_name')
+                ->placeholder(' لا يوجد')
+                ->label('الاسم الكامل'),
             ]),
 
             Grid::make(3)->schema([

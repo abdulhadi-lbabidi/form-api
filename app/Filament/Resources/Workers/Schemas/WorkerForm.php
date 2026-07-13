@@ -45,6 +45,9 @@ class WorkerForm
                 TextInput::make('mother_fullname')
                   ->label('اسم الأم الكامل'),
 
+                TextInput::make('full_name')
+                  ->label('الاسم الكامل'),
+
 
                 DatePicker::make('age')
                   ->label('تاريخ الميلاد')
@@ -151,6 +154,7 @@ class WorkerForm
                   ->columnSpanFull(),
               ]),
 
+            // Attachments
             Tabs\Tab::make('المرفقات والوثائق')
               ->schema([
                 Section::make('الوثائق والملفات الرسمية (الهوية، الشهادات، إلخ)')
