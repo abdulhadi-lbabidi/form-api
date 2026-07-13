@@ -34,14 +34,14 @@ class WorkerForm
                   ->columnSpanFull(),
 
                 TextInput::make('first_name')
-                  ->label('الاسم الأول')
-                  ->required(),
+                  ->label('الاسم الأول'),
+
                 TextInput::make('last_name')
-                  ->label('الكنية / اسم العائلة')
-                  ->required(),
+                  ->label('الكنية / اسم العائلة'),
+
                 TextInput::make('father_name')
-                  ->label('اسم الأب')
-                  ->required(),
+                  ->label('اسم الأب'),
+
                 TextInput::make('mother_fullname')
                   ->label('اسم الأم الكامل'),
 
@@ -56,7 +56,7 @@ class WorkerForm
                   ->label('الحالة الاجتماعية')
                   ->options([
                     'single' => 'عازب',
-                    'married' => 'متزوج ويعول أسرة',
+                    'married' => 'متزوج ويعيل أسرة',
                     'other' => 'غير ذلك'
                   ])
                   ->required(),

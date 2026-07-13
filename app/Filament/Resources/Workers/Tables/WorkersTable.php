@@ -40,14 +40,14 @@ class WorkersTable
         TextColumn::make('full_name')
           ->label('الاسم الكامل')
           ->placeholder(' لا يوجد')
-          ->sortable(['first_name'])
+          ->sortable(['full_name'])
+          ->searchable()
           ->weight('bold'),
 
         TextColumn::make('phone_whatsapp')
           ->label('رقم الهاتف / واتساب')
           ->searchable()
           ->placeholder(' لا يوجد')
-
           ->icon('heroicon-m-phone')
           ->copyable()
           ->copyMessage('تم نسخ رقم الهاتف')
@@ -58,7 +58,6 @@ class WorkersTable
           ->label('المدينة')
           ->searchable()
           ->placeholder(' لا يوجد')
-
           ->icon('heroicon-m-map-pin')
           ->color('primary'),
 
@@ -66,7 +65,6 @@ class WorkersTable
           ->label('المهنة')
           ->searchable()
           ->placeholder(' لا يوجد')
-
           ->icon('heroicon-m-briefcase')
 
           ->color('gray'),
@@ -75,7 +73,6 @@ class WorkersTable
           ->label('أجر الساعة')
           ->sortable()
           ->placeholder(' لا يوجد')
-
           ->weight('medium')
           ->formatStateUsing(fn($record) => "$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
@@ -83,7 +80,6 @@ class WorkersTable
         TextColumn::make('form_referral_code')
           ->label('كود الإحالة المُستخدَم')
           ->placeholder(' لا يوجد')
-
           ->searchable()
           ->placeholder('لا يوجد')
           ->toggleable(isToggledHiddenByDefault: true),
@@ -92,7 +88,6 @@ class WorkersTable
 
         TextColumn::make('payment_method')
           ->label('طريقة الدفع')
-
           ->color(fn(string $state): string => match ($state) {
             'weekly' => 'warning',
             'monthly' => 'success',

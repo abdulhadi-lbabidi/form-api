@@ -9,11 +9,10 @@ use Filament\Actions\Action;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\RepeatableEntry; // تم استيراد هذا المكون
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Illuminate\Support\Carbon;
 use ZipArchive;
 
@@ -31,20 +30,19 @@ class WorkerInfolist
               TextEntry::make('first_name')
                 ->label('الاسم الأول')
                 ->placeholder(' لا يوجد')
-
                 ->weight('bold'),
+
               TextEntry::make('last_name')
-                ->label('العائلة')
+                ->label('الكنية')
                 ->placeholder(' لا يوجد')
 
                 ->weight('bold'),
               TextEntry::make('father_name')
                 ->placeholder(' لا يوجد')
-
                 ->label('اسم الأب'),
+
               TextEntry::make('mother_name')
                 ->placeholder(' لا يوجد')
-
                 ->label('اسم الأم الكامل'),
             ]),
 
@@ -77,7 +75,6 @@ class WorkerInfolist
                 ->label('رقم الهاتف / واتساب')
                 ->icon('heroicon-m-phone')
                 ->placeholder(' لا يوجد')
-
                 ->color('success')
                 ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; font-weight: bold;']),
@@ -92,14 +89,12 @@ class WorkerInfolist
             TextEntry::make('city')
               ->label('المدينة / المحافظة')
               ->placeholder(' لا يوجد')
-
               ->icon('heroicon-m-map-pin')
               ->color('primary'),
 
             TextEntry::make('residential_area')
               ->label('المنطقة / السكن')
               ->placeholder(' لا يوجد')
-
               ->icon('heroicon-m-map'),
 
             TextEntry::make('primary_profession')
@@ -323,31 +318,6 @@ class WorkerInfolist
               ->grid(2)
               ->columnSpanFull(),
           ])->columnSpanFull(),
-
-        // Section::make('الوثائق والصور الشخصية المرفوعة')
-        //   ->icon('heroicon-o-paper-clip')
-        //   ->description('الصور الشخصية والأوراق الرسمية الثبوتية المرفوعة في سجل العامل.')
-        //   ->schema([
-        //     SpatieMediaLibraryImageEntry::make('image')
-        //       ->label('الملفات والوثائق المتاحة')
-        //       ->collection('workers')
-        //       ->square()
-        //       ->columnSpanFull()
-        //       ->hintAction(
-        //         Action::make('download_document')
-        //           ->label('تحميل الملفات')
-        //           ->icon('heroicon-m-arrow-down-tray')
-        //           ->color('primary')
-        //           ->visible(fn($record) => $record && $record->hasMedia('workers'))
-        //           ->action(function ($record) {
-        //             $media = $record->getFirstMedia('workers');
-        //             if ($media) {
-        //               return response()->download($media->getPath(), $media->file_name);
-        //             }
-        //           })
-        //       )
-        //   ])->columnSpanFull(),
-
 
         Section::make('الوثائق والمرفقات الرسمية')
           ->icon('heroicon-o-paper-clip')

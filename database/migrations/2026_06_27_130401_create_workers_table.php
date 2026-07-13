@@ -31,13 +31,13 @@ return new class extends Migration
       $table->string('residential_area');
       $table->string('marital_status');
       $table->boolean('is_verified')->default(false)->nullable();
-      $table->string('primary_profession');
+      $table->text('primary_profession');
       $table->text('other_professions')->nullable();
       $table->string('work_hours');
       $table->string('commitment_level');
       $table->string('working_status')->nullable();
-      $table->decimal('expected_hourly_rate_usd', 8, 2);
-      $table->decimal('expected_hourly_rate_syp', 8, 2);
+      $table->decimal('expected_hourly_rate_usd', 12, 2);
+      $table->decimal('expected_hourly_rate_syp', 12, 2);
       $table->enum('payment_method', ['weekly', 'monthly', 'daily']);
       $table->timestamps();
     });

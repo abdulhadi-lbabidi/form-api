@@ -46,7 +46,8 @@ class WorkerImporter extends Importer
 
       ImportColumn::make('city')
         ->requiredMapping()
-        ->rules(['required',]),
+        ->rules(['required']),
+
       ImportColumn::make('residential_area')
         ->requiredMapping()
         ->rules(['required']),
@@ -61,6 +62,7 @@ class WorkerImporter extends Importer
       ImportColumn::make('primary_profession')
         ->requiredMapping()
         ->rules(['required']),
+
       ImportColumn::make('other_professions'),
 
       ImportColumn::make('work_hours')
@@ -90,11 +92,20 @@ class WorkerImporter extends Importer
 
   public function resolveRecord(): Worker
   {
-    return Worker::firstOrNew([
-      'phone_whatsapp' => $this->data['phone_whatsapp'] ?? null,
-    ]);
-  }
+    if (!empty($this->data['code'])) {
+      return Worker::firstOrNew([
+        'code' => $this->data['code'],
+      ]);
+    }
 
+    if (!empty($this->data['phone_whatsapp'])) {
+      return Worker::firstOrNew([
+        'phone_whatsapp' => $this->data['phone_whatsapp'],
+      ]);
+    }
+
+    return new Worker();
+  }
   public static function getCompletedNotificationBody(Import $import): string
   {
     $body = 'Your worker import has completed and ' . Number::format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';
