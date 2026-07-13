@@ -38,22 +38,18 @@ class CompanyForm
 
                 TextInput::make('company_name')
                   ->label('اسم الشركة')
-                  ->required()
                   ->maxLength(255),
 
                 TextInput::make('business_type')
                   ->label('نوع العمل / النشاط')
-                  ->required()
                   ->maxLength(255),
 
                 TextInput::make('owner_name')
                   ->label('اسم مالك الشركة')
-                  ->required()
                   ->maxLength(255),
 
                 TextInput::make('contact_person_name')
                   ->label('اسم المسؤول المباشر عن التواصل')
-                  ->required()
                   ->maxLength(255),
               ]),
 

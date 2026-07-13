@@ -28,19 +28,28 @@ class CompanyInfolist
             Grid::make(3)->schema([
               TextEntry::make('company_name')
                 ->label('اسم الشركة')
+                ->placeholder('لا يوجد')
                 ->weight('bold'),
 
               TextEntry::make('city')
                 ->label('المدينة / المحافظة')
+                ->placeholder('لا يوجد')
                 ->icon('heroicon-m-map-pin')
                 ->color('primary'),
 
               TextEntry::make('business_type')
                 ->label('نوع العمل')
+                ->placeholder('لا يوجد')
                 ->color('gray'),
+
+              TextEntry::make('contact_person_name')
+                ->label('اسم المسؤول المباشر عن التواصل')
+                ->placeholder('لا يوجد')
+                ->icon('heroicon-m-user'),
 
               TextEntry::make('owner_name')
                 ->label('اسم المالك')
+                ->placeholder('لا يوجد')
                 ->icon('heroicon-m-user'),
             ]),
 
