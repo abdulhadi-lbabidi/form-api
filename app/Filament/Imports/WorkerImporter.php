@@ -92,19 +92,10 @@ class WorkerImporter extends Importer
 
   public function resolveRecord(): Worker
   {
-    if (!empty($this->data['code'])) {
-      return Worker::firstOrNew([
-        'code' => $this->data['code'],
-      ]);
-    }
 
-    if (!empty($this->data['phone_whatsapp'])) {
-      return Worker::firstOrNew([
-        'phone_whatsapp' => $this->data['phone_whatsapp'],
-      ]);
-    }
-
-    return new Worker();
+    return Worker::firstOrNew([
+      'phone_whatsapp' => $this->data['phone_whatsapp'],
+    ]);
   }
   public static function getCompletedNotificationBody(Import $import): string
   {
