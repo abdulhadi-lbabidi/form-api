@@ -28,7 +28,7 @@ class SubscriptionsTable
             }
 
             if ($record->subscribable_type === Worker::class) {
-              return "👤 " . $record->subscribable->first_name . ' ' . $record->subscribable->last_name;
+              return "👤 " . $record->subscribable->full_name;
             }
 
             return '—';

@@ -32,7 +32,7 @@ class SubscriptionInfolist
                   }
 
                   if ($record->subscribable_type === Worker::class) {
-                    return "عامل: " . $record->subscribable->first_name . ' ' . $record->subscribable->last_name;
+                    return "عامل: " . $record->subscribable->full_name;
                   }
 
                   return '—';
