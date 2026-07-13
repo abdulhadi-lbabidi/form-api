@@ -77,7 +77,12 @@ class CompanyForm
 
                 TextInput::make('phone_number')
                   ->label('رقم الهاتف')
+                  ->label('رقم الهاتف / واتساب')
                   ->required()
+                  ->unique(table: 'companies', column: 'phone_number', ignoreRecord: true)
+                  ->validationMessages([
+                    'unique' => 'رقم الهاتف هذا مسجل مسبقاً لشركة آخر.',
+                  ])
                   ->maxLength(255),
               ]),
 

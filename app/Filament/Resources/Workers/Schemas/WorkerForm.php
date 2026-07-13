@@ -70,7 +70,12 @@ class WorkerForm
               ->schema([
                 TextInput::make('phone_whatsapp')
                   ->label('رقم الهاتف / واتساب')
-                  ->required(),
+                  ->required()
+                  ->unique(table: 'workers', column: 'phone_whatsapp', ignoreRecord: true)
+                  ->validationMessages([
+                    'unique' => 'رقم الهاتف هذا مسجل مسبقاً لعامل آخر.',
+                  ]),
+
                 TextInput::make('city')
                   ->label('المدينة / المحافظة')
                   ->required(),
