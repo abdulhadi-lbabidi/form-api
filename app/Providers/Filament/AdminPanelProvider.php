@@ -49,11 +49,11 @@ class AdminPanelProvider extends PanelProvider
           ->collapsible(true),
       ])
       ->login()
-      ->brandName('Form Builder')
-      // ->brandLogo(asset('logo-dark.png'))
+      ->brandName('Kadr X')
+      ->brandLogo(asset('logo.png'))
       ->brandLogoHeight('4rem')
-      // ->darkModeBrandLogo(asset('logo.svg'))
-      // ->favicon(asset('logo.svg'))
+      ->darkModeBrandLogo(asset('logo-dark.png'))
+      ->favicon(asset('logo.png'))
       ->colors([
         'primary' => Color::Teal,
       ])

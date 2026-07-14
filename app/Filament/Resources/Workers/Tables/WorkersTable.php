@@ -36,6 +36,39 @@ class WorkersTable
           ->fontFamily('mono')
           ->color('warning'),
 
+        TextColumn::make('worker_status')
+          ->label('حالة العامل')
+          ->badge()
+          ->sortable()
+          ->formatStateUsing(fn(string $state): string => match ($state) {
+            'new_registered' => 'مسجّل جديد',
+            'contacted'      => 'تم التواصل',
+            'verified'       => 'تم التوثيق',
+            'job_hunting'    => 'يبحث عن عمل',
+            'sent_to_client' => 'أُرسل لصاحب العمل',
+            'hired'          => 'تم التوظيف',
+            'working_now'    => 'على رأس عمله',
+            'frozen'         => 'مجمد',
+            'blocked'        => 'محظور',
+            default          => $state,
+          })
+          ->color(fn(string $state): string => match ($state) {
+            'new_registered' => 'gray',
+            'contacted'      => 'info',
+            'job_hunting'    => 'warning',
+            'sent_to_client' => 'purple',
+            'verified', 'hired', 'working_now' => 'success',
+            'frozen', 'blocked' => 'danger',
+            default          => 'gray',
+          }),
+
+
+
+        TextColumn::make('created_at')
+          ->label('تاريخ التسجيل')
+          ->dateTime('Y-m-d')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
         TextColumn::make('full_name')
           ->label('الاسم الكامل')
@@ -96,10 +129,16 @@ class WorkersTable
           })
           ->formatStateUsing(fn($state) => $state === 'weekly' ? 'أسبوعي' : 'شهري'),
 
-        TextColumn::make('worker_status')
+
+      ])
+      ->filters([
+
+        SelectFilter::make('worker_status')
           ->label('حالة العامل')
-          ->badge()
-          ->formatStateUsing(fn(string $state): string => match ($state) {
+          ->placeholder(' كل الحالات')
+          ->multiple()
+          ->searchable()
+          ->options([
             'new_registered' => 'مسجّل جديد',
             'contacted'      => 'تم التواصل',
             'verified'       => 'تم التوثيق',
@@ -109,26 +148,8 @@ class WorkersTable
             'working_now'    => 'على رأس عمله',
             'frozen'         => 'مجمد',
             'blocked'        => 'محظور',
-            default          => $state,
-          })
-          ->color(fn(string $state): string => match ($state) {
-            'new_registered' => 'gray',
-            'contacted'      => 'info',
-            'job_hunting'    => 'warning',
-            'sent_to_client' => 'purple',
-            'verified', 'hired', 'working_now' => 'success',
-            'frozen', 'blocked' => 'danger',
-            default          => 'gray',
-          }),
+          ]),
 
-        TextColumn::make('created_at')
-          ->label('تاريخ التسجيل')
-          ->dateTime('Y-m-d')
-          ->sortable()
-          ->toggleable(isToggledHiddenByDefault: true)
-          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
-      ])
-      ->filters([
         TernaryFilter::make('is_verified')
           ->label('حالة التوثيق')
           ->placeholder('الكل')
