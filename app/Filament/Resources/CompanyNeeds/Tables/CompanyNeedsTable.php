@@ -34,6 +34,13 @@ class CompanyNeedsTable
           ->badge()
           ->color('warning'),
 
+        TextColumn::make('workers.full_name')
+          ->label('العمال المرتبطون')
+          ->badge()
+          ->color('success')
+          ->separator(',')
+          ->placeholder('لا يوجد عمال'),
+
         TextColumn::make('required_workers_count')
           ->label('العدد')
           ->sortable()

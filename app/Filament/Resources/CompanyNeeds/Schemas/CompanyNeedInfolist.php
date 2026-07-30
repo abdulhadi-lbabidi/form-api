@@ -73,6 +73,13 @@ class CompanyNeedInfolist
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum;']),
             ]),
 
+            TextEntry::make('workers.full_name')
+              ->label('العمال المرتبطين بهذا الاحتياج')
+              ->badge()
+              ->color('success')
+              ->placeholder('لا يوجد عمال مرتبطين حالياً')
+              ->columnSpanFull(),
+
             TextEntry::make('additional_details')
               ->label('تفاصيل إضافية عن الاحتياج')
               ->placeholder('لا توجد تفاصيل إضافية.')

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -124,5 +125,10 @@ class Worker extends Model implements HasMedia
   public function ratings(): HasMany
   {
     return $this->hasMany(Rating::class);
+  }
+
+  public function companyNeeds(): BelongsToMany
+  {
+    return $this->belongsToMany(CompanyNeed::class, 'company_need_workers', 'worker_id', 'company_need_id');
   }
 }

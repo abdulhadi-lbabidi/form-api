@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CompanyNeeds\Schemas;
 
+use App\Models\Worker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -30,9 +31,24 @@ class CompanyNeedForm
               ->getOptionLabelFromRecordUsing(fn($record) => "{$record->company_name} - {$record->branch_name}")
               ->label('فرع الشركة')
               ->placeholder('اختر الفرع المحتاج للعمال')
-              ->searchable(['companies.company_name', 'branch_name']) 
+              ->searchable(['companies.company_name', 'branch_name'])
               ->preload()
               ->required()
+              ->columnSpanFull(),
+
+            Select::make('workers')
+              ->relationship('workers', 'full_name')
+              ->label('العمال المرتبطين بالاحتياج')
+              ->placeholder('اختر العمال المناسبين لهذا الاحتياج')
+              ->multiple()
+              ->reactive()
+              ->afterStateUpdated(function ($state, callable $set) {
+                $count = is_array($state) ? count($state) : 0;
+                $set('required_workers_count', $count > 0 ? $count : null);
+              })
+              ->searchable(['full_name', 'phone_whatsapp', 'code'])
+              ->getOptionLabelFromRecordUsing(fn(Worker $record) => "{$record->full_name} ({$record->primary_profession}) - {$record->code}")
+              ->preload()
               ->columnSpanFull(),
 
             TextInput::make('required_workers_count')
