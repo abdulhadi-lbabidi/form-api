@@ -22,6 +22,12 @@ class UsersTable
           ->label('Email address')
           ->searchable(),
 
+        TextColumn::make('roles.name')
+          ->label('الدور')
+          ->color('success')
+          ->separator(', ')
+          ->placeholder('بدون دور'),
+
         TextColumn::make('created_at')
           ->dateTime()
           ->sortable()

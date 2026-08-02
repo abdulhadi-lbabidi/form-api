@@ -12,6 +12,11 @@ class StatsOverview extends BaseWidget
 {
   protected ?string $pollingInterval = '15s';
 
+  public static function canView(): bool
+  {
+    return auth()->user()->hasRole('super_admin') || auth()->user()->can('view_stats_overview');
+  }
+
   protected function getStats(): array
   {
     $companiesCount = Company::count();

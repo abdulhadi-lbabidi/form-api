@@ -6,6 +6,7 @@ use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -18,6 +19,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 #[Fillable([
+  'user_id',
   'company_name',
   'business_type',
   'problems_faced',
@@ -37,34 +39,67 @@ class Company extends Model implements HasMedia
 
   use HasFactory, InteractsWithMedia;
 
-  protected static function booted(): void
-  {
-    static::created(function (Company $company) {
-      $company->referralCode()->create([
-        'usage_limit' => 100,
-        'times_used'  => 0,
-        'is_active'   => true,
-        'expires_at'  => null,
-      ]);
+  // protected static function booted(): void
+  // {
 
-      $company->branches()->create([
-        'branch_name'      => 'أساسي',
-        'location_address' => null,
-      ]);
-    });
+  //   static::creating(function (Company $company) {
+  //     $email = request()->input('email') ?? $company->email;
+  //     $password = request()->input('password');
+
+  //     if ($email) {
+  //       $user = User::create([
+  //         'name' => $company->company_name,
+  //         'email' => $email,
+  //         'password' => $password ? $password : \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(12)),
+  //       ]);
+
+  //       $company->user_id = $user->id;
+  //     }
+  //   });
+
+  //   static::updating(function (Company $company) {
+  //     if ($company->user) {
+  //       $dataToUpdate = [];
+  //       if (request()->has('email') && filled(request()->input('user_email'))) {
+  //         $dataToUpdate['email'] = request()->input('user_email');
+  //       }
+  //       if (request()->has('password') && filled(request()->input('password'))) {
+  //         $dataToUpdate['password'] = request()->input('password');
+  //       }
+
+  //       if (!empty($dataToUpdate)) {
+  //         $company->user->update($dataToUpdate);
+  //       }
+  //     }
+  //   });
+
+  //   static::created(function (Company $company) {
+  //     $company->referralCode()->create([
+  //       'usage_limit' => 100,
+  //       'times_used'  => 0,
+  //       'is_active'   => true,
+  //       'expires_at'  => null,
+  //     ]);
+
+  //     $company->branches()->create([
+  //       'branch_name'      => 'أساسي',
+  //       'location_address' => null,
+  //     ]);
+  //   });
 
 
-    static::updating(function (Company $company) {
-      if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
-        do {
-          $generatedCode = 'COMP-' . Str::upper(Str::random(10));
-        } while (static::where('code', $generatedCode)->exists());
+  //   static::updating(function (Company $company) {
+  //     if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
+  //       do {
+  //         $generatedCode = 'COMP-' . Str::upper(Str::random(10));
+  //       } while (static::where('code', $generatedCode)->exists());
 
-        $company->code = $generatedCode;
-      }
-    });
-  }
+  //       $company->code = $generatedCode;
+  //     }
+  //   });
+  // }
 
+  // spatie  media path generator
   protected static function booting(): void
   {
     PathGeneratorFactory::setCustomPathGenerators(
@@ -82,6 +117,11 @@ class Company extends Model implements HasMedia
       ->nonQueued();
   }
 
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class);
+  }
 
   public function marketingSources(): MorphToMany
   {

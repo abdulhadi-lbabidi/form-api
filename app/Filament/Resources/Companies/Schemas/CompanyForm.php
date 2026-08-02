@@ -52,6 +52,27 @@ class CompanyForm
                   ->label('اسم المسؤول المباشر عن التواصل')
                   ->maxLength(255),
               ]),
+            Tabs\Tab::make('حساب المستخدم (تسجيل الدخول)')
+              ->columns(2)
+              ->schema([
+                TextInput::make('user_email')
+                  ->label('البريد الإلكتروني لتسجيل الدخول')
+                  ->email()
+                  ->maxLength(255)
+                  ->dehydrated(true)
+                  ->afterStateHydrated(function (TextInput $component, ?\App\Models\Company $record) {
+                    $component->state($record?->user?->email);
+                  })
+                  ->helperText('البريد الذي سيستخدمه صاحب الشركة للدخول إلى النظام.'),
+
+                TextInput::make('password')
+                  ->label('كلمة المرور')
+                  ->password()
+                  ->dehydrateStateUsing(fn($state) => filled($state) ? \Illuminate\Support\Facades\Hash::make($state) : null)
+                  ->dehydrated(fn($state) => filled($state))
+                  ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                  ->helperText('اتركه فارغاً أثناء التعديل إذا كنت لا تريد تغيير كلمة المرور.'),
+              ]),
 
             Tabs\Tab::make('الاتصال والموقع')
               ->columns(2)

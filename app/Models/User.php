@@ -11,13 +11,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
   /** @use HasFactory<UserFactory> */
-  use HasFactory, Notifiable;
+  use HasFactory, Notifiable, HasRoles;
 
   /**
    * Get the attributes that should be cast.
@@ -35,5 +37,15 @@ class User extends Authenticatable implements FilamentUser
   public function canAccessPanel(Panel $panel): bool
   {
     return true;
+  }
+
+  public function company(): HasOne
+  {
+    return $this->hasOne(Company::class);
+  }
+
+  public function worker(): HasOne
+  {
+    return $this->hasOne(Worker::class);
   }
 }

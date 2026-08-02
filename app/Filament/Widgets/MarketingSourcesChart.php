@@ -13,6 +13,11 @@ class MarketingSourcesChart extends ChartWidget
 
   protected static ?int $sort = 2;
 
+  public static function canView(): bool
+  {
+    return auth()->user()->hasRole('super_admin') || auth()->user()->can('view_marketing_sources_chart');
+  }
+
   protected function getData(): array
   {
     $sources = MarketingSource::withCount(['companies', 'workers'])->get();

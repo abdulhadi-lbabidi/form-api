@@ -20,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 #[Fillable([
+  'user_id',
   'first_name',
   'last_name',
   'father_name',
@@ -86,6 +87,10 @@ class Worker extends Model implements HasMedia
   }
 
 
+
+
+
+  // spatie  media path generator
   protected static function booting(): void
   {
     PathGeneratorFactory::setCustomPathGenerators(
@@ -102,6 +107,12 @@ class Worker extends Model implements HasMedia
       ->format('webp')
       ->nonQueued();
   }
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class);
+  }
+
 
   public function marketingSources(): MorphToMany
   {

@@ -13,29 +13,35 @@ class UserInfolist
   {
     return $schema
       ->components([
+
         Section::make('معلومات المستخدم')
           ->description('تفاصيل الحساب الشخصية والبيانات الأساسية')
           ->icon('heroicon-o-user')
           ->schema([
-
             Grid::make([
               'default' => 1,
               'sm' => 2,
               'lg' => 3,
             ])
               ->schema([
-
                 TextEntry::make('name')
-                  ->label(__('user.name', [], 'الاسم كاملاً'))
+                  ->label('الاسم كاملاً')
                   ->icon('heroicon-m-user')
                   ->weight('bold')
                   ->copyable(),
 
                 TextEntry::make('email')
-                  ->label(__('user.email', [], 'البريد الإلكتروني'))
+                  ->label('البريد الإلكتروني')
                   ->icon('heroicon-m-envelope')
                   ->color('primary')
                   ->copyable(),
+
+                TextEntry::make('roles.name')
+                  ->label('الدور الأساسي')
+                  ->icon('heroicon-m-shield-check')
+                  ->badge()
+                  ->color('success')
+                  ->placeholder('بدون دور'),
 
                 TextEntry::make('created_at')
                   ->label('تاريخ التسجيل')
@@ -43,6 +49,21 @@ class UserInfolist
                   ->dateTime('Y-m-d h:i A')
                   ->placeholder('-'),
               ]),
+          ])
+          ->columnSpanFull(),
+
+        Section::make('الصلاحيات الممنوحة للنظام')
+          ->description('قائمة الصلاحيات التفصيلية المرتبطة بأدوار هذا المستخدم')
+          ->icon('heroicon-o-lock-closed')
+          ->schema([
+            TextEntry::make('roles.permissions.name')
+              ->label('')
+              ->badge()
+              ->color('info')
+              ->separator(', ')
+              ->listWithLineBreaks(false)
+              ->bulleted(false)
+              ->placeholder('لا توجد صلاحيات مخصصة'),
           ])
           ->columnSpanFull(),
 

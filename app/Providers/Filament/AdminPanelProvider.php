@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -10,6 +11,7 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
@@ -31,6 +33,10 @@ class AdminPanelProvider extends PanelProvider
       ->id('admin')
       ->path('admin')
 
+      ->plugins([
+        FilamentShieldPlugin::make(),
+      ])
+
       ->navigationGroups([
         NavigationGroup::make()
           ->label('إدارة الشركات')
@@ -47,6 +53,16 @@ class AdminPanelProvider extends PanelProvider
         NavigationGroup::make()
           ->label('إدارة النظام')
           ->collapsible(true),
+
+        NavigationGroup::make()
+          ->label('الصلاحيات والأذونات')
+          ->collapsible(true),
+
+        NavigationGroup::make()
+          ->label('إدارة الوصول')
+          ->collapsible(true),
+
+
       ])
       ->login()
       ->brandName('Kadr X')

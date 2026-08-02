@@ -22,13 +22,15 @@ class ListCompanies extends ListRecords
         ->exporter(CompanyExporter::class)
         ->label('تصدير إلى Excel')
         ->color('success')
-        ->icon('heroicon-m-arrow-down-tray'),
+        ->icon('heroicon-m-arrow-down-tray')
+        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('export_company')),
 
       ImportAction::make()
         ->importer(CompanyImporter::class)
         ->label('استيراد من Excel')
         ->color('info')
-        ->icon('heroicon-m-arrow-up-tray'),
+        ->icon('heroicon-m-arrow-up-tray')
+        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('import_company')),
     ];
   }
 }
