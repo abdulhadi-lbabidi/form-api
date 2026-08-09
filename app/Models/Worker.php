@@ -142,4 +142,9 @@ class Worker extends Model implements HasMedia
   {
     return $this->belongsToMany(CompanyNeed::class, 'company_need_workers', 'worker_id', 'company_need_id');
   }
+
+  public function categories(): BelongsToMany
+  {
+    return $this->belongsToMany(Category::class, 'category_workers', 'worker_id', 'category_id');
+  }
 }

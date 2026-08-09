@@ -108,6 +108,12 @@ class WorkerInfolist
               ->icon('heroicon-m-briefcase')
               ->weight('bold'),
 
+            TextEntry::make('categories.name')
+              ->label('التصنيفات')
+              ->badge()
+              ->color('primary')
+              ->placeholder('لا توجد تصنيفات مسجلة'),
+
             TextEntry::make('work_hours')
               ->label('ساعات العمل المتاحة')
               ->icon('heroicon-m-clock')

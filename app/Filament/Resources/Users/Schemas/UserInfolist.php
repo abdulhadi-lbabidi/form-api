@@ -36,6 +36,12 @@ class UserInfolist
                   ->color('primary')
                   ->copyable(),
 
+                TextEntry::make('phone_number')
+                  ->label('رقم الهاتف')
+                  ->icon('heroicon-m-phone')
+                  ->placeholder('غير متوفر')
+                  ->copyable(),
+
                 TextEntry::make('roles.name')
                   ->label('الدور الأساسي')
                   ->icon('heroicon-m-shield-check')

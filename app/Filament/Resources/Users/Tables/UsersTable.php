@@ -8,12 +8,17 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class UsersTable
 {
   public static function configure(Table $table): Table
   {
     return $table
+      ->modifyQueryUsing(function (Builder $query) {
+        $query->whereDoesntHave('company')
+          ->whereDoesntHave('worker');
+      })
       ->defaultSort('created_at', 'desc')
       ->columns([
         TextColumn::make('name')
@@ -21,6 +26,11 @@ class UsersTable
         TextColumn::make('email')
           ->label('Email address')
           ->searchable(),
+
+        TextColumn::make('phone_number')
+          ->label('رقم الهاتف')
+          ->searchable()
+          ->placeholder('-'),
 
         TextColumn::make('roles.name')
           ->label('الدور')

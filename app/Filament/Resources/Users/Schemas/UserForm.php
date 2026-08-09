@@ -22,10 +22,16 @@ class UserForm
         TextInput::make('password')
           ->label('كلمة المرور')
           ->password()
-          ->required(fn(string $context): bool => $context === 'create') // مطلوبة فقط عند الإنشاء
-          ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null) // تشفيرها إذا تم إدخالها
-          ->dehydrated(fn($state) => filled($state)) // عدم تحديثها إذا كانت فارغة عند التعديل
+          ->required(fn(string $context): bool => $context === 'create')
+          ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+          ->dehydrated(fn($state) => filled($state))
           ->hiddenOn('view'),
+
+        TextInput::make('phone_number')
+          ->label('رقم الهاتف')
+          ->tel()
+          ->maxLength(255),
+
         Select::make('roles')
           ->relationship('roles', 'name')
           ->multiple()

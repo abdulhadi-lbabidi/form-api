@@ -133,6 +133,13 @@ class WorkersTable
       ])
       ->filters([
 
+        SelectFilter::make('categories')
+          ->label('التصنيف')
+          ->placeholder('كل التصنيفات')
+          ->relationship('categories', 'name')
+          ->multiple()
+          ->searchable(),
+
         SelectFilter::make('worker_status')
           ->label('حالة العامل')
           ->placeholder(' كل الحالات')

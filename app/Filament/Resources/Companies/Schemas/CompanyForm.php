@@ -60,6 +60,14 @@ class CompanyForm
                   ->email()
                   ->maxLength(255)
                   ->dehydrated(true)
+                  ->unique(
+                    table: 'users',
+                    column: 'email',
+                    ignorable: fn(?\App\Models\Company $record) => $record?->user
+                  )
+                  ->validationMessages([
+                    'unique' => 'البريد الإلكتروني هذا مستخدم مسبقاً لحساب آخر في النظام.',
+                  ])
                   ->afterStateHydrated(function (TextInput $component, ?\App\Models\Company $record) {
                     $component->state($record?->user?->email);
                   })
@@ -89,7 +97,7 @@ class CompanyForm
                 TextInput::make('email')
                   ->label('البريد الإلكتروني')
                   ->email()
-                  ->required()
+                  ->nullable()
                   ->maxLength(255),
 
                 TextInput::make('phone_number')

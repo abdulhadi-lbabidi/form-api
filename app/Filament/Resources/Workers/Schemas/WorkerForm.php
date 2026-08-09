@@ -73,6 +73,9 @@ class WorkerForm
                   ->email()
                   ->maxLength(255)
                   ->dehydrated(true)
+                  ->validationMessages([
+                    'unique' => 'البريد الإلكتروني هذا مستخدم مسبقاً لحساب آخر في النظام.',
+                  ])
                   ->afterStateHydrated(function (TextInput $component, ?\App\Models\Worker $record) {
                     $component->state($record?->user?->email);
                   })
@@ -120,6 +123,30 @@ class WorkerForm
                   ->label('المهنة الأساسية')
                   ->required(),
 
+                Select::make('worker_status')
+                  ->label('حالة العامل بالنظام')
+                  ->options([
+                    'new_registered' => 'مسجّل جديد',
+                    'contacted'      => 'تم التواصل',
+                    'verified'       => 'تم التوثيق',
+                    'job_hunting'    => 'في مرحلة البحث عن عمل',
+                    'sent_to_client' => 'تم إرساله إلى صاحب العمل',
+                    'hired'          => 'تم التوظيف',
+                    'working_now'    => 'على رأس عمله',
+                    'frozen'         => 'مجمد / غير متاح',
+                    'blocked'        => 'محظور - غير كفوء',
+                  ])
+                  ->required()
+                  ->default('new_registered'),
+
+                Select::make('categories')
+                  ->relationship('categories', 'name')
+                  ->label('تصنيفات العامل (Classification)')
+                  ->multiple()
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('ابحث واختر التصنيفات...')
+                  ->columnSpanFull(),
 
                 Select::make('work_hours')
                   ->label('دوام العمل المتاح')
@@ -150,11 +177,7 @@ class WorkerForm
                   ])
                   ->required(),
 
-                CheckboxList::make('marketingSources')
-                  ->relationship('marketingSources', 'name')
-                  ->getOptionLabelFromRecordUsing(fn($record) => $record->translated_name)
-                  ->label('مصادر التعرف علينا')
-                  ->columns(3),
+
 
 
                 TextInput::make('expected_hourly_rate_usd')
@@ -177,25 +200,17 @@ class WorkerForm
                     'daily' => 'يومي',
                   ])
                   ->required(),
+
+                CheckboxList::make('marketingSources')
+                  ->relationship('marketingSources', 'name')
+                  ->getOptionLabelFromRecordUsing(fn($record) => $record->translated_name)
+                  ->label('مصادر التعرف علينا')
+                  ->columns(3),
                 Textarea::make('other_professions')
                   ->label('مهارات أو مهن أخرى يجيدها')
                   ->columnSpanFull(),
 
-                Select::make('worker_status')
-                  ->label('حالة العامل بالنظام')
-                  ->options([
-                    'new_registered' => 'مسجّل جديد',
-                    'contacted'      => 'تم التواصل',
-                    'verified'       => 'تم التوثيق',
-                    'job_hunting'    => 'في مرحلة البحث عن عمل',
-                    'sent_to_client' => 'تم إرساله إلى صاحب العمل',
-                    'hired'          => 'تم التوظيف',
-                    'working_now'    => 'على رأس عمله',
-                    'frozen'         => 'مجمد / غير متاح',
-                    'blocked'        => 'محظور - غير كفوء',
-                  ])
-                  ->required()
-                  ->default('new_registered'),
+
               ]),
 
             // Attachments
