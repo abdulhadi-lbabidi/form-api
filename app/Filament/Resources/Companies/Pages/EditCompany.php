@@ -17,22 +17,46 @@ class EditCompany extends EditRecord
 {
   protected static string $resource = CompanyResource::class;
 
+  // protected function getHeaderActions(): array
+  // {
+  //   return [
+  //     Actions\Action::make('back')
+  //       ->label('رجوع')
+  //       ->color('gray')
+  //       ->url($this->getResource()::getUrl('index')),
+  //     ViewAction::make(),
+  //     DeleteAction::make(),
+  //   ];
+  // }
+  // protected function getRedirectUrl(): string
+  // {
+  //   return $this->getResource()::getUrl('index');
+  // }
+
+  public function mount($record): void
+  {
+    parent::mount($record);
+    if (!session()->has('workers_previous_url')) {
+      session()->put('workers_previous_url', url()->previous());
+    }
+  }
+
   protected function getHeaderActions(): array
   {
     return [
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url($this->getResource()::getUrl('index')),
+        ->url(fn() => session()->get('workers_previous_url', $this->getResource()::getUrl('index'))),
       ViewAction::make(),
       DeleteAction::make(),
     ];
   }
+
   protected function getRedirectUrl(): string
   {
-    return $this->getResource()::getUrl('index');
+    return session()->get('workers_previous_url', $this->getResource()::getUrl('index'));
   }
-
   protected function mutateFormDataBeforeFill(array $data): array
   {
     $data['user_email'] = $this->record->user?->email;

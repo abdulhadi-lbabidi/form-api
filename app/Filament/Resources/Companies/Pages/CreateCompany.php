@@ -11,21 +11,44 @@ use Illuminate\Support\Facades\Hash;
 class CreateCompany extends CreateRecord
 {
   protected static string $resource = CompanyResource::class;
+  // protected function getHeaderActions(): array
+  // {
+  //   return [
+  //     Actions\Action::make('back')
+  //       ->label('رجوع')
+  //       ->color('gray')
+  //       ->url($this->getResource()::getUrl('index')),
+  //   ];
+  // }
+
+  // protected function getRedirectUrl(): string
+  // {
+  //   return $this->getResource()::getUrl('index');
+  // }
+
   protected function getHeaderActions(): array
   {
     return [
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url($this->getResource()::getUrl('index')),
+        ->url(function () {
+          $referer = request()->header('referer');
+          return $referer && str_contains($referer, 'page=') ? $referer : $this->getResource()::getUrl('index');
+        }),
     ];
   }
 
   protected function getRedirectUrl(): string
   {
+    $referer = request()->header('referer');
+
+    if ($referer && str_contains($referer, 'page=')) {
+      return $referer;
+    }
+
     return $this->getResource()::getUrl('index');
   }
-
   protected function mutateFormDataBeforeCreate(array $data): array
   {
     $email = $data['user_email'] ?? null;
