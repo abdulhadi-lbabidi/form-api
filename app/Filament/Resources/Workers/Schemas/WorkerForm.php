@@ -48,6 +48,14 @@ class WorkerForm
                 TextInput::make('full_name')
                   ->label('الاسم الكامل'),
 
+                Select::make('gender')
+                  ->label('الجنس')
+                  ->options([
+                    'male'   => 'ذكر',
+                    'female' => 'أنثى',
+                  ])
+                  ->required(),
+
 
                 DatePicker::make('age')
                   ->label('تاريخ الميلاد')

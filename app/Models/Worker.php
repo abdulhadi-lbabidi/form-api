@@ -35,6 +35,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'other_professions',
   'work_hours',
   'commitment_level',
+  'gender',
   'expected_hourly_rate_usd',
   'expected_hourly_rate_syp',
   'payment_method',

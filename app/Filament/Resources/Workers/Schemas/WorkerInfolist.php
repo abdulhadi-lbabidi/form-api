@@ -52,6 +52,20 @@ class WorkerInfolist
             ]),
 
             Grid::make(3)->schema([
+
+              TextEntry::make('gender')
+                ->label('الجنس')
+                ->icon('heroicon-m-user')
+                ->color(fn($state) => match ($state) {
+                  'male' => 'info',
+                  'female' => 'danger',
+                  default => 'gray'
+                })
+                ->formatStateUsing(fn($state) => match ($state) {
+                  'male' => 'ذكر',
+                  'female' => 'أنثى',
+                  default => $state
+                }),
               TextEntry::make('age')
                 ->label('تاريخ الميلاد (العمر)')
                 ->icon('heroicon-m-calendar-days')
