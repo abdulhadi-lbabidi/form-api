@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Filament\Resources\Categories\RelationManagers;
+
+
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Table;
+
+class WorkersRelationManager extends RelationManager
+{
+  protected static string $relationship = 'workers';
+  protected static ?string $title = 'العمال التابعون لهذا التصنيف';
+
+
+  public function table(Table $table): Table
+  {
+    return $table
+      ->recordTitleAttribute('full_name')
+      ->columns([
+        IconColumn::make('is_verified')
+          ->label('التوثيق')
+          ->boolean()
+          ->trueIcon('heroicon-m-check-circle')
+          ->falseIcon('heroicon-m-x-circle')
+          ->trueColor('success')
+          ->falseColor('danger'),
+
+        TextColumn::make('code')
+          ->label('رمز العامل')
+          ->searchable()
+          ->sortable()
+          ->placeholder('غير موثق بعد')
+          ->weight('bold')
+          ->fontFamily('mono')
+          ->color('warning'),
+
+        TextColumn::make('worker_status')
+          ->label('حالة العامل')
+          ->badge()
+          ->sortable()
+          ->formatStateUsing(fn(string $state): string => match ($state) {
+            'new_registered' => 'مسجّل جديد',
+            'contacted'      => 'تم التواصل',
+            'verified'       => 'تم التوثيق',
+            'job_hunting'    => 'يبحث عن عمل',
+            'sent_to_client' => 'أُرسل لصاحب العمل',
+            'hired'          => 'تم التوظيف',
+            'working_now'    => 'على رأس عمله',
+            'frozen'         => 'مجمد',
+            'blocked'        => 'محظور',
+            default          => $state,
+          })
+          ->color(fn(string $state): string => match ($state) {
+            'new_registered' => 'gray',
+            'contacted'      => 'info',
+            'job_hunting'    => 'warning',
+            'sent_to_client' => 'purple',
+            'verified', 'hired', 'working_now' => 'success',
+            'frozen', 'blocked' => 'danger',
+            default          => 'gray',
+          }),
+
+        TextColumn::make('created_at')
+          ->label('تاريخ التسجيل')
+          ->dateTime('Y-m-d')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('full_name')
+          ->label('الاسم الكامل')
+          ->placeholder('لا يوجد')
+          ->sortable(['full_name'])
+          ->searchable(['first_name', 'last_name', 'father_name', 'full_name'])
+          ->weight('bold'),
+
+        TextColumn::make('phone_whatsapp')
+          ->label('رقم الهاتف / واتساب')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->copyMessage('تم نسخ رقم الهاتف')
+          ->url(fn($record) => "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->phone_whatsapp), shouldOpenInNewTab: true)
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('city')
+          ->label('المدينة')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->color('primary'),
+
+        TextColumn::make('residential_area')
+          ->label('المنطقة / السكن')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->color('primary'),
+
+        TextColumn::make('primary_profession')
+          ->label('المهنة')
+          ->searchable()
+          ->placeholder('لا يوجد')
+          ->color('gray'),
+
+        TextColumn::make('expected_hourly_rate_usd')
+          ->label('أجر الساعة')
+          ->sortable()
+          ->placeholder('لا يوجد')
+          ->weight('medium')
+          ->formatStateUsing(fn($record) => "\$ {$record->expected_hourly_rate_usd} / {$record->expected_hourly_rate_syp} ل.س")
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo; color: #10b981;']),
+
+        TextColumn::make('payment_method')
+          ->label('طريقة الدفع')
+          ->color(fn(string $state): string => match ($state) {
+            'weekly' => 'warning',
+            'monthly' => 'success',
+            default => 'gray',
+          })
+          ->formatStateUsing(fn($state) => $state === 'weekly' ? 'أسبوعي' : 'شهري'),
+      ])
+      ->filters([
+        SelectFilter::make('worker_status')
+          ->label('حالة العامل')
+          ->placeholder('كل الحالات')
+          ->multiple()
+          ->searchable()
+          ->options([
+            'new_registered' => 'مسجّل جديد',
+            'contacted'      => 'تم التواصل',
+            'verified'       => 'تم التوثيق',
+            'job_hunting'    => 'يبحث عن عمل',
+            'sent_to_client' => 'أُرسل لصاحب العمل',
+            'hired'          => 'تم التوظيف',
+            'working_now'    => 'على رأس عمله',
+            'frozen'         => 'مجمد',
+            'blocked'        => 'محظور',
+          ]),
+
+        TernaryFilter::make('is_verified')
+          ->label('حالة التوثيق')
+          ->placeholder('الكل')
+          ->trueLabel('العمال الموثقين')
+          ->falseLabel('العمال غير الموثقين'),
+
+        SelectFilter::make('payment_method')
+          ->label('طريقة الدفع')
+          ->placeholder('الكل')
+          ->options([
+            'weekly' => 'أسبوعي',
+            'monthly' => 'شهري',
+          ]),
+      ]);
+  }
+}

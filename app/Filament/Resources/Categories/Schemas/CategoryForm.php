@@ -15,7 +15,7 @@ class CategoryForm
         TextInput::make('name')
           ->label('اسم التصنيف')
           ->required()
-          ->maxLength(255),
+          ->columnSpanFull(),
 
         Textarea::make('description')
           ->label('وصف التصنيف')

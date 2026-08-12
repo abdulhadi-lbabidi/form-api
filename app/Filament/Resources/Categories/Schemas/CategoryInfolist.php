@@ -22,7 +22,7 @@ class CategoryInfolist
               ->weight('bold'),
 
             TextEntry::make('workers_count')
-              ->label('إجمالي عدد العمال في هذا الصنف')
+              ->label('إجمالي عدد العمال')
               ->state(fn($record) => $record->workers()->count())
               ->badge()
               ->color('success'),
@@ -33,28 +33,6 @@ class CategoryInfolist
               ->columnSpanFull(),
           ])->columnSpanFull(),
 
-        Section::make('العمال التابعون لهذا التصنيف')
-          ->icon('heroicon-o-users')
-          ->description('قائمة العمال المصنفين ضمن هذا القسم.')
-          ->schema([
-            RepeatableEntry::make('workers')
-              ->label('')
-              ->schema([
-                TextEntry::make('full_name')
-                  ->label('الاسم الكامل')
-                  ->weight('bold'),
-
-                TextEntry::make('phone_whatsapp')
-                  ->label('رقم الهاتف / واتساب')
-                  ->color('success'),
-
-                TextEntry::make('worker_status')
-                  ->label('الحالة')
-                  ->badge(),
-              ])
-              ->grid(3)
-              ->columnSpanFull(),
-          ])->columnSpanFull(),
       ]);
   }
 }
