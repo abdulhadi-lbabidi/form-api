@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\MarketingSourceController;
 use App\Http\Controllers\Api\SubscriptionController;
@@ -8,9 +9,22 @@ use App\Http\Controllers\Api\WorkerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-Route::get('/user', function (Request $request) {
-  return $request->user();
-})->middleware('auth:sanctum');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication APIs (Public & Protected)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('auth')->group(function () {
+  Route::post('/login', [AuthController::class, 'login']);
+  Route::post('/update-password', [AuthController::class, 'updatePassword']);
+
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+  });
+});
 
 
 /*

@@ -152,6 +152,8 @@ class CompaniesTable
             'inactive'            => 'غير نشط',
             'blocked'             => 'محظور',
           ]),
+
+
       ])
       ->recordActions([
         ViewAction::make(),

@@ -133,6 +133,14 @@ class WorkersTable
       ])
       ->filters([
 
+        SelectFilter::make('gender')
+          ->label('الجنس')
+          ->placeholder('الكل')
+          ->options([
+            'male'   => 'ذكر',
+            'female' => 'أنثى',
+          ]),
+
         SelectFilter::make('categories')
           ->label('التصنيف')
           ->placeholder('كل التصنيفات')

@@ -106,8 +106,10 @@ class WorkerForm
                   ->required()
                   ->unique(table: 'workers', column: 'phone_whatsapp', ignoreRecord: true)
                   ->validationMessages([
-                    'unique' => 'رقم الهاتف هذا مسجل مسبقاً لعامل آخر.',
+                    'required' => 'يرجى إدخال رقم الهاتف.',
+                    'unique'   => 'رقم الهاتف هذا مستخدم مسبقاً لحساب آخر في النظام.',
                   ]),
+
 
                 TextInput::make('city')
                   ->label('المدينة / المحافظة')

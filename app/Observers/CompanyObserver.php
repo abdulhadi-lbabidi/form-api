@@ -3,11 +3,35 @@
 namespace App\Observers;
 
 use App\Models\Company;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class CompanyObserver
 {
 
+
+  /**
+   * Handle the Company "creating" event.
+   */
+  public function creating(Company $company): void
+  {
+    $email = request()->input('user_email') ?? request()->input('email');
+    $password = request()->input('password');
+    $phone = request()->input('phone_number');
+    $companyName = $company->company_name ?: 'شركة جديدة';
+
+    if ($email) {
+      $user = User::create([
+        'name'         => $companyName,
+        'email'        => $email,
+        'phone_number' => $phone,
+        'password'     => filled($password) ? $password : Hash::make('12345678'),
+      ]);
+
+      $company->user_id = $user->id;
+    }
+  }
 
   /**
    * Handle the Company "created" event.
@@ -32,6 +56,32 @@ class CompanyObserver
    */
   public function updating(Company $company): void
   {
+    if ($company->user) {
+      $dataToUpdate = [];
+
+      $userEmail = request()->input('user_email') ?? request()->input('email');
+      if (filled($userEmail)) {
+        $dataToUpdate['email'] = $userEmail;
+      } elseif ($company->isDirty('email')) {
+        $dataToUpdate['email'] = $company->email;
+      }
+
+      $password = request()->input('password');
+      if (filled($password)) {
+        $dataToUpdate['password'] = $password;
+      }
+
+      $phone = request()->input('phone_number');
+      if (filled($phone)) {
+        $dataToUpdate['phone_number'] = $phone;
+      } elseif ($company->isDirty('phone_number')) {
+        $dataToUpdate['phone_number'] = $company->phone_number;
+      }
+
+      if (!empty($dataToUpdate)) {
+        $company->user->update($dataToUpdate);
+      }
+    }
 
     if ($company->isDirty('is_verified') && $company->is_verified && !$company->code) {
       do {
@@ -41,7 +91,6 @@ class CompanyObserver
       $company->code = $generatedCode;
     }
   }
-
 
   /**
    * Handle the Company "updated" event.

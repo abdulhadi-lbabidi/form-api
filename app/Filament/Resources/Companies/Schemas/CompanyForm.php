@@ -106,7 +106,8 @@ class CompanyForm
                   ->required()
                   ->unique(table: 'companies', column: 'phone_number', ignoreRecord: true)
                   ->validationMessages([
-                    'unique' => 'رقم الهاتف هذا مسجل مسبقاً لشركة آخر.',
+                    'required' => 'يرجى إدخال رقم الهاتف.',
+                    'unique'   => 'رقم الهاتف هذا مسجل مسبقاً لحساب آخر في النظام.',
                   ])
                   ->maxLength(255),
               ]),

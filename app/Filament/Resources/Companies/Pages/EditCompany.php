@@ -9,9 +9,8 @@ use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Hash;
 use Filament\Actions;
-
-
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class EditCompany extends EditRecord
 {
@@ -36,8 +35,8 @@ class EditCompany extends EditRecord
   public function mount($record): void
   {
     parent::mount($record);
-    if (!session()->has('workers_previous_url')) {
-      session()->put('workers_previous_url', url()->previous());
+    if (!session()->has('companies_previous_url')) {
+      session()->put('companies_previous_url', url()->previous());
     }
   }
 
@@ -47,7 +46,7 @@ class EditCompany extends EditRecord
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url(fn() => session()->get('workers_previous_url', $this->getResource()::getUrl('index'))),
+        ->url(fn() => session()->get('companies_previous_url', $this->getResource()::getUrl('index'))),
       ViewAction::make(),
       DeleteAction::make(),
     ];
@@ -55,7 +54,7 @@ class EditCompany extends EditRecord
 
   protected function getRedirectUrl(): string
   {
-    return session()->get('workers_previous_url', $this->getResource()::getUrl('index'));
+    return session()->get('companies_previous_url', $this->getResource()::getUrl('index'));
   }
   protected function mutateFormDataBeforeFill(array $data): array
   {
@@ -68,27 +67,47 @@ class EditCompany extends EditRecord
   {
     $email = $data['user_email'] ?? null;
     $password = $data['password'] ?? null;
+    $phone_number = $data['phone_number'] ?? null;
 
-    if ($this->record->user) {
-      $updateData = [];
-      if (filled($email)) {
-        $updateData['email'] = $email;
+    if (filled($phone_number)) {
+      $exists = User::where('phone_number', $phone_number)
+        ->when($this->record->user_id, fn($q) => $q->where('id', '!=', $this->record->user_id))
+        ->exists();
+      if ($exists) {
+        throw ValidationException::withMessages(['data.phone_number' => 'رقم الهاتف هذا مستخدم مسبقاً لحساب آخر.']);
       }
-      if (filled($password)) {
-        $updateData['password'] = $password;
-      }
-      if (!empty($updateData)) {
-        $this->record->user->update($updateData);
-      }
-    } elseif ($email) {
-      $companyName = $data['company_name'] ?? 'شركة جديدة';
-      $user = User::create([
-        'name'     => $companyName,
-        'email'    => $email,
-        'password' => filled($password) ? $password : Hash::make('password'),
-      ]);
-      $data['user_id'] = $user->id;
     }
+
+    if (filled($email)) {
+      $exists = User::where('email', $email)
+        ->when($this->record->user_id, fn($q) => $q->where('id', '!=', $this->record->user_id))
+        ->exists();
+      if ($exists) {
+        throw ValidationException::withMessages(['data.user_email' => 'البريد الإلكتروني هذا مستخدم مسبقاً لحساب آخر.']);
+      }
+    }
+
+    DB::transaction(function () use (&$data, $email, $password, $phone_number) {
+      if ($this->record->user) {
+        $updateData = [];
+        if (filled($email)) $updateData['email'] = $email;
+        if (filled($password)) $updateData['password'] = $password;
+        if (filled($phone_number)) $updateData['phone_number'] = $phone_number;
+
+        if (!empty($updateData)) {
+          $this->record->user->update($updateData);
+        }
+      } elseif ($email) {
+        $companyName = $data['company_name'] ?? 'شركة جديدة';
+        $user = User::create([
+          'name'         => $companyName,
+          'email'        => $email,
+          'phone_number' => $phone_number,
+          'password'     => filled($password) ? $password : Hash::make('password'),
+        ]);
+        $data['user_id'] = $user->id;
+      }
+    });
 
     unset($data['user_email'], $data['password']);
 
