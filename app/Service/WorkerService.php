@@ -4,16 +4,40 @@ namespace App\Service;
 
 use App\Models\ReferralCode;
 use App\Models\Worker;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class WorkerService
 {
-  public function findAll(): Collection
-  {
-    return Worker::with(['referralCode', 'marketingSources'])->get();
-  }
+  public function findAll(
+    bool $paginate = false,
+    int $perPage = 10,
+    int $page = 1,
+    array $columns = ["*"]
+  ): LengthAwarePaginator|Collection {
 
+    $query = QueryBuilder::for(Worker::class)
+      ->with(['referralCode', 'marketingSources'])
+      ->allowedFilters(
+        AllowedFilter::exact('city'),
+        AllowedFilter::exact('residential_area'),
+        AllowedFilter::exact('primary_profession'),
+      )
+      ->defaultSort('-created_at');
+
+    if ($paginate) {
+      return $query->paginate(
+        perPage: $perPage,
+        page: $page,
+        columns: $columns,
+      );
+    }
+
+    return $query->get($columns);
+  }
   public function findOne(int $id): Worker
   {
     return Worker::with(['referralCode', 'marketingSources'])->findOrFail($id);

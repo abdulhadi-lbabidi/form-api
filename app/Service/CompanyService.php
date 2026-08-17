@@ -4,16 +4,41 @@ namespace App\Service;
 
 use App\Models\Company;
 use App\Models\ReferralCode;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class CompanyService
 {
-  public function findAll(): Collection
-  {
-    return Company::with(['referralCode', 'marketingSources'])->get();
-  }
+  public function findAll(
+    bool $paginate = false,
+    int $perPage = 10,
+    int $page = 1,
+    array $columns = ["*"]
+  ): LengthAwarePaginator|Collection {
 
+    $query = QueryBuilder::for(Company::class)
+      ->with(['referralCode', 'marketingSources', 'branches'])
+      ->allowedFilters(
+        AllowedFilter::exact('city'),
+        AllowedFilter::exact('business_type'),
+        AllowedFilter::exact('work_location'),
+        AllowedFilter::partial('company_name')
+      )
+      ->defaultSort('-created_at');
+
+    if ($paginate) {
+      return $query->paginate(
+        perPage: $perPage,
+        page: $page,
+        columns: $columns,
+      );
+    }
+
+    return $query->get($columns);
+  }
   public function findOne(int $id): Company
   {
     return Company::with(['referralCode', 'marketingSources'])->findOrFail($id);

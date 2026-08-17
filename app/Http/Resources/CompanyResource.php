@@ -25,6 +25,7 @@ class CompanyResource extends JsonResource
       'phone_number'   => $this->phone_number,
       'owner_name'     => $this->owner_name,
       'contact_person_name'     => $this->contact_person_name,
+      'city'           => $this->city,
       'file' => $this->getFirstMediaUrl('companies', 'default'),
       'all_files' => $this->getMedia('companies')->map(function ($media) {
         return $media->getUrl('default');

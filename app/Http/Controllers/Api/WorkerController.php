@@ -8,6 +8,7 @@ use App\Http\Requests\Worker\UpdateWorkerRequest;
 use App\Http\Resources\WorkerResource;
 use App\Models\Worker;
 use App\Service\WorkerService;
+use Illuminate\Http\Request;
 
 class WorkerController extends Controller
 {
@@ -15,9 +16,14 @@ class WorkerController extends Controller
     private WorkerService $workerService
   ) {}
 
-  public function index()
+  public function index(Request $request)
   {
-    $workers = $this->workerService->findAll();
+    $paginate = $request->boolean('paginate', false);
+    $perPage  = $request->input('per_page', 10);
+    $page     = $request->input('page', 1);
+
+    $workers = $this->workerService->findAll($paginate, $perPage, $page);
+
     return WorkerResource::collection($workers);
   }
 

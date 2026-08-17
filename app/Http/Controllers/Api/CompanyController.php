@@ -8,6 +8,7 @@ use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Service\CompanyService;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -15,12 +16,16 @@ class CompanyController extends Controller
     private CompanyService $companyService
   ) {}
 
-  public function index()
+  public function index(Request $request)
   {
-    $companies = $this->companyService->findAll();
+    $paginate = $request->boolean('paginate', false);
+    $perPage  = $request->input('per_page', 10);
+    $page     = $request->input('page', 1);
+
+    $companies = $this->companyService->findAll($paginate, $perPage, $page);
+
     return CompanyResource::collection($companies);
   }
-
   public function store(CreateCompanyRequest $request)
   {
     $validated = $request->validated();
