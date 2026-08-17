@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\MarketingSourceController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\TimeController;
@@ -39,4 +40,6 @@ Route::middleware(['setLocale'])->group(function () {
   Route::apiResource('times', TimeController::class);
   Route::apiResource('marketing-sources', MarketingSourceController::class);
   Route::apiResource('subscriptions', SubscriptionController::class);
+
+  Route::get('locations', [LocationController::class, 'index']);
 });
