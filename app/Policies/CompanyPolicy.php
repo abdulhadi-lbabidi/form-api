@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Policies;
 
 use Illuminate\Foundation\Auth\User as AuthUser;
-use App\Models\Company;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CompanyPolicy
@@ -17,7 +14,7 @@ class CompanyPolicy
         return $authUser->can('ViewAny:Company');
     }
 
-    public function view(AuthUser $authUser, Company $company): bool
+    public function view(AuthUser $authUser): bool
     {
         return $authUser->can('View:Company');
     }
@@ -27,12 +24,12 @@ class CompanyPolicy
         return $authUser->can('Create:Company');
     }
 
-    public function update(AuthUser $authUser, Company $company): bool
+    public function update(AuthUser $authUser): bool
     {
         return $authUser->can('Update:Company');
     }
 
-    public function delete(AuthUser $authUser, Company $company): bool
+    public function delete(AuthUser $authUser): bool
     {
         return $authUser->can('Delete:Company');
     }
@@ -42,12 +39,12 @@ class CompanyPolicy
         return $authUser->can('DeleteAny:Company');
     }
 
-    public function restore(AuthUser $authUser, Company $company): bool
+    public function restore(AuthUser $authUser): bool
     {
         return $authUser->can('Restore:Company');
     }
 
-    public function forceDelete(AuthUser $authUser, Company $company): bool
+    public function forceDelete(AuthUser $authUser): bool
     {
         return $authUser->can('ForceDelete:Company');
     }
@@ -62,7 +59,7 @@ class CompanyPolicy
         return $authUser->can('RestoreAny:Company');
     }
 
-    public function replicate(AuthUser $authUser, Company $company): bool
+    public function replicate(AuthUser $authUser): bool
     {
         return $authUser->can('Replicate:Company');
     }

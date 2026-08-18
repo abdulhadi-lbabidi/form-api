@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -23,8 +22,8 @@ class LoginRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'email'        => ['required_without:phone_number', 'nullable', 'string'],
-      'phone_number' => ['required_without:email', 'nullable', 'string'],
+      'type'         => ['required', 'in:company,worker'],
+      'login'        => ['required', 'string'],
       'password'     => ['required', 'string'],
     ];
   }
@@ -32,9 +31,10 @@ class LoginRequest extends FormRequest
   public function messages(): array
   {
     return [
-      'email.required_without'        => 'يجب إدخال البريد الإلكتروني أو رقم الجوال',
-      'phone_number.required_without' => 'يجب إدخال البريد الإلكتروني أو رقم الجوال',
-      'password.required'             => 'كلمة المرور مطلوبة',
+      'type.required'  => 'نوع المستخدم مطلوب (شركة أو عامل)',
+      'type.in'        => 'نوع المستخدم غير صالح',
+      'login.required' => 'حقل تسجيل الدخول (الهاتف أو البريد) مطلوب',
+      'password.required' => 'كلمة المرور مطلوبة',
     ];
   }
 }

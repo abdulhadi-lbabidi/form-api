@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Policies;
 
 use Illuminate\Foundation\Auth\User as AuthUser;
-use App\Models\Worker;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WorkerPolicy
@@ -17,7 +14,7 @@ class WorkerPolicy
         return $authUser->can('ViewAny:Worker');
     }
 
-    public function view(AuthUser $authUser, Worker $worker): bool
+    public function view(AuthUser $authUser): bool
     {
         return $authUser->can('View:Worker');
     }
@@ -27,12 +24,12 @@ class WorkerPolicy
         return $authUser->can('Create:Worker');
     }
 
-    public function update(AuthUser $authUser, Worker $worker): bool
+    public function update(AuthUser $authUser): bool
     {
         return $authUser->can('Update:Worker');
     }
 
-    public function delete(AuthUser $authUser, Worker $worker): bool
+    public function delete(AuthUser $authUser): bool
     {
         return $authUser->can('Delete:Worker');
     }
@@ -42,12 +39,12 @@ class WorkerPolicy
         return $authUser->can('DeleteAny:Worker');
     }
 
-    public function restore(AuthUser $authUser, Worker $worker): bool
+    public function restore(AuthUser $authUser): bool
     {
         return $authUser->can('Restore:Worker');
     }
 
-    public function forceDelete(AuthUser $authUser, Worker $worker): bool
+    public function forceDelete(AuthUser $authUser): bool
     {
         return $authUser->can('ForceDelete:Worker');
     }
@@ -62,7 +59,7 @@ class WorkerPolicy
         return $authUser->can('RestoreAny:Worker');
     }
 
-    public function replicate(AuthUser $authUser, Worker $worker): bool
+    public function replicate(AuthUser $authUser): bool
     {
         return $authUser->can('Replicate:Worker');
     }

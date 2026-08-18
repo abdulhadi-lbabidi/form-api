@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
-use App\Models\CompanyBranch;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -52,35 +51,6 @@ class CompanyForm
                   ->label('اسم المسؤول المباشر عن التواصل')
                   ->maxLength(255),
               ]),
-            Tabs\Tab::make('حساب المستخدم (تسجيل الدخول)')
-              ->columns(2)
-              ->schema([
-                TextInput::make('user_email')
-                  ->label('البريد الإلكتروني لتسجيل الدخول')
-                  ->email()
-                  ->maxLength(255)
-                  ->dehydrated(true)
-                  ->unique(
-                    table: 'users',
-                    column: 'email',
-                    ignorable: fn(?\App\Models\Company $record) => $record?->user
-                  )
-                  ->validationMessages([
-                    'unique' => 'البريد الإلكتروني هذا مستخدم مسبقاً لحساب آخر في النظام.',
-                  ])
-                  ->afterStateHydrated(function (TextInput $component, ?\App\Models\Company $record) {
-                    $component->state($record?->user?->email);
-                  })
-                  ->helperText('البريد الذي سيستخدمه صاحب الشركة للدخول إلى النظام.'),
-
-                TextInput::make('password')
-                  ->label('كلمة المرور')
-                  ->password()
-                  ->dehydrateStateUsing(fn($state) => filled($state) ? \Illuminate\Support\Facades\Hash::make($state) : null)
-                  ->dehydrated(fn($state) => filled($state))
-                  ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
-                  ->helperText('اتركه فارغاً أثناء التعديل إذا كنت لا تريد تغيير كلمة المرور.'),
-              ]),
 
             Tabs\Tab::make('الاتصال والموقع')
               ->columns(2)
@@ -110,6 +80,18 @@ class CompanyForm
                     'unique'   => 'رقم الهاتف هذا مسجل مسبقاً لحساب آخر في النظام.',
                   ])
                   ->maxLength(255),
+
+                TextInput::make('password')
+                  ->label('كلمة المرور')
+                  ->password()
+                  ->revealable()
+                  ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                  ->dehydrated(fn($state) => filled($state))
+                  ->required(fn(string $context): bool => $context === 'create')
+                  ->placeholder('اتركه فارغاً للإبقاء على كلمة المرور الحالية (عند التعديل)')
+                  ->helperText('كلمة المرور الخاصة بتسجيل دخول الشركة للنظام.')
+                  ->maxLength(255)
+                  ->columnSpanFull(),
               ]),
 
             Tabs\Tab::make('مصادر التسويق والتحديات')

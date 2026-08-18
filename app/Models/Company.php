@@ -5,26 +5,26 @@ namespace App\Models;
 use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable([
-  'user_id',
   'company_name',
   'business_type',
   'problems_faced',
   'work_location',
   'email',
+  'password',
   'contact_person_name',
   'phone_number',
   'owner_name',
@@ -34,10 +34,10 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'company_status',
   'city'
 ])]
-class Company extends Model implements HasMedia
+class Company extends Authenticatable implements HasMedia
 {
 
-  use HasFactory, InteractsWithMedia;
+  use HasApiTokens, HasFactory, InteractsWithMedia;
 
   // protected static function booted(): void
   // {
@@ -99,6 +99,19 @@ class Company extends Model implements HasMedia
   //   });
   // }
 
+
+  protected function casts(): array
+  {
+    return [
+      'password' => 'hashed',
+    ];
+  }
+
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
+
   // spatie  media path generator
   protected static function booting(): void
   {
@@ -117,7 +130,6 @@ class Company extends Model implements HasMedia
       ->nonQueued();
   }
 
-
   public function user(): BelongsTo
   {
     return $this->belongsTo(User::class);
@@ -131,7 +143,6 @@ class Company extends Model implements HasMedia
       'marketing_sourceables'
     );
   }
-
 
   public function referralCode(): MorphOne
   {

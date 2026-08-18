@@ -5,7 +5,6 @@ namespace App\Models;
 use App\MediaLibrary\WorkerPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,15 +16,18 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable([
-  'user_id',
   'first_name',
   'last_name',
   'father_name',
   'mother_fullname',
   'full_name',
   'phone_whatsapp',
+  'email',
+  'password',
   'age',
   'city',
   'residential_area',
@@ -44,17 +46,22 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'form_referral_code',
   'worker_status',
 ])]
-class Worker extends Model implements HasMedia
+class Worker extends Authenticatable implements HasMedia
 {
-  use HasFactory, InteractsWithMedia;
+  use HasApiTokens, HasFactory, InteractsWithMedia;
 
   protected function casts(): array
   {
     return [
       'age' => 'date:Y-m-d',
+      'password' => 'hashed',
     ];
   }
 
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
   // protected static function booted(): void
   // {
@@ -85,10 +92,6 @@ class Worker extends Model implements HasMedia
   //     }
   //   });
   // }
-
-
-
-
 
   // spatie  media path generator
   protected static function booting(): void

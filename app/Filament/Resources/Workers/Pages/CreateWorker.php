@@ -3,31 +3,14 @@
 namespace App\Filament\Resources\Workers\Pages;
 
 use App\Filament\Resources\Workers\WorkerResource;
-use App\Models\User;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Actions;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class CreateWorker extends CreateRecord
 {
   protected static string $resource = WorkerResource::class;
 
-  // protected function getHeaderActions(): array
-  // {
-  //   return [
-  //     Actions\Action::make('back')
-  //       ->label('رجوع')
-  //       ->color('gray')
-  //       ->url($this->getResource()::getUrl('index')),
-  //   ];
-  // }
 
-  // protected function getRedirectUrl(): string
-  // {
-  //   return $this->getResource()::getUrl('index');
-  // }
   protected function getHeaderActions(): array
   {
     return [
