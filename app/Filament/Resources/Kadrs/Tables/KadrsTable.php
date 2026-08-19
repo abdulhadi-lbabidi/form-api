@@ -23,7 +23,7 @@ class KadrsTable
           ->weight('bold'),
 
         TextColumn::make('number_of_person')
-          ->label('الرقم')
+          ->label('عدد الأشخاص')
           ->searchable()
           ->sortable(),
 

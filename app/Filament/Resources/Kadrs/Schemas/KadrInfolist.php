@@ -23,7 +23,7 @@ class KadrInfolist
                 ->weight('bold'),
 
               TextEntry::make('number_of_person')
-                ->label('الرقم')
+                ->label('عدد الأشخاص')
                 ->placeholder('لا يوجد'),
 
               TextEntry::make('city')

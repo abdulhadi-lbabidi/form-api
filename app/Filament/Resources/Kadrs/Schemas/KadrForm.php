@@ -17,7 +17,7 @@ class KadrForm
           ->maxLength(255),
 
         TextInput::make('number_of_person')
-          ->label('الرقم التعريفي / التسلسلي')
+          ->label('عدد الاأشخاص')
           ->numeric(),
 
         TextInput::make('phone')
