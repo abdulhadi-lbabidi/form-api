@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\CompanyNeeds\Schemas;
+namespace App\Filament\Resources\KadrNeeds\Schemas;
 
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -8,24 +8,20 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
-class CompanyNeedInfolist
+class KadrNeedInfolist
 {
   public static function configure(Schema $schema): Schema
   {
     return $schema
       ->components([
-        Section::make('تفاصيل الاحتياج الوظيفي')
-          ->description('بيانات الطلب والمهن المطلوبة والموقع المخصص لها.')
+        Section::make('تفاصيل احتياج الكادر الوظيفي')
+          ->description('بيانات الطلب والمهن المطلوبة والعمال المرتبطين.')
           ->icon('heroicon-o-information-circle')
           ->schema([
-            Grid::make(3)->schema([
-              TextEntry::make('branch.company.company_name')
-                ->label('الشركة ')
+            Grid::make(2)->schema([
+              TextEntry::make('kadr.name')
+                ->label('اسم الكادر')
                 ->color('primary')
-                ->weight('bold'),
-
-              TextEntry::make('branch.branch_name')
-                ->label('الفرع الطالب')
                 ->weight('bold'),
 
               TextEntry::make('required_profession')
@@ -75,12 +71,14 @@ class CompanyNeedInfolist
             ]),
 
 
+
             RepeatableEntry::make('workers')
               ->label('العمال المرتبطين وحالة كل عامل')
               ->schema([
                 Grid::make(2)->schema([
                   TextEntry::make('full_name')
                     ->label('اسم العامل'),
+
 
                 ]),
               ])

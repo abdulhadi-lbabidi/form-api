@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[Fillable([
-  'company_branch_id',
+  'kadr_id',
   'required_workers_count',
   'required_profession',
   'needed_at',
@@ -17,18 +17,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
   'currency',
   'additional_details',
 ])]
-class CompanyNeed extends Model
+class KadrNeed extends Model
 {
-
-  public function branch(): BelongsTo
+  public function kadr(): BelongsTo
   {
-    return $this->belongsTo(CompanyBranch::class, 'company_branch_id');
+    return $this->belongsTo(Kadr::class, 'kadr_id');
   }
 
   public function workers(): BelongsToMany
   {
-    return $this->belongsToMany(Worker::class, 'company_need_workers', 'company_need_id', 'worker_id')
-      ->using(CompanyNeedWorker::class)
+    return $this->belongsToMany(Worker::class, 'kadr_need_workers', 'kadr_need_id', 'worker_id')
+      ->using(KadrNeedWorker::class)
       ->withPivot('status')
       ->withTimestamps();
   }

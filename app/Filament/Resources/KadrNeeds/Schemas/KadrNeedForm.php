@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\CompanyNeeds\Schemas;
+namespace App\Filament\Resources\KadrNeeds\Schemas;
 
 use App\Models\Worker;
 use Filament\Forms\Components\Select;
@@ -9,32 +9,31 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
-class CompanyNeedForm
+class KadrNeedForm
 {
   public static function configure(Schema $schema): Schema
   {
     return $schema
       ->components([
-        Section::make('القسم 2: شو محتاج؟')
-          ->description('أدخل تفاصيل احتياجات فرع الشركة من العمال والمهن المطلوبة مع تحديد حالة خاصة لكل عامل.')
+        Section::make('تفاصيل احتياج الكادر')
+          ->description('أدخل تفاصيل احتياجات الكادر من العمال والمهن المطلوبة.')
           ->icon('heroicon-o-briefcase')
           ->columns(2)
           ->schema([
 
-            Select::make('company_branch_id')
+            Select::make('kadr_id')
               ->relationship(
-                name: 'branch',
-                titleAttribute: 'branch_name',
-                modifyQueryUsing: fn($query) => $query->join('companies', 'company_branches.company_id', '=', 'companies.id')
-                  ->select('company_branches.*', 'companies.company_name')
+                name: 'kadr',
+                titleAttribute: 'name'
               )
-              ->getOptionLabelFromRecordUsing(fn($record) => "{$record->company_name} - {$record->branch_name}")
-              ->label('فرع الشركة')
-              ->placeholder('اختر الفرع المحتاج للعمال')
-              ->searchable(['companies.company_name', 'branch_name'])
+              ->getOptionLabelFromRecordUsing(fn($record) => "{$record->name} - ({$record->phone})")
+              ->label('الكادر / صاحب العمل')
+              ->placeholder('اختر الكادر المحتاج للعمال')
+              ->searchable(['name', 'phone'])
               ->preload()
               ->required()
               ->columnSpanFull(),
+
             Select::make('workers')
               ->relationship('workers', 'full_name')
               ->label('العمال المرتبطين بالاحتياج')
@@ -52,6 +51,8 @@ class CompanyNeedForm
                 'status' => $get('worker_default_status') ?? 'pending',
               ])
               ->columnSpanFull(),
+
+
 
             TextInput::make('required_workers_count')
               ->label('عدد العمال المطلوبين')
@@ -87,7 +88,7 @@ class CompanyNeedForm
             TextInput::make('offered_salary')
               ->label('الأجر المعروض (اختياري)')
               ->numeric()
-              ->placeholder('يساعدنا نلاقيلك العامل الأسرع'),
+              ->placeholder('الأجر المقترح للعامل'),
 
             Select::make('currency')
               ->label('العملة')
@@ -98,8 +99,8 @@ class CompanyNeedForm
               ->required(fn($get) => filled($get('offered_salary'))),
 
             Textarea::make('additional_details')
-              ->label('تفاصيل إضافية عن احتياجك')
-              ->placeholder('احكيلنا أي تفاصيل بتساعدنا نفهم شغلك أكتر...')
+              ->label('تفاصيل إضافية عن الاحتياج')
+              ->placeholder('اكتب أي تفاصيل إضافية هنا...')
               ->columnSpanFull(),
 
           ])->columnSpanFull(),

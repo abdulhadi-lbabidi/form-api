@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 #[Fillable([
   'status',
-  'company_need_id',
+  'kadr_need_id',
   'worker_id',
 ])]
-class CompanyNeedWorker extends Pivot
+class KadrNeedWorker extends Pivot
 {
-  protected $table = 'company_need_workers';
+  protected $table = 'kadr_need_workers';
 }

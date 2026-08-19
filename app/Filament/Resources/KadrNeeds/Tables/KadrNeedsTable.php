@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Filament\Resources\CompanyNeeds\Tables;
+namespace App\Filament\Resources\KadrNeeds\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class CompanyNeedsTable
+class KadrNeedsTable
 {
   public static function configure(Table $table): Table
   {
     return $table
       ->defaultSort('created_at', 'desc')
       ->columns([
-        TextColumn::make('branch.company.company_name')
-          ->label('الشركة')
+        TextColumn::make('kadr.name')
+          ->label('الكادر')
           ->searchable()
           ->sortable()
-          ->color('gray'),
+          ->weight('bold')
+          ->color('primary'),
 
 
         TextColumn::make('created_at')
@@ -30,11 +32,6 @@ class CompanyNeedsTable
           ->icon('heroicon-m-calendar-days')
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: sans-serif;']),
 
-        TextColumn::make('branch.branch_name')
-          ->label('الفرع')
-          ->searchable()
-          ->sortable()
-          ->weight('bold'),
 
         TextColumn::make('required_profession')
           ->label('الصنعة المطلوبة')
@@ -79,7 +76,22 @@ class CompanyNeedsTable
           ->extraAttributes(['style' => 'font-variant-numeric: lnum;']),
       ])
       ->filters([
-        //
+        SelectFilter::make('needed_at')
+          ->label('توقيت الاحتياج')
+          ->options([
+            'today' => 'اليوم',
+            'this_week' => 'خلال أسبوع',
+            'this_month' => 'خلال شهر',
+            'not_specified_yet' => 'غير محدد بعد',
+          ]),
+
+        SelectFilter::make('employment_type')
+          ->label('نوع الدوام')
+          ->options([
+            'full_time' => 'دوام كامل',
+            'part_time' => 'دوام جزئي',
+            'daily_wage' => 'مياومة',
+          ]),
       ])
       ->recordActions([
         ViewAction::make(),

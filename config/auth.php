@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Company;
+use App\Models\Kadr;
 use App\Models\User;
 use App\Models\Worker;
 
@@ -84,6 +85,11 @@ return [
       'model' => Company::class,
     ],
 
+    'kadrs' => [
+      'driver' => 'eloquent',
+      'model' => Kadr::class,
+    ],
+
     'workers' => [
       'driver' => 'eloquent',
       'model' => Worker::class,
@@ -124,6 +130,13 @@ return [
 
     'companies' => [
       'provider' => 'companies',
+      'table' => 'password_reset_tokens',
+      'expire' => 60,
+      'throttle' => 60,
+    ],
+
+    'kadrs' => [
+      'provider' => 'kadrs',
       'table' => 'password_reset_tokens',
       'expire' => 60,
       'throttle' => 60,

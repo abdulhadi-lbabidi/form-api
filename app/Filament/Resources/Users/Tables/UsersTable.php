@@ -15,10 +15,6 @@ class UsersTable
   public static function configure(Table $table): Table
   {
     return $table
-      ->modifyQueryUsing(function (Builder $query) {
-        $query->whereDoesntHave('company')
-          ->whereDoesntHave('worker');
-      })
       ->defaultSort('created_at', 'desc')
       ->columns([
         TextColumn::make('name')

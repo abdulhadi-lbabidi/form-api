@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\CompanyNeeds\Pages;
+namespace App\Filament\Resources\Kadrs\Pages;
 
-use App\Filament\Resources\CompanyNeeds\CompanyNeedResource;
+use App\Filament\Resources\Kadrs\KadrResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Actions;
 
-
-class EditCompanyNeed extends EditRecord
+class EditKadr extends EditRecord
 {
-  protected static string $resource = CompanyNeedResource::class;
+  protected static string $resource = KadrResource::class;
 
   protected function getHeaderActions(): array
   {
@@ -23,9 +22,5 @@ class EditCompanyNeed extends EditRecord
       ViewAction::make(),
       DeleteAction::make(),
     ];
-  }
-  protected function getRedirectUrl(): string
-  {
-    return $this->getResource()::getUrl('index');
   }
 }
