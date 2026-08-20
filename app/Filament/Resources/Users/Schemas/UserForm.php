@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -18,7 +17,9 @@ class UserForm
         TextInput::make('email')
           ->label('Email address')
           ->email()
-          ->required(),
+          ->required()
+          ->unique(ignoreRecord: true),
+
         TextInput::make('password')
           ->label('كلمة المرور')
           ->password()
@@ -29,7 +30,6 @@ class UserForm
 
         TextInput::make('phone_number')
           ->label('رقم الهاتف')
-          ->tel()
           ->maxLength(255),
 
         Select::make('roles')

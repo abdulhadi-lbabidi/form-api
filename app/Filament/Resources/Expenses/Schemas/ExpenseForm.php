@@ -27,7 +27,7 @@ class ExpenseForm
             TextInput::make('amount')
               ->label('المبلغ')
               ->numeric()
-              ->step('0.01') // ⬅️ للسماح بإدخال الكسور العشرية (مثل 50.25)
+              ->step('0.01')
               ->minValue(0)
               ->required()
               ->placeholder('0.00')

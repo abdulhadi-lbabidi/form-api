@@ -37,6 +37,7 @@ class CompanyForm
 
                 TextInput::make('company_name')
                   ->label('اسم الشركة')
+                  ->required()
                   ->maxLength(255),
 
                 TextInput::make('business_type')
