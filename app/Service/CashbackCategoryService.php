@@ -2,13 +2,13 @@
 
 namespace App\Service;
 
-use App\Models\CashbackDeal;
+use App\Models\CashbackCategory;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CashBackDealService
+class CashbackCategoryService
 {
   public function findAll(
     bool $paginate = false,
@@ -19,22 +19,18 @@ class CashBackDealService
 
     $filters = [
       AllowedFilter::callback('search', function ($query, $value) {
-        $query->where('title', 'like', "%{$value}%")
-          ->orWhere('content', 'like', "%{$value}%");
+        $query->where('name', 'like', "%{$value}%")
+          ->orWhere('description', 'like', "%{$value}%");
       }),
-      AllowedFilter::exact('status'),
-      AllowedFilter::exact('cashback_id'),
     ];
 
-    $query = QueryBuilder::for(CashbackDeal::class)
-      ->with(['cashback'])
+    $query = QueryBuilder::for(CashbackCategory::class)
+      ->withCount('cashbacks')
       ->allowedFilters(...$filters)
       ->allowedSorts(
         'created_at',
         'id',
-        'start_date',
-        'end_date',
-        'comosion'
+        'name'
       )
       ->defaultSort('-created_at');
 
@@ -49,8 +45,8 @@ class CashBackDealService
     return $query->get($columns);
   }
 
-  public function findOne(CashbackDeal $cashbackDeal): CashbackDeal
+  public function findOne(CashbackCategory $cashbackCategory): CashbackCategory
   {
-    return $cashbackDeal->load(['cashback']);
+    return $cashbackCategory->load(['cashbacks']);
   }
 }

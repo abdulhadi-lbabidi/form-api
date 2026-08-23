@@ -14,6 +14,24 @@ class CashBackDealResource extends JsonResource
    */
   public function toArray(Request $request): array
   {
-    return parent::toArray($request);
+    return [
+      'id'             => $this->id,
+      'title'          => $this->title,
+      'content'        => $this->content,
+      'images_content' => $this->images_content,
+      'status'         => $this->status,
+      'start_date'     => $this->start_date?->toDateString(),
+      'end_date'       => $this->end_date?->toDateString(),
+
+      'media'          => $this->getMedia('*')->map(fn($media) => [
+        'id'        => $media->id,
+        'url'       => $media->getUrl(),
+        'thumbnail' => $media->hasGeneratedConversion('default') ? $media->getUrl('default') : null,
+      ]),
+
+      'cashback'       => new CashBackResource($this->whenLoaded('cashback')),
+
+      'created_at'     => $this->created_at?->toDateTimeString(),
+    ];
   }
 }

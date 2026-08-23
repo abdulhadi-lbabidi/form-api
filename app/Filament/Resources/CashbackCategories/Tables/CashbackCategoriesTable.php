@@ -28,6 +28,13 @@ class CashbackCategoriesTable
           ->limit(50)
           ->searchable(),
 
+        TextColumn::make('cashbacks_count')
+          ->label('عدد الإعلانات')
+          ->counts('cashbacks')
+          ->badge()
+          ->color('success')
+          ->sortable(),
+
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d H:i')
