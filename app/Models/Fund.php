@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[Fillable([
   'name',
@@ -25,6 +26,12 @@ class Fund extends Model
   {
     return $this->belongsTo(User::class, 'user_id');
   }
+
+  public function expenses(): MorphMany
+  {
+    return $this->morphMany(Expense::class, 'fundable');
+  }
+
 
   public function currencies(): BelongsToMany
   {

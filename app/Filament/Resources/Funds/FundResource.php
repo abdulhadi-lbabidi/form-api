@@ -22,8 +22,8 @@ class FundResource extends Resource
   protected static ?string $model = Fund::class;
   protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wallet';
   protected static ?string $navigationLabel = 'صناديق المستخدمين';
-  protected static ?string $modelLabel = 'صندوق';
-  protected static ?string $pluralModelLabel = 'الصناديق';
+  protected static ?string $modelLabel = 'صندوق المستخدم';
+  protected static ?string $pluralModelLabel = 'صناديق المستخدمين';
   protected static ?int $navigationSort = 2;
   protected static UnitEnum|string|null $navigationGroup = 'المالية';
   protected static ?string $recordTitleAttribute = 'name';

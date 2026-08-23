@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
       AdminSeeder::class,
       TimeSeeder::class,
       MarketingSourceSeeder::class,
-
+      CurrencySeeder::class,
       LocationSeeder::class,
     ]);
   }

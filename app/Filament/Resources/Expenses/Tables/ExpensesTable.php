@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\Expenses\Tables;
 
+use App\Models\CompanyFund;
+use App\Models\Fund;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ExpensesTable
@@ -22,12 +25,27 @@ class ExpensesTable
           ->sortable()
           ->weight('bold'),
 
+        TextColumn::make('fundable.name')
+          ->label('الصندوق')
+          ->searchable()
+          ->sortable()
+          ->badge()
+          ->color('info'),
+
         TextColumn::make('amount')
           ->label('المبلغ')
-          ->numeric()
-          ->sortable()
+          ->formatStateUsing(fn($state) => number_format((float) $state, 2, '.', ''))
           ->weight('bold')
+          ->extraAttributes([
+            'style' => 'direction: ltr; text-align: right;',
+          ])
+          ->sortable()
           ->color('success'),
+
+        TextColumn::make('currency.name')
+          ->label('العملة')
+          ->badge()
+          ->sortable(),
 
         TextColumn::make('creator.name')
           ->label('أُضيف بواسطة')
@@ -41,7 +59,23 @@ class ExpensesTable
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
       ->filters([
-        //
+        SelectFilter::make('currency_id')
+          ->label('العملة')
+          ->relationship('currency', 'name')
+          ->searchable()
+          ->preload(),
+
+        SelectFilter::make('fundable_type')
+          ->label('نوع الصندوق')
+          ->options([
+            CompanyFund::class => 'صندوق شركة',
+            Fund::class => 'صندوق مستخدم',
+          ])
+          ->query(function ($query, array $state) {
+            if (!empty($state['value'])) {
+              $query->where('fundable_type', $state['value']);
+            }
+          }),
       ])
       ->recordActions([
         ViewAction::make(),

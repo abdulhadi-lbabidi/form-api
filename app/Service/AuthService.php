@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Models\Company;
 use App\Models\Worker;
+use App\Models\Kadr;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -12,8 +13,7 @@ class AuthService
   {
     $type  = $data['type'];
     $login = $data['login'];
-
-    $user = null;
+    $user  = null;
 
     if ($type === 'company') {
       $user = Company::where('phone_number', $login)
@@ -21,6 +21,10 @@ class AuthService
         ->first();
     } elseif ($type === 'worker') {
       $user = Worker::where('phone_whatsapp', $login)
+        ->orWhere('email', $login)
+        ->first();
+    } elseif ($type === 'kadr') {
+      $user = Kadr::where('phone', $login)
         ->orWhere('email', $login)
         ->first();
     }
@@ -42,12 +46,14 @@ class AuthService
   {
     $type  = $data['type'] ?? 'worker';
     $login = $data['login'];
+    $user  = null;
 
-    $user = null;
     if ($type === 'company') {
       $user = Company::where('phone_number', $login)->orWhere('email', $login)->first();
-    } else {
+    } elseif ($type === 'worker') {
       $user = Worker::where('phone_whatsapp', $login)->orWhere('email', $login)->first();
+    } elseif ($type === 'kadr') {
+      $user = Kadr::where('phone', $login)->orWhere('email', $login)->first();
     }
 
     if (!$user) {

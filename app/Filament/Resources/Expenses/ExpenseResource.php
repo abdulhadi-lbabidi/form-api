@@ -26,7 +26,7 @@ class ExpenseResource extends Resource
   protected static ?int $navigationSort = 3;
   protected static UnitEnum|string|null $navigationGroup = 'المالية';
 
-  protected static ?string $recordTitleAttribute = 'Expense';
+  protected static ?string $recordTitleAttribute = 'name';
 
   public static function form(Schema $schema): Schema
   {

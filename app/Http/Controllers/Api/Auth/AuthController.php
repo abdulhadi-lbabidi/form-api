@@ -7,10 +7,12 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\WorkerResource;
+use App\Http\Resources\KadrResource;
 use App\Models\Company;
+use App\Models\Worker;
+use App\Models\Kadr;
 use App\Service\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -31,9 +33,11 @@ class AuthController extends Controller
     $user = $result['user'];
     $type = $result['type'];
 
-    $userResource = $type === 'company'
-      ? new CompanyResource($user)
-      : new WorkerResource($user);
+    $userResource = match ($type) {
+      'company' => new CompanyResource($user),
+      'worker'  => new WorkerResource($user),
+      'kadr'    => new KadrResource($user),
+    };
 
     return response()->json([
       'token'     => $result['token'],
@@ -50,8 +54,17 @@ class AuthController extends Controller
       return response()->json(['message' => 'غير مصرح'], 401);
     }
 
-    $type = $user instanceof Company ? 'company' : 'worker';
-    $userResource = $type === 'company' ? new CompanyResource($user) : new WorkerResource($user);
+    $type = match (true) {
+      $user instanceof Company => 'company',
+      $user instanceof Worker  => 'worker',
+      $user instanceof Kadr    => 'kadr',
+    };
+
+    $userResource = match ($type) {
+      'company' => new CompanyResource($user),
+      'worker'  => new WorkerResource($user),
+      'kadr'    => new KadrResource($user),
+    };
 
     return response()->json([
       'user_type' => $type,
