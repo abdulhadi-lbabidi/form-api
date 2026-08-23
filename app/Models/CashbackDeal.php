@@ -37,22 +37,22 @@ class CashbackDeal extends Model  implements HasMedia
   }
 
 
-  protected static function booting(): void
-  {
-    PathGeneratorFactory::setCustomPathGenerators(
-      static::class,
-      CashbackPathGenerator::class
-    );
-  }
+  // protected static function booting(): void
+  // {
+  //   PathGeneratorFactory::setCustomPathGenerators(
+  //     static::class,
+  //     CashbackPathGenerator::class
+  //   );
+  // }
 
-  public function registerMediaConversions(?Media $media = null): void
-  {
-    $this->addMediaConversion('default')
-      ->fit(Fit::Max, 1000, 1000)
-      ->quality(70)
-      ->format('webp')
-      ->nonQueued();
-  }
+  // public function registerMediaConversions(?Media $media = null): void
+  // {
+  //   $this->addMediaConversion('default')
+  //     ->fit(Fit::Max, 1000, 1000)
+  //     ->quality(70)
+  //     ->format('webp')
+  //     ->nonQueued();
+  // }
 
   public function cashback(): BelongsTo
   {

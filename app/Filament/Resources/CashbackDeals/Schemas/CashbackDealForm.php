@@ -71,6 +71,7 @@ class CashbackDealForm
               SpatieMediaLibraryFileUpload::make('images_content_deals')
                 ->label('صور البوستر / المحتوى')
                 ->collection('cashback-deals')
+                ->disk('public')
                 ->image()
                 ->multiple()
                 ->reorderable()

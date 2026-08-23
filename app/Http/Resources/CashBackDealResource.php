@@ -23,10 +23,10 @@ class CashBackDealResource extends JsonResource
       'start_date'     => $this->start_date?->toDateString(),
       'end_date'       => $this->end_date?->toDateString(),
 
-      'media'          => $this->getMedia('*')->map(fn($media) => [
+      'media'          => $this->getMedia('cashback-deals')->map(fn($media) => [
         'id'        => $media->id,
-        'url'       => $media->getUrl(),
-        'thumbnail' => $media->hasGeneratedConversion('default') ? $media->getUrl('default') : null,
+        'url'       => $media->getFullUrl(),
+        'thumbnail' => $media->hasGeneratedConversion('default') ? $media->getFullUrl('default') : null,
       ]),
 
       'cashback'       => new CashBackResource($this->whenLoaded('cashback')),
