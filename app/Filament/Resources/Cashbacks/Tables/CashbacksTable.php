@@ -7,6 +7,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class CashbacksTable
@@ -26,6 +28,10 @@ class CashbacksTable
           ->label('السبب')
           ->placeholder('لا يوجد')
           ->searchable()
+          ->sortable(),
+
+        ToggleColumn::make('is_favorite')
+          ->label('المفضلة')
           ->sortable(),
 
         TextColumn::make('redirect_url')
@@ -50,7 +56,13 @@ class CashbacksTable
           ->sortable()
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
       ])
-      ->filters([])
+      ->filters([
+        TernaryFilter::make('is_favorite')
+          ->label('حالة المفضلة')
+          ->trueLabel('المفضلة فقط')
+          ->falseLabel('غير المفضلة فقط')
+          ->native(false),
+      ])
       ->recordActions([
         ViewAction::make(),
         EditAction::make(),

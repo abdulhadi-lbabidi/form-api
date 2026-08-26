@@ -29,9 +29,16 @@ class CashbackInfolist
                 ->placeholder('لا يوجد')
                 ->icon('heroicon-m-document-text'),
 
+              TextEntry::make('is_favorite')
+                ->label('المفضلة')
+                ->formatStateUsing(fn(bool $state): string => $state ? 'نعم (مفضلة)' : 'لا')
+                ->badge()
+                ->color(fn(bool $state): string => $state ? 'success' : 'gray')
+                ->icon(fn(bool $state): string => $state ? 'heroicon-m-star' : 'heroicon-m-minus'),
+
               TextEntry::make('redirect_url')
                 ->label('رابط التوجيه')
-                ->url(fn($record) => $record->redirect_url, true) 
+                ->url(fn($record) => $record->redirect_url, true)
                 ->color('primary')
                 ->placeholder('لا يوجد رابط')
                 ->icon('heroicon-m-link')

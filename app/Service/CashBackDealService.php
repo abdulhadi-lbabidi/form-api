@@ -24,10 +24,17 @@ class CashBackDealService
       }),
       AllowedFilter::exact('status'),
       AllowedFilter::exact('cashback_id'),
+      AllowedFilter::callback('category_id', function ($query, $value) {
+        $ids = is_array($value) ? $value : explode(',', $value);
+
+        $query->whereHas('cashback.categories', function ($q) use ($ids) {
+          $q->whereIn('cashback_categories.id', $ids);
+        });
+      }),
     ];
 
     $query = QueryBuilder::for(CashbackDeal::class)
-      ->with(['cashback'])
+      ->with(['cashback.categories'])
       ->allowedFilters(...$filters)
       ->allowedSorts(
         'created_at',

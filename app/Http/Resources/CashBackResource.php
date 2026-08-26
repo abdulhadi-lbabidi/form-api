@@ -20,6 +20,7 @@ class CashBackResource extends JsonResource
       'reasone'          => $this->reasone,
       'number_of_clicks' => $this->number_of_clicks,
       'redirect_url'     => $this->redirect_url,
+      'is_favorite'      => $this->is_favorite,
       'categories'       => CashbackCategoryResource::collection($this->whenLoaded('categories')),
       'created_at'       => $this->created_at?->toDateTimeString(),
     ];

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Cashbacks\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -34,6 +35,11 @@ class CashbackForm
             TextInput::make('reasone')
               ->label('السبب')
               ->maxLength(255),
+
+            Toggle::make('is_favorite')
+              ->label('مفضلة (Favorite)')
+              ->default(false)
+              ->columnSpanFull(),
 
             TextInput::make('redirect_url')
               ->label('رابط التوجيه (Redirect URL)')

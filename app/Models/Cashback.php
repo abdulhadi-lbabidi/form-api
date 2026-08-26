@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
   'company_name',
   'reasone',
   'number_of_clicks',
-  'redirect_url'
+  'redirect_url',
+  'is_favorite'
 ])]
 class Cashback extends Model
 {
