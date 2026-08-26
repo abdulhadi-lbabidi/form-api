@@ -20,6 +20,9 @@ class CashBackDealResource extends JsonResource
       'content'        => $this->content,
       'images_content' => $this->images_content,
       'status'         => $this->status,
+      'redirect_url'   => $this->redirect_url,
+      'commosion'      => $this->commosion,
+      'is_favorite'    => $this->is_favorite,
       'start_date'     => $this->start_date?->toDateString(),
       'end_date'       => $this->end_date?->toDateString(),
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\AccountUpgradeRequest;
+namespace App\Http\Requests\CashBackDeal;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateAccountUpgradeRequestRequest extends FormRequest
+class CashbackDealInteractionRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -23,10 +24,18 @@ class CreateAccountUpgradeRequestRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'morphable_type' => ['required', 'string', 'in:App\Models\Company,App\Models\Worker,App\Models\Kadr'],
-      'morphable_id'   => ['required', 'integer'],
-      'status'         => ['nullable', 'string', 'max:50'],
-      'notes'          => ['nullable', 'string'],
+      'counterable_type' => [
+        'required',
+        Rule::in([
+          'App\Models\Company',
+          'App\Models\Worker',
+          'App\Models\Kadr',
+        ]),
+      ],
+      'counterable_id' => [
+        'required',
+        'integer',
+      ],
     ];
   }
 }

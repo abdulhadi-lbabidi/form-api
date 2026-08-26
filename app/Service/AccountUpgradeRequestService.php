@@ -22,7 +22,7 @@ class AccountUpgradeRequestService
       ->allowedFilters(
         AllowedFilter::exact('status'),
         AllowedFilter::exact('morphable_type'),
-        AllowedFilter::exact('morphable_id')
+        AllowedFilter::exact('morphable_id')  
       )
       ->defaultSort('-created_at');
 

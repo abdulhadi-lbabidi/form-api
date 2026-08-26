@@ -22,13 +22,12 @@ class CashbackResource extends Resource
   protected static ?string $model = Cashback::class;
   protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMegaphone;
 
-  protected static ?string $navigationLabel = 'الإعلانات';
-  protected static ?string $modelLabel =  ' إعلان ترويجي';
+  protected static ?string $navigationLabel = 'شركات الاعلان';
+  protected static ?string $modelLabel =  'شركة الاعلان';
   protected static ?int $navigationSort = 1;
 
   protected static ?string $pluralModelLabel = 'الإعلانات';
   protected static UnitEnum|string|null $navigationGroup = 'الإعلانات';
-
   protected static ?string $recordTitleAttribute = 'company_name';
 
   public static function form(Schema $schema): Schema

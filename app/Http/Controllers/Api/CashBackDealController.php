@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CashBackDeal\CashbackDealInteractionRequest;
 use App\Http\Resources\CashBackDealResource;
 use App\Models\CashbackDeal;
 use App\Service\CashBackDealService;
@@ -31,5 +32,22 @@ class CashBackDealController extends Controller
     $dealData = $this->cashBackDealService->findOne($cashbackDeal);
 
     return response()->json(new CashBackDealResource($dealData));
+  }
+
+  public function interact(CashbackDealInteractionRequest $request, CashbackDeal $cashbackDeal): JsonResponse
+  {
+    $validated = $request->validated();
+
+    $result = $this->cashBackDealService->interact(
+      $cashbackDeal,
+      $validated['counterable_type'],
+      $validated['counterable_id']
+    );
+
+    return response()->json([
+      'success' => $result['success'],
+      'message' => $result['message'],
+      'data' => $result['data'] ?? null,
+    ], $result['status']);
   }
 }

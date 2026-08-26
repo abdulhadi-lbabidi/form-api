@@ -31,13 +31,4 @@ class CashBackController extends Controller
     $cashbackData = $this->cashBackService->findOne($cashback);
     return response()->json(new CashBackResource($cashbackData));
   }
-
-  public function click(Cashback $cashback): JsonResponse
-  {
-    $redirectUrl = $this->cashBackService->incrementClickAndGetUrl($cashback);
-
-    return response()->json([
-      'redirect_url' => $redirectUrl,
-    ]);
-  }
 }

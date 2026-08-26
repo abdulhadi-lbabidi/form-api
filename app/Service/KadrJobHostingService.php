@@ -23,6 +23,7 @@ class KadrJobHostingService
         AllowedFilter::exact('kadr_id'),
         AllowedFilter::exact('city'),
         AllowedFilter::exact('job_type'),
+        AllowedFilter::exact('district'),
         AllowedFilter::exact('status'),
         AllowedFilter::exact('experience_level'),
         AllowedFilter::partial('title')

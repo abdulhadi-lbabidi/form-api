@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\AccountUpgradeRequestResource;
+namespace App\Http\Requests\AccountUpgradeRequest;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;

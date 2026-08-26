@@ -42,6 +42,7 @@ class CompanyForm
 
                 TextInput::make('business_type')
                   ->label('نوع العمل / النشاط')
+                  ->required()
                   ->maxLength(255),
 
                 TextInput::make('owner_name')

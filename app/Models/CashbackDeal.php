@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -19,6 +20,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'end_date',
   'status',
   'comosion',
+  'is_favorite',
   'title',
   'content',
   'images_content',
@@ -57,5 +59,10 @@ class CashbackDeal extends Model  implements HasMedia
   public function cashback(): BelongsTo
   {
     return $this->belongsTo(Cashback::class);
+  }
+
+  public function counters(): HasMany
+  {
+    return $this->hasMany(CashbackCounter::class);
   }
 }

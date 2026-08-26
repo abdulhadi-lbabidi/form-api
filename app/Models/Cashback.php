@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 #[Fillable([
   'company_name',
+  'owner_name',
+  'phone_number',
   'reasone',
-  'number_of_clicks',
-  'redirect_url',
-  'is_favorite'
+  'cashbackable_type',
+  'cashbackable_id',
 ])]
 class Cashback extends Model
 {
@@ -20,10 +22,12 @@ class Cashback extends Model
   {
     return [
       'created_at' => 'datetime',
-      'number_of_clicks' => 'integer',
     ];
   }
-
+  public function cashbackable(): MorphTo
+  {
+    return $this->morphTo();
+  }
 
   public function categories(): BelongsToMany
   {

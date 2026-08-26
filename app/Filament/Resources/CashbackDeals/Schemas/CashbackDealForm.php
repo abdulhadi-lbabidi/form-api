@@ -7,6 +7,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -36,6 +37,12 @@ class CashbackDealForm
                 ->maxLength(255)
                 ->columnSpanFull(),
 
+              TextInput::make('redirect_url')
+                ->label('رابط التوجيه (Redirect URL)')
+                ->url()
+                ->maxLength(255)
+                ->columnSpanFull(),
+
               Select::make('status')
                 ->label('حالة العرض')
                 ->options([
@@ -48,6 +55,11 @@ class CashbackDealForm
                 ->native(false)
                 ->columnSpanFull(),
 
+              Toggle::make('is_favorite')
+                ->label('مفضلة (Favorite)')
+                ->default(false)
+                ->columnSpanFull(),
+
               DatePicker::make('start_date')
                 ->label('تاريخ البداية')
                 ->required(),
@@ -56,6 +68,8 @@ class CashbackDealForm
                 ->label('تاريخ النهاية')
                 ->required()
                 ->after('start_date'),
+
+
 
               TextInput::make('comosion')
                 ->label('قيمة أو نسبة العرض (العمولة)')

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AccountUpgradeRequestResource\CreateAccountUpgradeRequestRequest;
-use App\Http\Requests\AccountUpgradeRequestResource\UpdateAccountUpgradeRequestRequest;
+use App\Http\Requests\AccountUpgradeRequest\CreateAccountUpgradeRequestRequest;
+use App\Http\Requests\AccountUpgradeRequest\UpdateAccountUpgradeRequestRequest;
 use App\Http\Resources\AccountUpgradeRequestResource;
 use App\Models\AccountUpgradeRequest;
 use App\Service\AccountUpgradeRequestService;

@@ -23,6 +23,7 @@ class CompanyJobHostingService
         AllowedFilter::exact('company_id'),
         AllowedFilter::exact('city'),
         AllowedFilter::exact('job_type'),
+        AllowedFilter::exact('district'),
         AllowedFilter::exact('status'),
         AllowedFilter::exact('experience_level'),
         AllowedFilter::partial('title')

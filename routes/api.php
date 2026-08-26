@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('cashback-deals', [CashBackDealController::class, 'index']);
   Route::get('cashback-deals/{cashbackDeal}', [CashBackDealController::class, 'show']);
-
+  Route::post('cashback-deals/{cashbackDeal}/interact', [CashBackDealController::class, 'interact']);
 
   Route::get('cashback-categories', [CashbackCategoryController::class, 'index']);
   Route::get('cashback-categories/{cashbackCategory}', [CashbackCategoryController::class, 'show']);
@@ -45,7 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('cashbacks', [CashBackController::class, 'index']);
   Route::get('cashbacks/{cashback}', [CashBackController::class, 'show']);
-  Route::post('cashbacks/{cashback}/click', [CashBackController::class, 'click']);
 });
 
 

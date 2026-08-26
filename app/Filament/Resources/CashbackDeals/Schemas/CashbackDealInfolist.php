@@ -26,6 +26,14 @@ class CashbackDealInfolist
                 ->icon('heroicon-m-tag')
                 ->columnSpanFull(),
 
+              TextEntry::make('redirect_url')
+                ->label('رابط التوجيه')
+                ->url(fn($record) => $record->redirect_url, true)
+                ->color('primary')
+                ->placeholder('لا يوجد رابط')
+                ->icon('heroicon-m-link')
+                ->columnSpanFull(),
+
               TextEntry::make('cashback.company_name')
                 ->label('الإعلان الترويجي')
                 ->badge()
@@ -49,6 +57,13 @@ class CashbackDealInfolist
                   default    => 'gray',
                 })
                 ->icon('heroicon-m-check-badge'),
+
+              TextEntry::make('is_favorite')
+                ->label('المفضلة')
+                ->formatStateUsing(fn(bool $state): string => $state ? 'نعم (مفضلة)' : 'لا')
+                ->badge()
+                ->color(fn(bool $state): string => $state ? 'success' : 'gray')
+                ->icon(fn(bool $state): string => $state ? 'heroicon-m-star' : 'heroicon-m-minus'),
 
               TextEntry::make('comosion')
                 ->label('العمولة')

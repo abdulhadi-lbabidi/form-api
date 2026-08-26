@@ -22,6 +22,7 @@ class WorkerResource extends JsonResource
       'full_name'                => $this->full_name,
       'mother_fullname'      => $this->mother_fullname,
       'phone_whatsapp'       => $this->phone_whatsapp,
+      'code'                 => $this->code,
       'age'                  => $this->age,
       'city'                 => $this->city,
       'residential_area'     => $this->residential_area,

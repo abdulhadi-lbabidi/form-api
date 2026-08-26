@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Models\CashbackCounter;
 use App\Models\CashbackDeal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -59,5 +60,47 @@ class CashBackDealService
   public function findOne(CashbackDeal $cashbackDeal): CashbackDeal
   {
     return $cashbackDeal->load(['cashback']);
+  }
+
+
+  public function interact(CashbackDeal $cashbackDeal, string $type, int $id): array
+  {
+    if ($cashbackDeal->status !== 'active') {
+      return [
+        'success' => false,
+        'message' => 'عذراً، هذا العرض غير نشط.',
+        'status' => 404,
+      ];
+    }
+
+    if (!class_exists($type) || !$type::where('id', $id)->exists()) {
+      return [
+        'success' => false,
+        'message' => 'الجهة المرتبطة غير موجودة في النظام.',
+        'status' => 422,
+      ];
+    }
+
+    $counter = CashbackCounter::updateOrCreate(
+      [
+        'cashback_deal_id' => $cashbackDeal->id,
+        'counterable_type' => $type,
+        'counterable_id' => $id,
+      ],
+      []
+    );
+
+    return [
+      'success' => true,
+      'message' => 'تمت العملية بنجاح.',
+      'data' => [
+        'deal_id' => $cashbackDeal->id,
+        'title' => $cashbackDeal->title,
+        'redirect_url' => $cashbackDeal->redirect_url,
+        'comosion' => $cashbackDeal->comosion,
+        'interacted_at' => $counter->created_at,
+      ],
+      'status' => 200,
+    ];
   }
 }

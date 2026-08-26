@@ -57,10 +57,4 @@ class CashBackService
   {
     return $cashback->load(['categories']);
   }
-  public function incrementClickAndGetUrl(Cashback $cashback): ?string
-  {
-    $cashback->increment('number_of_clicks');
-
-    return $cashback->redirect_url;
-  }
 }

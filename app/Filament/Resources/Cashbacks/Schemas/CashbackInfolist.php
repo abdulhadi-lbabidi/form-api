@@ -24,25 +24,51 @@ class CashbackInfolist
                 ->color('primary')
                 ->icon('heroicon-m-building-office'),
 
+              TextEntry::make('owner_name')
+                ->label('اسم مالك الشركة')
+                ->placeholder('لا يوجد')
+                ->icon('heroicon-m-user'),
+
+              TextEntry::make('phone_number')
+                ->label('رقم الهاتف')
+                ->placeholder('لا يوجد')
+                ->icon('heroicon-m-phone'),
+
               TextEntry::make('reasone')
                 ->label('السبب')
                 ->placeholder('لا يوجد')
                 ->icon('heroicon-m-document-text'),
 
-              TextEntry::make('is_favorite')
-                ->label('المفضلة')
-                ->formatStateUsing(fn(bool $state): string => $state ? 'نعم (مفضلة)' : 'لا')
+              TextEntry::make('cashbackable_type')
+                ->label('نوع الجهة المرتبطة')
+                ->formatStateUsing(function ($state) {
+                  return match ($state) {
+                    'App\Models\Company' => 'شركة',
+                    'App\Models\Worker'  => 'عامل',
+                    'App\Models\Kadr'    => 'كادر',
+                    default              => $state,
+                  };
+                })
                 ->badge()
-                ->color(fn(bool $state): string => $state ? 'success' : 'gray')
-                ->icon(fn(bool $state): string => $state ? 'heroicon-m-star' : 'heroicon-m-minus'),
+                ->color('warning')
+                ->icon('heroicon-m-tag'),
 
-              TextEntry::make('redirect_url')
-                ->label('رابط التوجيه')
-                ->url(fn($record) => $record->redirect_url, true)
-                ->color('primary')
-                ->placeholder('لا يوجد رابط')
-                ->icon('heroicon-m-link')
-                ->columnSpanFull(),
+              TextEntry::make('cashbackable')
+                ->label('اسم الجهة المرتبطة')
+                ->getStateUsing(function ($record) {
+                  if (!$record->cashbackable) return 'غير متوفر';
+
+                  return match (get_class($record->cashbackable)) {
+                    'App\Models\Company' => $record->cashbackable->company_name ?? 'شركة #' . $record->cashbackable->id,
+                    'App\Models\Worker'  => $record->cashbackable->full_name ?? 'عامل #' . $record->cashbackable->id,
+                    'App\Models\Kadr'    => $record->cashbackable->name ?? 'كادر #' . $record->cashbackable->id,
+                    default              => 'معرف #' . $record->cashbackable->id,
+                  };
+                })
+                ->badge()
+                ->color('success')
+                ->icon('heroicon-m-user'),
+
 
               TextEntry::make('categories.name')
                 ->label('التصنيفات')
@@ -52,12 +78,7 @@ class CashbackInfolist
                 ->icon('heroicon-m-tag')
                 ->columnSpanFull(),
 
-              TextEntry::make('number_of_clicks')
-                ->label('عدد النقرات')
-                ->numeric()
-                ->badge()
-                ->color('success')
-                ->icon('heroicon-m-cursor-arrow-rays'),
+
 
               TextEntry::make('created_at')
                 ->label('تاريخ ووقت الإضافة')
