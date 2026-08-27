@@ -70,21 +70,7 @@ class CashbacksTable
           ->badge()
           ->color('success'),
 
-        TextColumn::make('redirect_url')
-          ->label('رابط التوجيه')
-          ->url(fn($record) => $record->redirect_url)
-          ->openUrlInNewTab()
-          ->color('primary')
-          ->placeholder('لا يوجد')
-          ->limit(30)
-          ->searchable(),
 
-        TextColumn::make('number_of_clicks')
-          ->label('عدد النقرات')
-          ->numeric()
-          ->sortable()
-          ->badge()
-          ->color('success'),
 
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')

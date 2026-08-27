@@ -23,6 +23,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'is_favorite',
   'title',
   'content',
+  'redirect_url',
   'images_content',
 ])]
 class CashbackDeal extends Model  implements HasMedia
