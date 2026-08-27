@@ -150,4 +150,9 @@ class Worker extends Authenticatable implements HasMedia
   {
     return $this->belongsToMany(Category::class, 'category_workers', 'worker_id', 'category_id');
   }
+
+  public function applyJobs(): HasMany
+  {
+    return $this->hasMany(ApplyJob::class);
+  }
 }

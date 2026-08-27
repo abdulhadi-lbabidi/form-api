@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WorkerResource extends JsonResource
+class WorkerListResource extends JsonResource
 {
   /**
    * Transform the resource into an array.
@@ -15,12 +15,6 @@ class WorkerResource extends JsonResource
   public function toArray(Request $request): array
   {
     return [
-      'id'                   => $this->id,
-      'first_name'           => $this->first_name,
-      'last_name'            => $this->last_name,
-      'father_name'          => $this->father_name,
-      'full_name'                => $this->full_name,
-      'mother_fullname'      => $this->mother_fullname,
       'phone_whatsapp'       => $this->phone_whatsapp,
       'code'                 => $this->code,
       'age'                  => $this->age,
@@ -35,13 +29,7 @@ class WorkerResource extends JsonResource
       'expected_hourly_rate_usd' => $this->expected_hourly_rate_usd,
       'expected_hourly_rate_syp' => $this->expected_hourly_rate_syp,
       'payment_method'       => $this->payment_method,
-      'referral_code'        => new ReferralCodeResource($this->whenLoaded('referralCode')),
-      'file' => $this->getFirstMediaUrl('workers', 'default'),
-      'all_files' => $this->getMedia('workers')->map(function ($media) {
-        return $media->getUrl('default');
-      }),
-      'form_referral_code' => $this->form_referral_code,
-      'marketing_sources' => MarketingSourceResource::collection($this->whenLoaded('marketingSources')),
+      'category'       => CategoryResource::collection($this->whenLoaded('category')),
     ];
   }
 }

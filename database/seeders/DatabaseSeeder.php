@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
       MarketingSourceSeeder::class,
       CurrencySeeder::class,
       LocationSeeder::class,
+      CategorySeeder::class
     ]);
   }
 }

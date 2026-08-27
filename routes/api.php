@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AccountUpgradeRequestController;
+use App\Http\Controllers\Api\ApplyJobController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CashbackCategoryController;
 use App\Http\Controllers\Api\CashBackController;
 use App\Http\Controllers\Api\CashBackDealController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CompanyJobHostingController;
 use App\Http\Controllers\Api\KadrJobHostingController;
@@ -45,6 +47,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('cashbacks', [CashBackController::class, 'index']);
   Route::get('cashbacks/{cashback}', [CashBackController::class, 'show']);
+
+  Route::get('apply-jobs', [ApplyJobController::class, 'index']);
+  Route::post('apply-jobs', [ApplyJobController::class, 'store']);
+  Route::get('apply-jobs/{applyJob}', [ApplyJobController::class, 'show']);
 });
 
 
@@ -65,6 +71,8 @@ Route::middleware(['setLocale'])->group(function () {
   Route::apiResource('subscriptions', SubscriptionController::class);
 
   Route::apiResource('account-upgrade-requests', AccountUpgradeRequestController::class);
+
+  Route::get('categories', [CategoryController::class, 'index']);
 
   Route::get('locations', [LocationController::class, 'index']);
 });

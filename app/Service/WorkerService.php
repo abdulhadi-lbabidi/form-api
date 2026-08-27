@@ -20,11 +20,13 @@ class WorkerService
   ): LengthAwarePaginator|Collection {
 
     $query = QueryBuilder::for(Worker::class)
-      ->with(['referralCode', 'marketingSources'])
+      ->with(['referralCode', 'marketingSources', 'categories'])
       ->allowedFilters(
         AllowedFilter::exact('city'),
         AllowedFilter::exact('residential_area'),
         AllowedFilter::exact('primary_profession'),
+
+        AllowedFilter::exact('categories', 'categories.id'),
       )
       ->defaultSort('-created_at');
 

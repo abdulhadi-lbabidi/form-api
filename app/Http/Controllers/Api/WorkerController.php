@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Worker\CreateWorkerRequest;
 use App\Http\Requests\Worker\UpdateWorkerRequest;
+use App\Http\Resources\WorkerListResource;
 use App\Http\Resources\WorkerResource;
 use App\Models\Worker;
 use App\Service\WorkerService;
@@ -24,7 +25,7 @@ class WorkerController extends Controller
 
     $workers = $this->workerService->findAll($paginate, $perPage, $page);
 
-    return WorkerResource::collection($workers);
+    return WorkerListResource::collection($workers);
   }
 
   public function store(CreateWorkerRequest $request)

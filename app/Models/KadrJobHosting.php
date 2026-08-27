@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[Fillable([
   'kadr_id',
@@ -42,5 +43,10 @@ class KadrJobHosting extends Model
   public function kadr(): BelongsTo
   {
     return $this->belongsTo(Kadr::class);
+  }
+
+  public function applyJobs(): MorphMany
+  {
+    return $this->morphMany(ApplyJob::class, 'jobable');
   }
 }
