@@ -20,14 +20,17 @@ class ApplyJobsTable
           ->searchable()
           ->sortable()
           ->label('العامل'),
+
         TextColumn::make('jobable_type')
           ->formatStateUsing(fn(string $state): string => class_basename($state))
           ->badge()
           ->label('نوع الوظيفة'),
+
         TextColumn::make('jobable_id')
           ->numeric()
           ->sortable()
           ->label('رقم الوظيفة'),
+
         TextColumn::make('status')
           ->badge()
           ->color(fn(string $state): string => match ($state) {
@@ -38,11 +41,13 @@ class ApplyJobsTable
           })
           ->searchable()
           ->label('الحالة'),
+
         TextColumn::make('created_at')
           ->dateTime()
           ->sortable()
           ->label('تاريخ التقديم')
           ->toggleable(),
+
       ])
       ->filters([
         SelectFilter::make('status')
