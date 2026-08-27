@@ -55,7 +55,7 @@ class CashbacksTable
           ->color('warning')
           ->sortable(),
 
-        TextColumn::make('cashbackable')
+        TextColumn::make('cashbackable_id')
           ->label('اسم الجهة')
           ->getStateUsing(function ($record) {
             if (!$record->cashbackable) return 'غير متوفر';
