@@ -58,18 +58,24 @@ class CashbacksTable
         TextColumn::make('cashbackable_id')
           ->label('اسم الجهة')
           ->getStateUsing(function ($record) {
-            if (!$record->cashbackable) return 'غير متوفر';
+            if (!$record->cashbackable_type || !$record->cashbackable_id) {
+              return 'غير متوفر';
+            }
 
-            return match (get_class($record->cashbackable)) {
-              'App\Models\Company' => $record->cashbackable->company_name ?? 'شركة #' . $record->cashbackable->id,
-              'App\Models\Worker'  => $record->cashbackable->full_name ?? 'عامل #' . $record->cashbackable->id,
-              'App\Models\Kadr'    => $record->cashbackable->name ?? 'كادر #' . $record->cashbackable->id,
-              default              => 'معرف #' . $record->cashbackable->id,
+            $target = $record->cashbackable;
+            if (!$target) {
+              return 'غير متوفر';
+            }
+
+            return match ($record->cashbackable_type) {
+              'App\Models\Company' => $target->company_name ?? 'شركة #' . $target->id,
+              'App\Models\Worker'  => $target->full_name ?? 'عامل #' . $target->id,
+              'App\Models\Kadr'    => $target->name ?? 'كادر #' . $target->id,
+              default              => 'معرف #' . $target->id,
             };
           })
           ->badge()
           ->color('success'),
-
 
 
         TextColumn::make('created_at')
