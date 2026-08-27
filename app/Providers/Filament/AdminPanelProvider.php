@@ -47,6 +47,10 @@ class AdminPanelProvider extends PanelProvider
           ->collapsible(true),
 
         NavigationGroup::make()
+          ->label('طلبات التقديم')
+          ->collapsible(true),
+
+        NavigationGroup::make()
           ->label('التسويق والإحالات')
           ->collapsible(true),
 
