@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\KadrJobHostings\Schemas;
 
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -13,8 +14,8 @@ class KadrJobHostingInfolist
   {
     return $schema
       ->components([
-        Section::make('تفاصيل الشاغر الوظيفي')
-          ->description('معلومات الوظيفة، الأجور، وتفاصيل الدوام.')
+        Section::make('تفاصيل شاغر الشركة')
+          ->description('معلومات الوظيفة، الشركة المعلنة، الأجور، وتفاصيل الدوام.')
           ->icon('heroicon-o-briefcase')
           ->schema([
             Grid::make(3)->schema([
@@ -23,10 +24,10 @@ class KadrJobHostingInfolist
                 ->weight('bold')
                 ->color('primary'),
 
-              TextEntry::make('kadr.name')
-                ->label('الكادر المسؤول')
+              TextEntry::make('company.company_name')
+                ->label('الشركة المعلنة')
                 ->placeholder('غير مسجل')
-                ->icon('heroicon-m-user'),
+                ->icon('heroicon-m-building-office-2'),
 
               TextEntry::make('status')
                 ->label('حالة الشاغر')
@@ -88,12 +89,12 @@ class KadrJobHostingInfolist
               TextEntry::make('salary_min')
                 ->label('الحد الأدنى للراتب')
                 ->placeholder('غير محدد')
-                ->numeric(),
+                ->money('USD'),
 
               TextEntry::make('salary_max')
                 ->label('الحد الأعلى للراتب')
                 ->placeholder('غير محدد')
-                ->numeric(),
+                ->money('USD'),
 
               TextEntry::make('salary_info')
                 ->label('الراتب والعملة والدورية')
@@ -114,6 +115,49 @@ class KadrJobHostingInfolist
               ->label('تاريخ الإنشاء')
               ->dateTime('Y-m-d H:i A')
               ->icon('heroicon-m-calendar'),
+          ])->columnSpanFull(),
+
+        Section::make('العمال المتقدمون على الوظيفة')
+          ->description('قائمة الأشخاص الذين قاموا بالتقديم على هذا الشاغر.')
+          ->icon('heroicon-o-users')
+          ->schema([
+            RepeatableEntry::make('applyJobs')
+              ->label('')
+              ->schema([
+                TextEntry::make('worker.full_name')
+                  ->label('اسم العامل')
+                  ->icon('heroicon-m-user'),
+
+                TextEntry::make('worker.phone_whatsapp')
+                  ->label('رقم الواتساب')
+                  ->icon('heroicon-m-phone'),
+
+                TextEntry::make('status')
+                  ->label('حالة الطلب')
+                  ->badge()
+                  ->formatStateUsing(fn(string $state): string => match ($state) {
+                    'pending'  => 'قيد الانتظار',
+                    'accepted' => 'مقبول',
+                    'rejected' => 'مرفوض',
+                    default    => $state,
+                  })
+                  ->color(fn(string $state): string => match ($state) {
+                    'pending'  => 'warning',
+                    'accepted' => 'success',
+                    'rejected' => 'danger',
+                    default    => 'gray',
+                  }),
+
+                TextEntry::make('notes')
+                  ->label('ملاحظات المتقدم')
+                  ->placeholder('لا توجد ملاحظات'),
+
+                TextEntry::make('created_at')
+                  ->label('تاريخ التقديم')
+                  ->dateTime('Y-m-d H:i'),
+              ])
+              ->columns(3)
+              ->columnSpanFull(),
           ])->columnSpanFull(),
       ]);
   }

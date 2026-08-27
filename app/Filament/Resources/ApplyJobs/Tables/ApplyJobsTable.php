@@ -27,9 +27,11 @@ class ApplyJobsTable
           ->label('نوع الوظيفة'),
 
         TextColumn::make('jobable_id')
-          ->numeric()
-          ->sortable()
-          ->label('رقم الوظيفة'),
+          ->label('اسم الوظيفة')
+          ->formatStateUsing(function ($record) {
+            return $record->jobable?->title ?? 'غير متوفرة';
+          })
+          ->sortable(),
 
         TextColumn::make('status')
           ->badge()
