@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ApplyJobs\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 
@@ -22,16 +21,29 @@ class ApplyJobForm
 
         Select::make('jobable_type')
           ->options([
-            'App\Models\CompanyJobHosting' => 'وظيفة شركة (Company Job)',
-            'App\Models\KadrJobHosting' => 'وظيفة كادر (Kadr Job)',
+            \App\Models\CompanyJobHosting::class => 'وظيفة شركة (Company Job)',
+            \App\Models\KadrJobHosting::class => 'وظيفة كادر (Kadr Job)',
           ])
           ->required()
+          ->live()
+          ->afterStateUpdated(fn(callable $set) => $set('jobable_id', null))
           ->label('نوع الوظيفة'),
 
-        TextInput::make('jobable_id')
+        Select::make('jobable_id')
+          ->label('اختر الوظيفة')
+          ->options(function (callable $get) {
+            $jobableType = $get('jobable_type');
+
+            if (!$jobableType) {
+              return [];
+            }
+
+            return $jobableType::query()->pluck('title', 'id');
+          })
+          ->searchable()
+          ->preload()
           ->required()
-          ->numeric()
-          ->label('معرف الوظيفة (Job ID)'),
+          ->disabled(fn(callable $get) => !$get('jobable_type')),
 
         Select::make('status')
           ->options([

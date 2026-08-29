@@ -13,27 +13,25 @@ class AllLocationsMap extends Widget
 
   protected int | string | array $columnSpan = 'full';
 
-
-  // protected function getViewData(): array
-  // {
-  //   return [
-  //     'locations' => Location::all(),
-  //   ];
-  // }
-
   protected function getViewData(): array
   {
     $locations = Location::all()->map(function ($location) {
-      $workersCount = Worker::where('residential_area', 'like', '%' . $location->name . '%')->count();
+      $workers = Worker::where('residential_area', 'like', '%' . $location->name . '%')
+        ->select('id', 'full_name', 'residential_area')
+        ->get();
 
-      $companiesCount = Company::where('work_location', 'like', '%' . $location->name . '%')->count();
+      $companies = Company::where('work_location', 'like', '%' . $location->name . '%')
+        ->select('id', 'company_name', 'work_location')
+        ->get();
 
       return [
         'id' => $location->id,
         'name' => $location->name,
         'coordinates' => $location->coordinates,
-        'workers_count' => $workersCount,
-        'companies_count' => $companiesCount,
+        'workers_count' => $workers->count(),
+        'companies_count' => $companies->count(),
+        'workers' => $workers,
+        'companies' => $companies,
       ];
     });
 

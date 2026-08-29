@@ -24,7 +24,7 @@ class ApplyJobResource extends Resource
   protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
   protected static ?string $navigationLabel = 'الطلبات المقدمة';
-  protected static UnitEnum|string|null $navigationGroup = 'طلبات التقديم';
+  protected static UnitEnum|string|null $navigationGroup = 'طلبات التقديم على الشواغر';
 
   protected static ?string $modelLabel = 'طلب تقديم';
 
