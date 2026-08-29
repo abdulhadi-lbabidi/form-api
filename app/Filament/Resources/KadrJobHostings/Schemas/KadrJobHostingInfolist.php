@@ -85,16 +85,18 @@ class KadrJobHostingInfolist
                 ->placeholder('غير محدد'),
             ]),
 
-            Grid::make(3)->schema([
+            Grid::make(2)->schema([
               TextEntry::make('salary_min')
                 ->label('الحد الأدنى للراتب')
                 ->placeholder('غير محدد')
-                ->money('USD'),
+                ->formatStateUsing(fn($state) => $state ? number_format((float) $state, 2) : null)
+                ->extraAttributes(['dir' => 'ltr', 'style' => 'text-align: right;']),
 
               TextEntry::make('salary_max')
                 ->label('الحد الأعلى للراتب')
                 ->placeholder('غير محدد')
-                ->money('USD'),
+                ->formatStateUsing(fn($state) => $state ? number_format((float) $state, 2) : null)
+                ->extraAttributes(['dir' => 'ltr', 'style' => 'text-align: right;']),
 
               TextEntry::make('salary_info')
                 ->label('الراتب والعملة والدورية')

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CashBackDealController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CompanyJobHostingController;
+use App\Http\Controllers\Api\KadrController;
 use App\Http\Controllers\Api\KadrJobHostingController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\MarketingSourceController;
@@ -66,6 +67,7 @@ Route::middleware(['setLocale'])->group(function () {
   Route::apiResource('company-job-hostings', CompanyJobHostingController::class);
   Route::apiResource('kadr-job-hostings', KadrJobHostingController::class);
   Route::apiResource('workers', WorkerController::class);
+  Route::apiResource('kadrs', KadrController::class);
   Route::apiResource('times', TimeController::class);
   Route::apiResource('marketing-sources', MarketingSourceController::class);
   Route::apiResource('subscriptions', SubscriptionController::class);

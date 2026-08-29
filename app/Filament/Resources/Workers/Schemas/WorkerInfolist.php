@@ -436,6 +436,35 @@ class WorkerInfolist
           ])->columnSpanFull(),
 
 
+        Section::make('معلومات النظام والتتبع')
+          ->icon('heroicon-o-shield-check')
+          ->description('معلومات تسجيل السجل والمسؤول عن إضافته أو تعديله.')
+          ->columns(4)
+          ->schema([
+            TextEntry::make('creator.name')
+              ->label('أنشئ بواسطة')
+              ->placeholder('غير متوفر')
+              ->icon('heroicon-m-user')
+              ->color('success'),
+
+            TextEntry::make('updater.name')
+              ->label('آخر تعديل بواسطة')
+              ->placeholder('لم يتم التعديل بعد')
+              ->icon('heroicon-m-pencil-square')
+              ->color('info'),
+
+            TextEntry::make('created_at')
+              ->label('تاريخ الإنشاء')
+              ->dateTime('Y-m-d H:i')
+              ->icon('heroicon-m-calendar')
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+            TextEntry::make('updated_at')
+              ->label('تاريخ آخر تحديث')
+              ->dateTime('Y-m-d H:i')
+              ->icon('heroicon-m-clock')
+              ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+          ])->columnSpanFull(),
       ]);
   }
 }

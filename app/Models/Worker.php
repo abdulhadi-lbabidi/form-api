@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Enums\Fit;
 
 #[Fillable([
   'first_name',
@@ -45,6 +45,8 @@ use Laravel\Sanctum\HasApiTokens;
   'is_verified',
   'form_referral_code',
   'worker_status',
+  'created_by',
+  'updated_by',
 ])]
 class Worker extends Authenticatable implements HasMedia
 {
@@ -124,6 +126,16 @@ class Worker extends Authenticatable implements HasMedia
       'marketing_sourceable',
       'marketing_sourceables'
     );
+  }
+
+  public function creator(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'created_by');
+  }
+
+  public function updater(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'updated_by');
   }
 
   public function referralCode(): MorphOne

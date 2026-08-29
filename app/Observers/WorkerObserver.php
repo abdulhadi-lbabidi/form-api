@@ -7,6 +7,20 @@ use Illuminate\Support\Str;
 
 class WorkerObserver
 {
+
+  /**
+   * Handle the Worker "creating" event.
+   */
+  public function creating(Worker $worker): void
+  {
+    if (auth()->check()) {
+      $worker->created_by = auth()->id();
+    }
+
+    $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+  }
+
+
   /**
    * Handle the Worker "created" event.
    */
@@ -25,6 +39,16 @@ class WorkerObserver
    */
   public function updating(Worker $worker): void
   {
+
+    if (auth()->check()) {
+      $worker->updated_by = auth()->id();
+    }
+
+    if ($worker->isDirty(['first_name', 'father_name', 'last_name'])) {
+      $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+    }
+
+
     if ($worker->isDirty('is_verified') && $worker->is_verified && !$worker->code) {
       do {
         $generatedCode = 'Wok-' . Str::upper(Str::random(10));

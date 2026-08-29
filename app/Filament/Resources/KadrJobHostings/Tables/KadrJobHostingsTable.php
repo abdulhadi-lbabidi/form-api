@@ -66,8 +66,15 @@ class KadrJobHostingsTable
 
         TextColumn::make('salary_min')
           ->label('الأجر الأدنى')
-          ->numeric()
-          ->sortable(),
+          ->sortable()
+          ->formatStateUsing(fn($state) => number_format((float) $state, 2))
+          ->extraAttributes(['dir' => 'ltr', 'style' => 'text-align: right;']),
+
+        TextColumn::make('salary_max')
+          ->label('الحد الأعلى للراتب')
+          ->sortable()
+          ->formatStateUsing(fn($state) => number_format((float) $state, 2))
+          ->extraAttributes(['dir' => 'ltr', 'style' => 'text-align: right;']),
 
         TextColumn::make('currency')
           ->label('العملة'),

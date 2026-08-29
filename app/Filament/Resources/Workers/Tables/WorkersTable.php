@@ -6,8 +6,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -63,12 +65,24 @@ class WorkersTable
           }),
 
 
-
         TextColumn::make('created_at')
           ->label('تاريخ التسجيل')
           ->dateTime('Y-m-d')
           ->sortable()
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('updated_at')
+          ->label('تاريخ التحديث')
+          ->dateTime('Y-m-d')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+
+
+        TextColumn::make('updater.name')
+          ->label('آخر تعديل بواسطة')
+          ->sortable()
+          ->searchable(),
 
         TextColumn::make('full_name')
           ->label('الاسم الكامل')
@@ -118,8 +132,6 @@ class WorkersTable
           ->placeholder('لا يوجد')
           ->toggleable(isToggledHiddenByDefault: true),
 
-
-
         TextColumn::make('payment_method')
           ->label('طريقة الدفع')
           ->color(fn(string $state): string => match ($state) {
@@ -129,6 +141,10 @@ class WorkersTable
           })
           ->formatStateUsing(fn($state) => $state === 'weekly' ? 'أسبوعي' : 'شهري'),
 
+        TextColumn::make('creator.name')
+          ->label('أنشئ بواسطة')
+          ->sortable()
+          ->searchable(),
 
       ])
       ->filters([
@@ -178,6 +194,40 @@ class WorkersTable
             'weekly' => 'أسبوعي',
             'monthly' => 'شهري',
           ]),
+
+        SelectFilter::make('created_by')
+          ->label('أنشئ بواسطة (المستخدم)')
+          ->relationship('creator', 'name')
+          ->searchable()
+          ->preload(),
+
+        SelectFilter::make('updated_by')
+          ->label('حدث بواسطة (المستخدم)')
+          ->relationship('updater', 'name')
+          ->searchable()
+          ->preload(),
+
+        Filter::make('created_at')
+          ->form([
+            DatePicker::make('created_from')->label('تاريخ الإنشاء من'),
+            DatePicker::make('created_until')->label('تاريخ الإنشاء إلى'),
+          ])
+          ->query(function ($query, array $data) {
+            return $query
+              ->when($data['created_from'], fn($q, $date) => $q->whereDate('created_at', '>=', $date))
+              ->when($data['created_until'], fn($q, $date) => $q->whereDate('created_at', '<=', $date));
+          }),
+
+        Filter::make('updated_at')
+          ->form([
+            DatePicker::make('updated_from')->label('تاريخ التحديث من'),
+            DatePicker::make('updated_until')->label('تاريخ التحديث إلى'),
+          ])
+          ->query(function ($query, array $data) {
+            return $query
+              ->when($data['updated_from'], fn($q, $date) => $q->whereDate('updated_at', '>=', $date))
+              ->when($data['updated_until'], fn($q, $date) => $q->whereDate('updated_at', '<=', $date));
+          }),
       ])
       ->recordActions([
         ViewAction::make(),

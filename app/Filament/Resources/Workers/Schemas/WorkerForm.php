@@ -222,10 +222,13 @@ class WorkerForm
                   ->description('ارفع الصورة الشخصية والأوراق الثبوتية الخاصة بالعامل.')
                   ->schema([
                     SpatieMediaLibraryFileUpload::make('image')
-                      ->label('الملفات المرفوعة')
+                      ->label('الملفات المرفوعة (صور أو ملفات PDF)')
                       ->collection('workers')
                       ->disk('public')
-                      ->image()
+                      ->acceptedFileTypes([
+                        'image/*',
+                        'application/pdf',
+                      ])
                       ->multiple()
                       ->reorderable()
                       ->maxSize(4096)
