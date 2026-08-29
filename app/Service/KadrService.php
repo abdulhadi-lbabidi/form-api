@@ -26,6 +26,7 @@ class KadrService
     ];
 
     $query = QueryBuilder::for(Kadr::class)
+      ->with(['marketingSources'])
       ->allowedFilters(...$filters)
       ->defaultSort('-created_at');
 
@@ -43,15 +44,34 @@ class KadrService
   public function create(array $data): Kadr
   {
     return DB::transaction(function () use ($data) {
-      $data['password'] = Hash::make($data['password']);
 
-      return Kadr::create($data);
+      // Sync marketing sources
+      if (!empty($data['marketing_source_ids'])) {
+        $marketingSourceIds = $data['marketing_source_ids'];
+        unset($data['marketing_source_ids']);
+      }
+
+      $data['password'] = Hash::make($data['password'] ?? '12345678');
+
+      $kadr = Kadr::create($data);
+
+      if (isset($marketingSourceIds)) {
+        $kadr->marketingSources()->sync($marketingSourceIds);
+      }
+
+      return $kadr;
     });
   }
 
   public function update(Kadr $kadr, array $data): Kadr
   {
     return DB::transaction(function () use ($kadr, $data) {
+
+      if (isset($data['marketing_source_ids'])) {
+        $kadr->marketingSources()->sync($data['marketing_source_ids']);
+        unset($data['marketing_source_ids']);
+      }
+
       if (isset($data['password']) && !empty($data['password'])) {
         $data['password'] = Hash::make($data['password']);
       } else {

@@ -27,9 +27,12 @@ class CreateKadrRequest extends FormRequest
       'number_of_person' => ['nullable', 'integer'],
       'email'            => ['required', 'email', 'unique:kadrs,email'],
       'phone'            => ['required', 'string', 'unique:kadrs,phone'],
-      'password'         => ['required', 'string', 'min:6'],
+      'password'         => ['nullable', 'string', 'min:6'],
       'shop_address'     => ['nullable', 'string', 'max:255'],
       'city'             => ['nullable', 'string', 'max:255'],
+
+      'marketing_source_ids'   => ['nullable', 'array'],
+      'marketing_source_ids.*' => ['integer', 'exists:marketing_sources,id'],
     ];
   }
 }

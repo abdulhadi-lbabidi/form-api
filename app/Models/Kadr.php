@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -25,6 +26,15 @@ class Kadr extends Authenticatable
     return [
       'password' => 'hashed',
     ];
+  }
+
+  public function marketingSources(): MorphToMany
+  {
+    return $this->morphToMany(
+      MarketingSource::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
   }
 
   protected $hidden = [

@@ -47,4 +47,12 @@ class MarketingSource extends Model
       'marketing_sourceables'
     );
   }
+  public function kadrs(): MorphToMany
+  {
+    return $this->morphedByMany(
+      Kadr::class,
+      'marketing_sourceable',
+      'marketing_sourceables'
+    );
+  }
 }

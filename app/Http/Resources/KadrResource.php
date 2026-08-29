@@ -22,6 +22,9 @@ class KadrResource extends JsonResource
       'phone'            => $this->phone,
       'shop_address'     => $this->shop_address,
       'city'             => $this->city,
+
+      'marketing_sources' => MarketingSourceResource::collection($this->whenLoaded('marketingSources')),
+
     ];
   }
 }

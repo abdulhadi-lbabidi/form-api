@@ -32,6 +32,9 @@ class UpdateKadrRequst extends FormRequest
       'password'         => ['nullable', 'string', 'min:6'],
       'shop_address'     => ['nullable', 'string', 'max:255'],
       'city'             => ['nullable', 'string', 'max:255'],
+
+      'marketing_source_ids'   => ['nullable', 'array'],
+      'marketing_source_ids.*' => ['integer', 'exists:marketing_sources,id'],
     ];
   }
 }

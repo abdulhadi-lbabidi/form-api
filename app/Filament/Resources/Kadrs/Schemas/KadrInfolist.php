@@ -57,6 +57,14 @@ class KadrInfolist
               ->label('عنوان المحل / العمل')
               ->placeholder('لا يوجد عنوان مسجل')
               ->columnSpanFull(),
+
+            TextEntry::make('marketingSources.name')
+              ->label('مصادر التعرف علينا')
+              ->state(fn($record) => $record->marketingSources->map(fn($source) => $source->translated_name)->toArray())
+              ->badge()
+              ->color('warning')
+              ->placeholder('لم يتم تحديد أي مصدر')
+              ->columnSpanFull(),
           ])->columnSpanFull(),
       ]);
   }
