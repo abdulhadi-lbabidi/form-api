@@ -197,16 +197,31 @@ class WorkersTable
 
         SelectFilter::make('created_by')
           ->label('أنشئ بواسطة (المستخدم)')
-          ->relationship('creator', 'name')
+          ->relationship(
+            name: 'creator',
+            titleAttribute: 'name',
+            modifyQueryUsing: function ($query) {
+              if (!auth()->user()->hasRole('super_admin') && !auth()->user()->can('view_all_creators')) {
+                $query->where('id', auth()->id());
+              }
+            }
+          )
           ->searchable()
           ->preload(),
 
         SelectFilter::make('updated_by')
           ->label('حدث بواسطة (المستخدم)')
-          ->relationship('updater', 'name')
+          ->relationship(
+            name: 'updater',
+            titleAttribute: 'name',
+            modifyQueryUsing: function ($query) {
+              if (!auth()->user()->hasRole('super_admin') && !auth()->user()->can('view_all_updaters')) {
+                $query->where('id', auth()->id());
+              }
+            }
+          )
           ->searchable()
           ->preload(),
-
         Filter::make('created_at')
           ->form([
             DatePicker::make('created_from')->label('تاريخ الإنشاء من'),

@@ -9,6 +9,7 @@ use App\Filament\Resources\Workers\Pages\ViewWorker;
 use App\Filament\Resources\Workers\Schemas\WorkerForm;
 use App\Filament\Resources\Workers\Schemas\WorkerInfolist;
 use App\Filament\Resources\Workers\Tables\WorkersTable;
+use App\Filament\Resources\Workers\Widgets\WorkersStatusChart;
 use App\Models\Worker;
 use BackedEnum;
 use Filament\Resources\Resource;

@@ -1,13 +1,16 @@
 <x-filament::section class="w-full">
     <x-slot name="heading">
         <div class="flex justify-between items-center w-full">
-            <span>خريطة توزيع الشركات والعمال والحدود الجغرافية</span>
+            <span>خريطة توزيع الشركات والعمال والكوادر والحدود الجغرافية</span>
             <div class="flex gap-4 text-xs font-semibold">
                 <span class="flex items-center gap-1">
                     <span class="w-3 h-3 rounded-full inline-block bg-blue-600"></span> الشركات
                 </span>
                 <span class="flex items-center gap-1">
-                    <span class="w-3 h-3 rounded-full inline-block bg-purple-600"></span> العمال / الكوادر
+                    <span class="w-3 h-3 rounded-full inline-block bg-purple-600"></span> العمال
+                </span>
+                <span class="flex items-center gap-1">
+                    <span class="w-3 h-3 rounded-full inline-block bg-emerald-600"></span> الكوادر
                 </span>
             </div>
         </div>
@@ -55,19 +58,22 @@
                             weight: 2
                         }).addTo(this.map);
     
-                        // تجهيز محتوى النافذة المنبثقة (Popup) مع تفاصيل الشركات والعمال باللونين المطلوبين
+                        // تجهيز محتوى النافذة المنبثقة (Popup) مع تفاصيل الشركات والعمال والكوادر
                         let popupContent = `
-                                    <div style='font-family: Cairo, sans-serif; text-align: right; direction: rtl; max-width: 220px;'>
-                                        <strong style='font-size: 14px; color: #1e3a8a;'>${loc.name}</strong>
-                                        <hr style='margin: 5px 0;'>
-                                        <div style='color: #2563eb; font-weight: bold; margin-bottom: 4px;'>
-                                            🏢 الشركات (${loc.companies_count})
+                                        <div style='font-family: Cairo, sans-serif; text-align: right; direction: rtl; max-width: 220px;'>
+                                            <strong style='font-size: 14px; color: #1e3a8a;'>${loc.name}</strong>
+                                            <hr style='margin: 5px 0;'>
+                                            <div style='color: #2563eb; font-weight: bold; margin-bottom: 4px;'>
+                                                🏢 الشركات (${loc.companies_count})
+                                            </div>
+                                            <div style='color: #7c3aed; font-weight: bold; margin-bottom: 4px;'>
+                                                👥 العمال (${loc.workers_count})
+                                            </div>
+                                            <div style='color: #059669; font-weight: bold; margin-bottom: 4px;'>
+                                                👨‍💼 الكوادر (${loc.kadrs_count})
+                                            </div>
                                         </div>
-                                        <div style='color: #7c3aed; font-weight: bold; margin-bottom: 4px;'>
-                                            👥 العمال (${loc.workers_count})
-                                        </div>
-                                    </div>
-                                `;
+                                    `;
     
                         polygon.bindPopup(popupContent);
                         bounds.extend(polygon.getBounds());

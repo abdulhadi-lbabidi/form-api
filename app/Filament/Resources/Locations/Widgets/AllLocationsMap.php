@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Locations\Widgets;
 
 use App\Models\Company;
+use App\Models\Kadr;
 use App\Models\Location;
 use App\Models\Worker;
 use Filament\Widgets\Widget;
@@ -24,14 +25,20 @@ class AllLocationsMap extends Widget
         ->select('id', 'company_name', 'work_location')
         ->get();
 
+      $kadrs = Kadr::where('shop_address', 'like', '%' . $location->name . '%')
+        ->select('id', 'name', 'shop_address')
+        ->get();
+
       return [
         'id' => $location->id,
         'name' => $location->name,
         'coordinates' => $location->coordinates,
         'workers_count' => $workers->count(),
         'companies_count' => $companies->count(),
+        'kadrs_count' => $kadrs->count(),
         'workers' => $workers,
         'companies' => $companies,
+        'kadrs' => $kadrs,
       ];
     });
 
