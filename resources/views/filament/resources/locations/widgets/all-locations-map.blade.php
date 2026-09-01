@@ -60,20 +60,20 @@
     
                         // تجهيز محتوى النافذة المنبثقة (Popup) مع تفاصيل الشركات والعمال والكوادر
                         let popupContent = `
-                                        <div style='font-family: Cairo, sans-serif; text-align: right; direction: rtl; max-width: 220px;'>
-                                            <strong style='font-size: 14px; color: #1e3a8a;'>${loc.name}</strong>
-                                            <hr style='margin: 5px 0;'>
-                                            <div style='color: #2563eb; font-weight: bold; margin-bottom: 4px;'>
-                                                🏢 الشركات (${loc.companies_count})
+                                            <div style='font-family: Cairo, sans-serif; text-align: right; direction: rtl; max-width: 220px;'>
+                                                <strong style='font-size: 14px; color: #1e3a8a;'>${loc.name}</strong>
+                                                <hr style='margin: 5px 0;'>
+                                                <div style='color: #2563eb; font-weight: bold; margin-bottom: 4px;'>
+                                                    🏢 الشركات (${loc.companies_count})
+                                                </div>
+                                                <div style='color: #7c3aed; font-weight: bold; margin-bottom: 4px;'>
+                                                    👥 العمال (${loc.workers_count})
+                                                </div>
+                                                <div style='color: #059669; font-weight: bold; margin-bottom: 4px;'>
+                                                    👨‍💼 الكوادر (${loc.kadrs_count})
+                                                </div>
                                             </div>
-                                            <div style='color: #7c3aed; font-weight: bold; margin-bottom: 4px;'>
-                                                👥 العمال (${loc.workers_count})
-                                            </div>
-                                            <div style='color: #059669; font-weight: bold; margin-bottom: 4px;'>
-                                                👨‍💼 الكوادر (${loc.kadrs_count})
-                                            </div>
-                                        </div>
-                                    `;
+                                        `;
     
                         polygon.bindPopup(popupContent);
                         bounds.extend(polygon.getBounds());

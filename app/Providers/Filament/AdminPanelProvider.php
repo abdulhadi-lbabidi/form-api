@@ -91,6 +91,7 @@ class AdminPanelProvider extends PanelProvider
       ->colors([
         'primary' => Color::Teal,
       ])
+      ->viteTheme('resources/css/filament/admin/theme.css')
       ->font('Cairo')
       ->sidebarCollapsibleOnDesktop()
       ->sidebarWidth('18rem')

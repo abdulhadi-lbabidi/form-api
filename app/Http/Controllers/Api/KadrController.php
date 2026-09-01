@@ -35,25 +35,41 @@ class KadrController extends Controller
 
   public function store(CreateKadrRequest $request): JsonResponse
   {
-    $kadr = $this->kadrService->create($request->validated());
+    $validated = $request->validated();
+
+    $kadr = $this->kadrService->create(
+      $validated,
+      $request->file('image') ?? []
+    );
+
+    $kadr->load(['marketingSources']);
 
     return response()->json([
       'data'    => new KadrResource($kadr)
     ], 201);
   }
 
-  public function show(Kadr $kadr): KadrResource
+  public function show(int $id): KadrResource
   {
+    $kadr = $this->kadrService->findOne($id);
     return new KadrResource($kadr);
   }
 
   public function update(UpdateKadrRequst $request, Kadr $kadr): KadrResource
   {
-    $kadrUpdated = $this->kadrService->update($kadr, $request->validated());
+    $validated = $request->validated();
+    $deletedMediaIds = $request->input('deleted_media_ids', []);
+
+
+    $kadrUpdated = $this->kadrService->update(
+      $kadr,
+      $validated,
+      $request->file('image'),
+      $deletedMediaIds
+    );
 
     return new KadrResource($kadrUpdated);
   }
-
   public function destroy(Kadr $kadr): JsonResponse
   {
     $this->kadrService->delete($kadr);
