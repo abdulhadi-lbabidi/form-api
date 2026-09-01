@@ -61,7 +61,9 @@ class KadrService
         unset($data['marketing_source_ids']);
       }
 
-      if (!empty($data['password'])) {
+      if (empty($data['password'])) {
+        $data['password'] = Hash::make('12345678');
+      } else {
         $data['password'] = Hash::make($data['password']);
       }
 
