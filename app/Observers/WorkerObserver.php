@@ -18,6 +18,10 @@ class WorkerObserver
     }
 
     $worker->full_name = trim("{$worker->first_name} {$worker->father_name} {$worker->last_name}");
+
+    if (empty($worker->password)) {
+      $worker->password = '12345678'; 
+    }
   }
 
 

@@ -66,11 +66,8 @@ class KadrService
       }
 
       if (empty($data['password'])) {
-        $data['password'] = Hash::make('12345678');
-      } else {
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = '12345678';
       }
-
       $kadr = Kadr::create($data);
 
       if (isset($marketingSourceIds)) {

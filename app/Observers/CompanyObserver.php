@@ -3,12 +3,22 @@
 namespace App\Observers;
 
 use App\Models\Company;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class CompanyObserver
 {
+
+
+  /**
+   * Handle the Company "creating" event.
+   */
+  public function creating(Company $company): void
+  {
+    if (empty($company->password)) {
+      $company->password = '12345678';
+    }
+  }
+
 
   /**
    * Handle the Company "created" event.
