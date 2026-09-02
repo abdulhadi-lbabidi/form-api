@@ -110,6 +110,14 @@ class WorkerForm
                   ->label('منطقة السكن / العنوان')
                   ->required(),
 
+                Select::make('location_id')
+                  ->relationship('location', 'name')
+                  ->label('المنطقة الجغرافية')
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('اختر المنطقة...')
+                  ->columnSpanFull(),
+
                 TextInput::make('form_referral_code')
                   ->label('سجل بواسطة كود الإحالة')
                   ->placeholder('لم يسجل عبر كود')

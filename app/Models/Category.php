@@ -19,4 +19,15 @@ class Category extends Model
   {
     return $this->belongsToMany(Worker::class, 'category_workers', 'category_id', 'worker_id');
   }
+
+  public function companies(): BelongsToMany
+  {
+    return $this->belongsToMany(Company::class, 'category_companies', 'category_id', 'company_id');
+  }
+
+
+  public function kadrs(): BelongsToMany
+  {
+    return $this->belongsToMany(Kadr::class, 'category_kadrs', 'category_id', 'kadr_id');
+  }
 }

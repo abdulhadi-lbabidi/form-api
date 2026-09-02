@@ -30,6 +30,22 @@ class CategoriesTable
           ->sortable()
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
+        TextColumn::make('kadrs_count')
+          ->label('عدد الكوادر')
+          ->counts('kadrs')
+          ->badge()
+          ->color('info')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('companies_count')
+          ->label('عدد الشركات')
+          ->counts('companies')
+          ->badge()
+          ->color('warning')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d')

@@ -25,7 +25,8 @@ class CompanyService
         AllowedFilter::exact('city'),
         AllowedFilter::exact('business_type'),
         AllowedFilter::exact('work_location'),
-        AllowedFilter::partial('company_name')
+        AllowedFilter::partial('company_name'),
+        AllowedFilter::exact('categories', 'categories.id'),
       )
       ->defaultSort('-created_at');
 

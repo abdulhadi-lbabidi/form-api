@@ -22,6 +22,10 @@ class KadrService
     $filters = [
       AllowedFilter::exact('city'),
       AllowedFilter::exact('phone'),
+
+      AllowedFilter::exact('categories', 'categories.id'),
+
+
       AllowedFilter::callback('search', function ($query, $value) {
         $query->where(function ($q) use ($value) {
           $q->where('name', 'like', "%{$value}%")

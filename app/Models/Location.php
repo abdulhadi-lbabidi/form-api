@@ -20,4 +20,19 @@ class Location extends Model
       'coordinates' => 'array',
     ];
   }
+
+  public function workers()
+  {
+    return $this->hasMany(Worker::class);
+  }
+
+  public function companies()
+  {
+    return $this->hasMany(Company::class);
+  }
+
+  public function kadrs()
+  {
+    return $this->hasMany(Kadr::class);
+  }
 }

@@ -116,6 +116,13 @@ class WorkerInfolist
               ->placeholder(' لا يوجد')
               ->icon('heroicon-m-map'),
 
+            TextEntry::make('location.name')
+              ->label('المنطقة الجغرافية')
+              ->placeholder(' غير محدد')
+              ->icon('heroicon-m-map')
+              ->badge()
+              ->color('success'),
+
             TextEntry::make('primary_profession')
               ->label('المهنة الأساسية')
               ->placeholder(' لا يوجد')

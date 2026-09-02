@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Kadrs\Schemas;
 
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -79,6 +80,15 @@ class KadrForm
                   ->maxLength(255)
                   ->columnSpanFull(),
 
+                Select::make('categories')
+                  ->relationship('categories', 'name')
+                  ->label('تصنيفات الكادر (Classification)')
+                  ->multiple()
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('ابحث واختر التصنيفات...')
+                  ->columnSpanFull(),
+
                 Toggle::make('has_team')
                   ->label('هل لديك كادر (فريق عمل)؟')
                   ->reactive()
@@ -101,6 +111,14 @@ class KadrForm
                 TextInput::make('residential_area')
                   ->label('منطقة السكن / الحي')
                   ->maxLength(255),
+
+                Select::make('location_id')
+                  ->relationship('location', 'name')
+                  ->label('المنطقة الجغرافية')
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('اختر المنطقة...')
+                  ->columnSpanFull(),
 
                 TextInput::make('shop_address')
                   ->label('عنوان المحل / العمل')

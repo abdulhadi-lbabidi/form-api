@@ -6,6 +6,7 @@ use App\MediaLibrary\CompanyPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -32,7 +33,8 @@ use Laravel\Sanctum\HasApiTokens;
   'is_verified',
   'form_referral_code',
   'company_status',
-  'city'
+  'city',
+  'location_id',
 ])]
 class Company extends Authenticatable implements HasMedia
 {
@@ -161,5 +163,15 @@ class Company extends Authenticatable implements HasMedia
   public function companyNeeds(): HasMany
   {
     return $this->hasMany(CompanyNeed::class);
+  }
+
+  public function categories(): BelongsToMany
+  {
+    return $this->belongsToMany(Category::class, 'category_companies', 'company_id', 'category_id');
+  }
+
+  public function location()
+  {
+    return $this->belongsTo(Location::class);
   }
 }

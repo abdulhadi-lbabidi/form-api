@@ -47,6 +47,8 @@ use Spatie\Image\Enums\Fit;
   'worker_status',
   'created_by',
   'updated_by',
+  'location_id',
+
 ])]
 class Worker extends Authenticatable implements HasMedia
 {
@@ -166,5 +168,10 @@ class Worker extends Authenticatable implements HasMedia
   public function applyJobs(): HasMany
   {
     return $this->hasMany(ApplyJob::class);
+  }
+
+  public function location()
+  {
+    return $this->belongsTo(Location::class);
   }
 }

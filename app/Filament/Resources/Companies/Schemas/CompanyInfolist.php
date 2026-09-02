@@ -37,10 +37,23 @@ class CompanyInfolist
                 ->icon('heroicon-m-map-pin')
                 ->color('primary'),
 
+              TextEntry::make('location.name')
+                ->label('المنطقة الجغرافية')
+                ->placeholder('غير محدد')
+                ->icon('heroicon-m-map')
+                ->badge()
+                ->color('success'),
+
               TextEntry::make('business_type')
                 ->label('نوع العمل')
                 ->placeholder('لا يوجد')
                 ->color('gray'),
+
+              TextEntry::make('categories.name')
+                ->label('التصنيفات')
+                ->badge()
+                ->color('primary')
+                ->placeholder('لا توجد تصنيفات مسجلة'),
 
               TextEntry::make('contact_person_name')
                 ->label('اسم المسؤول المباشر عن التواصل')

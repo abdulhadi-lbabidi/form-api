@@ -75,6 +75,12 @@ class KadrInfolist
                 ->color('success')
                 ->placeholder('غير مسجل'),
 
+              TextEntry::make('categories.name')
+                ->label('التصنيفات')
+                ->badge()
+                ->color('primary')
+                ->placeholder('لا توجد تصنيفات مسجلة'),
+
               TextEntry::make('has_team')
                 ->label('هل لديه فريق عمل؟')
                 ->formatStateUsing(fn($state) => $state ? 'نعم لديه فريق' : 'لا')
@@ -86,7 +92,7 @@ class KadrInfolist
                 ->placeholder('لا يوجد'),
             ]),
 
-            Grid::make(2)->schema([
+            Grid::make(3)->schema([
               TextEntry::make('city')
                 ->label('المدينة')
                 ->icon('heroicon-m-map-pin')
@@ -95,6 +101,15 @@ class KadrInfolist
               TextEntry::make('residential_area')
                 ->label('منطقة السكن / الحي')
                 ->placeholder('غير محدد'),
+
+              TextEntry::make('location.name')
+                ->label('المنطقة الجغرافية')
+                ->placeholder('غير محدد')
+                ->icon('heroicon-m-map')
+                ->badge()
+                ->color('success'),
+
+
             ]),
 
             TextEntry::make('shop_address')

@@ -45,6 +45,15 @@ class CompanyForm
                   ->required()
                   ->maxLength(255),
 
+                Select::make('categories')
+                  ->relationship('categories', 'name')
+                  ->label('تصنيفات الشركة (Classification)')
+                  ->multiple()
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('ابحث واختر التصنيفات...')
+                  ->columnSpanFull(),
+
                 TextInput::make('owner_name')
                   ->label('اسم مالك الشركة')
                   ->maxLength(255),
@@ -65,6 +74,14 @@ class CompanyForm
                   ->label('موقع العمل التفصيلي')
                   ->required()
                   ->maxLength(255),
+
+                Select::make('location_id')
+                  ->relationship('location', 'name')
+                  ->label('المنطقة الجغرافية')
+                  ->searchable()
+                  ->preload()
+                  ->placeholder('اختر المنطقة...')
+                  ->columnSpanFull(),
 
                 TextInput::make('email')
                   ->label('البريد الإلكتروني')

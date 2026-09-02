@@ -6,6 +6,8 @@ use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Filament\Resources\Categories\Pages\ViewCategory;
+use App\Filament\Resources\Categories\RelationManagers\CompaniesRelationManager;
+use App\Filament\Resources\Categories\RelationManagers\KadrsRelationManager;
 use App\Filament\Resources\Categories\RelationManagers\WorkersRelationManager;
 use App\Filament\Resources\Categories\Schemas\CategoryForm;
 use App\Filament\Resources\Categories\Schemas\CategoryInfolist;
@@ -14,7 +16,6 @@ use App\Models\Category;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -51,7 +52,9 @@ class CategoryResource extends Resource
   public static function getRelations(): array
   {
     return [
-      WorkersRelationManager::class
+      WorkersRelationManager::class,
+      KadrsRelationManager::class,
+      CompaniesRelationManager::class,
     ];
   }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\MediaLibrary\KadrPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -30,6 +31,7 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'service_type',
   'has_team',
   'social_or_website_link',
+  'location_id',
 ])]
 class Kadr extends Authenticatable  implements HasMedia
 {
@@ -73,5 +75,15 @@ class Kadr extends Authenticatable  implements HasMedia
       ->quality(70)
       ->format('webp')
       ->nonQueued();
+  }
+
+  public function location()
+  {
+    return $this->belongsTo(Location::class);
+  }
+
+  public function categories(): BelongsToMany
+  {
+    return $this->belongsToMany(Category::class, 'category_kadrs', 'kadr_id', 'category_id');
   }
 }

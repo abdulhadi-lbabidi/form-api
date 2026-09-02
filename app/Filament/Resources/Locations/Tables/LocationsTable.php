@@ -27,11 +27,28 @@ class LocationsTable
           ->weight('bold')
           ->color('primary'),
 
-        TextColumn::make('coordinates')
-          ->label('الإحداثيات المسجلة')
-          ->formatStateUsing(fn($state) => count($state ?? []) . ' نقاط إحداثيات مسجلة')
+
+
+        TextColumn::make('workers_count')
+          ->counts('workers')
+          ->label('عدد العمال')
           ->badge()
-          ->color('success'),
+          ->color('info')
+          ->sortable(),
+
+        TextColumn::make('companies_count')
+          ->counts('companies')
+          ->label('عدد الشركات')
+          ->badge()
+          ->color('warning')
+          ->sortable(),
+
+        TextColumn::make('kadrs_count')
+          ->counts('kadrs')
+          ->label('عدد الكوادر')
+          ->badge()
+          ->color('success')
+          ->sortable(),
 
         TextColumn::make('created_at')
           ->label('تاريخ الإضافة')

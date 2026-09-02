@@ -32,7 +32,29 @@ class LocationInfolist
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
             ]),
 
-            // إضافة خريطة تفاعلية لعرض الحدود أو النقاط
+            Grid::make(3)->schema([
+              TextEntry::make('workers_count')
+                ->label('عدد العمال في المنطقة')
+                ->state(fn($record) => $record->workers()->count())
+                ->badge()
+                ->color('info')
+                ->icon('heroicon-m-user'),
+
+              TextEntry::make('companies_count')
+                ->label('عدد الشركات في المنطقة')
+                ->state(fn($record) => $record->companies()->count())
+                ->badge()
+                ->color('warning')
+                ->icon('heroicon-m-building-office'),
+
+              TextEntry::make('kadrs_count')
+                ->label('عدد الكوادر في المنطقة')
+                ->state(fn($record) => $record->kadrs()->count())
+                ->badge()
+                ->color('success')
+                ->icon('heroicon-m-users'),
+            ]),
+
             ViewEntry::make('map')
               ->label('خريطة المنطقة')
               ->view('filament.resources.locations.infolists.map')

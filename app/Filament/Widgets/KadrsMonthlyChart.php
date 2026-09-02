@@ -2,27 +2,27 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Worker;
+use App\Models\Kadr;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class WorkersMonthlyChart extends ChartWidget
+class KadrsMonthlyChart extends ChartWidget
 {
-  protected ?string $heading = 'نمو تسجيل العمال الشهري';
+  protected ?string $heading = 'نمو تسجيل الكوادر الشهري';
 
-  protected static ?int $sort = 3;
+  protected static ?int $sort = 5;
 
   public ?string $filter = null;
 
   public static function canView(): bool
   {
-    return auth()->user()->hasRole('super_admin') || auth()->user()->can('view_workers_monthly_chart');
+    return auth()->user()->hasRole('super_admin') || auth()->user()->can('view_kadrs_monthly_chart');
   }
 
   protected function getFilters(): ?array
   {
-    $years = Worker::selectRaw('YEAR(created_at) as year')
+    $years = Kadr::selectRaw('YEAR(created_at) as year')
       ->distinct()
       ->orderBy('year', 'desc')
       ->pluck('year')
@@ -37,6 +37,7 @@ class WorkersMonthlyChart extends ChartWidget
 
     return array_combine($years, $years);
   }
+
   protected function getData(): array
   {
     $activeYear = $this->filter ?? Carbon::now()->year;
@@ -56,7 +57,7 @@ class WorkersMonthlyChart extends ChartWidget
       'ديسمبر'
     ];
 
-    $workersByMonth = Worker::select(
+    $kadrsByMonth = Kadr::select(
       DB::raw('MONTH(created_at) as month'),
       DB::raw('COUNT(*) as total')
     )
@@ -67,21 +68,21 @@ class WorkersMonthlyChart extends ChartWidget
 
     $data = [];
     for ($m = 1; $m <= 12; $m++) {
-      $data[] = $workersByMonth[$m] ?? 0;
+      $data[] = $kadrsByMonth[$m] ?? 0;
     }
 
     return [
       'datasets' => [
         [
-          'label' => "إجمالي العمال المسجلين لعام {$activeYear}",
+          'label' => "إجمالي الكوادر المسجلة لعام {$activeYear}",
           'data' => $data,
           'fill' => 'start',
-          'borderColor' => '#3b82f6',
-          'backgroundColor' => 'rgba(59, 130, 246, 0.15)',
+          'borderColor' => '#8b5cf6',
+          'backgroundColor' => 'rgba(139, 92, 246, 0.15)',
           'tension' => 0.4,
           'pointRadius' => 5,
           'pointHoverRadius' => 7,
-          'pointBackgroundColor' => '#1d4ed8',
+          'pointBackgroundColor' => '#7c3aed',
         ],
       ],
       'labels' => $months,
