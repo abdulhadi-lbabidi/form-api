@@ -20,7 +20,7 @@ class CompanyService
   ): LengthAwarePaginator|Collection {
 
     $query = QueryBuilder::for(Company::class)
-      ->with(['referralCode', 'marketingSources', 'branches'])
+      ->with(['referralCode', 'marketingSources', 'branches', 'categories'])
       ->allowedFilters(
         AllowedFilter::exact('city'),
         AllowedFilter::exact('business_type'),

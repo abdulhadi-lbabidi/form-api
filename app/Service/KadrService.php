@@ -41,7 +41,7 @@ class KadrService
     ];
 
     $query = QueryBuilder::for(Kadr::class)
-      ->with(['marketingSources'])
+      ->with(['marketingSources', 'categories'])
       ->allowedFilters(...$filters)
       ->defaultSort('-created_at');
 
