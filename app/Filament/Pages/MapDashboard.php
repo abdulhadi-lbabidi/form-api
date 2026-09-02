@@ -7,19 +7,22 @@ use App\Models\Kadr;
 use App\Models\Location;
 use App\Models\Worker;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 
 class MapDashboard extends Page
 {
+  use HasPageShield;
   protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-map';
   protected static ?string $navigationLabel = 'خريطة توزع العمال والشركات والكوادر';
 
   protected string $view = 'filament.pages.map-dashboard';
 
+
+
   public ?string $selectedCity = null;
   public array $cityCounts = [];
 
-  // حدود العرض لكل قسم
   public int $workersLimit = 15;
   public int $companiesLimit = 15;
   public int $kadrsLimit = 15;
@@ -28,7 +31,6 @@ class MapDashboard extends Page
   {
     $this->selectedCity = $cityName;
 
-    // إعادة تعيين الحد الافتراضي عند اختيار مدينة جديدة
     $this->workersLimit = 15;
     $this->companiesLimit = 15;
     $this->kadrsLimit = 15;
@@ -40,7 +42,6 @@ class MapDashboard extends Page
     ];
   }
 
-  // دوال لزيادة العدد عند الضغط على زر "عرض المزيد"
   public function loadMoreWorkers(): void
   {
     $this->workersLimit += 15;
@@ -56,7 +57,6 @@ class MapDashboard extends Page
     $this->kadrsLimit += 15;
   }
 
-  // الخصائص الديناميكية لجلب البيانات حسب الـ Limit الحالي
   public function getWorkersProperty()
   {
     if (!$this->selectedCity) return collect();
