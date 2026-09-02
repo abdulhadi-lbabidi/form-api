@@ -18,7 +18,7 @@ class KadrJobHostingService
   ): LengthAwarePaginator|Collection {
 
     $query = QueryBuilder::for(KadrJobHosting::class)
-      ->with(['kadr'])
+      ->with(['kadr', 'categories'])
       ->allowedFilters(
         AllowedFilter::exact('kadr_id'),
         AllowedFilter::exact('city'),
@@ -26,7 +26,8 @@ class KadrJobHostingService
         AllowedFilter::exact('district'),
         AllowedFilter::exact('status'),
         AllowedFilter::exact('experience_level'),
-        AllowedFilter::partial('title')
+        AllowedFilter::partial('title'),
+        AllowedFilter::exact('categories', 'categories.id'),
       )
       ->defaultSort('-created_at');
 

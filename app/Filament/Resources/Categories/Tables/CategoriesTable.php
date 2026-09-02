@@ -46,6 +46,22 @@ class CategoriesTable
           ->sortable()
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
 
+        TextColumn::make('company_job_hostings_count')
+          ->label('عروض وظائف الشركات')
+          ->counts('companyJobHostings')
+          ->badge()
+          ->color('primary')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
+        TextColumn::make('kadr_job_hostings_count')
+          ->label('عروض وظائف الكوادر')
+          ->counts('kadrJobHostings')
+          ->badge()
+          ->color('danger')
+          ->sortable()
+          ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;']),
+
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')
           ->dateTime('Y-m-d')

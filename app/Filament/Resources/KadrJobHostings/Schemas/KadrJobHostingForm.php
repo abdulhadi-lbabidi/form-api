@@ -34,6 +34,15 @@ class KadrJobHostingForm
                   ->required()
                   ->maxLength(255),
 
+                Select::make('categories')
+                  ->label('التصنيفات')
+                  ->relationship('categories', 'name')
+                  ->multiple()
+                  ->searchable()
+                  ->preload()
+                  ->required()
+                  ->columnSpanFull(),
+
                 Select::make('job_type')
                   ->label('نوع الدوام')
                   ->options([
@@ -109,12 +118,12 @@ class KadrJobHostingForm
                 TextInput::make('salary_min')
                   ->label('الحد الأدنى للراتب')
                   ->numeric()
-              ->minValue(0),
+                  ->minValue(0),
 
                 TextInput::make('salary_max')
                   ->label('الحد الأعلى للراتب')
                   ->numeric()
-              ->minValue(0),
+                  ->minValue(0),
 
                 Select::make('currency')
                   ->label('العملة')

@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Categories\Schemas;
 
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -13,26 +13,45 @@ class CategoryInfolist
   {
     return $schema
       ->components([
-        Section::make('معلومات التصنيف')
+        Section::make('معلومات وتفاصيل التصنيف')
           ->icon('heroicon-o-tag')
-          ->columns(3)
           ->schema([
-            TextEntry::make('name')
-              ->label('اسم التصنيف')
-              ->weight('bold'),
+            Grid::make(1)->schema([
+              TextEntry::make('name')
+                ->label('اسم التصنيف')
+                ->weight('bold')
+                ->size('lg')
+                ->color('primary'),
+            ]),
 
-            TextEntry::make('workers_count')
-              ->label('إجمالي عدد العمال')
-              ->state(fn($record) => $record->workers()->count())
-              ->badge()
-              ->color('success'),
+            Grid::make(3)->schema([
+              TextEntry::make('workers_count')
+                ->label('العمال التابعون')
+                ->state(fn($record) => $record->workers()->count() . ' عامل')
+                ->icon('heroicon-m-users')
+                ->badge()
+                ->color('success'),
+
+              TextEntry::make('kadrs_count')
+                ->label('الكوادر التابعون')
+                ->state(fn($record) => $record->kadrs()->count() . ' كادر')
+                ->icon('heroicon-m-user-group')
+                ->badge()
+                ->color('info'),
+
+              TextEntry::make('companies_count')
+                ->label('الشركات التابعة')
+                ->state(fn($record) => $record->companies()->count() . ' شركة')
+                ->icon('heroicon-m-building-office-2')
+                ->badge()
+                ->color('warning'),
+            ]),
 
             TextEntry::make('description')
               ->label('الوصف')
               ->placeholder('لا يوجد وصف لهذا التصنيف')
               ->columnSpanFull(),
           ])->columnSpanFull(),
-
       ]);
   }
 }

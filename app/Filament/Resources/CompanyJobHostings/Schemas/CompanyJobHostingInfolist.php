@@ -29,6 +29,12 @@ class CompanyJobHostingInfolist
                 ->placeholder('غير مسجل')
                 ->icon('heroicon-m-building-office-2'),
 
+              TextEntry::make('categories.name')
+                ->label('التصنيفات')
+                ->badge()
+                ->color('info')
+                ->separator(', '),
+
               TextEntry::make('status')
                 ->label('حالة الشاغر')
                 ->badge()

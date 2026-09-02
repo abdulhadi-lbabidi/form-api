@@ -7,6 +7,8 @@ use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Filament\Resources\Categories\Pages\ViewCategory;
 use App\Filament\Resources\Categories\RelationManagers\CompaniesRelationManager;
+use App\Filament\Resources\Categories\RelationManagers\CompanyJobHostingsRelationManager;
+use App\Filament\Resources\Categories\RelationManagers\KadrJobHostingsRelationManager;
 use App\Filament\Resources\Categories\RelationManagers\KadrsRelationManager;
 use App\Filament\Resources\Categories\RelationManagers\WorkersRelationManager;
 use App\Filament\Resources\Categories\Schemas\CategoryForm;
@@ -55,6 +57,8 @@ class CategoryResource extends Resource
       WorkersRelationManager::class,
       KadrsRelationManager::class,
       CompaniesRelationManager::class,
+      CompanyJobHostingsRelationManager::class,
+      KadrJobHostingsRelationManager::class,
     ];
   }
 

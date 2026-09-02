@@ -14,7 +14,7 @@ class KadrJobHostingInfolist
   {
     return $schema
       ->components([
-        Section::make('تفاصيل شاغر الشركة')
+        Section::make('تفاصيل شاغر الكادر')
           ->description('معلومات الوظيفة، الشركة المعلنة، الأجور، وتفاصيل الدوام.')
           ->icon('heroicon-o-briefcase')
           ->schema([
@@ -24,10 +24,16 @@ class KadrJobHostingInfolist
                 ->weight('bold')
                 ->color('primary'),
 
-              TextEntry::make('company.company_name')
-                ->label('الشركة المعلنة')
+              TextEntry::make('kadr.name')
+                ->label('الكادر المعلن')
                 ->placeholder('غير مسجل')
-                ->icon('heroicon-m-building-office-2'),
+                ->icon('heroicon-m-user'),
+
+              TextEntry::make('categories.name')
+                ->label('التصنيفات')
+                ->badge()
+                ->color('info')
+                ->separator(', '),
 
               TextEntry::make('status')
                 ->label('حالة الشاغر')

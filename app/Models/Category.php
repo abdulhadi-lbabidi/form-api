@@ -30,4 +30,24 @@ class Category extends Model
   {
     return $this->belongsToMany(Kadr::class, 'category_kadrs', 'category_id', 'kadr_id');
   }
+
+  public function companyJobHostings(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      CompanyJobHosting::class,
+      'category_company_job_hostings',
+      'category_id',
+      'company_job_hosting_id'
+    );
+  }
+
+  public function kadrJobHostings(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      KadrJobHosting::class,
+      'category_kadr_job_hostings',
+      'category_id',
+      'kadr_job_hosting_id'
+    );
+  }
 }

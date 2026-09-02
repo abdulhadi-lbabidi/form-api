@@ -37,6 +37,15 @@ class CompanyJobHostingForm
                   ->required()
                   ->maxLength(255),
 
+                Select::make('categories')
+                  ->label('التصنيفات')
+                  ->relationship('categories', 'name')
+                  ->multiple()
+                  ->searchable()
+                  ->preload()
+                  ->required()
+                  ->columnSpanFull(),
+
                 Select::make('job_type')
                   ->label('نوع الدوام')
                   ->options([

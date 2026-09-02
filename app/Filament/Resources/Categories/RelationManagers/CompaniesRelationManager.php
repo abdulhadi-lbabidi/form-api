@@ -18,6 +18,7 @@ class CompaniesRelationManager extends RelationManager
   {
     return $table
       ->recordTitleAttribute('company_name')
+      ->defaultSort('companies.created_at', 'desc')
       ->columns([
         IconColumn::make('is_verified')
           ->label('التوثيق')

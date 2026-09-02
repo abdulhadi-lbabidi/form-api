@@ -17,6 +17,7 @@ class KadrsRelationManager extends RelationManager
   {
     return $table
       ->recordTitleAttribute('name')
+      ->defaultSort('kadrs.created_at', 'desc')
       ->columns([
         TextColumn::make('name')
           ->label('الاسم الكامل')

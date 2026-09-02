@@ -20,6 +20,7 @@ class WorkersRelationManager extends RelationManager
   {
     return $table
       ->recordTitleAttribute('full_name')
+      ->defaultSort('workers.created_at', 'desc')
       ->columns([
         IconColumn::make('is_verified')
           ->label('التوثيق')
