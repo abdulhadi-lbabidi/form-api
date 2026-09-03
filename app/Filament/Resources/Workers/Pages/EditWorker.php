@@ -15,7 +15,12 @@ class EditWorker extends EditRecord
   public function mount($record): void
   {
     parent::mount($record);
-    if (!session()->has('workers_previous_url')) {
+
+    // if (!session()->has('workers_previous_url')) {
+    //   session()->put('workers_previous_url', url()->previous());
+    // }
+
+    if (str_contains(url()->previous(), 'workers')) {
       session()->put('workers_previous_url', url()->previous());
     }
   }

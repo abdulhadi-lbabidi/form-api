@@ -25,7 +25,10 @@ class ViewWorker extends ViewRecord
   public function mount($record): void
   {
     parent::mount($record);
-    if (request()->has('page') || str_contains(url()->previous(), 'page=')) {
+    // if (request()->has('page') || str_contains(url()->previous(), 'page=')) {
+    //   session()->put('workers_previous_url', url()->previous());
+    // }
+    if (str_contains(url()->previous(), 'workers')) {
       session()->put('workers_previous_url', url()->previous());
     }
   }

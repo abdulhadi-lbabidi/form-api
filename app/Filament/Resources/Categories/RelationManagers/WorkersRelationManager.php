@@ -139,6 +139,14 @@ class WorkersRelationManager extends RelationManager
             'blocked'        => 'محظور',
           ]),
 
+        SelectFilter::make('gender')
+          ->label('الجنس')
+          ->placeholder('الكل')
+          ->options([
+            'male'   => 'ذكر',
+            'female' => 'أنثى',
+          ]),
+
         TernaryFilter::make('is_verified')
           ->label('حالة التوثيق')
           ->placeholder('الكل')
