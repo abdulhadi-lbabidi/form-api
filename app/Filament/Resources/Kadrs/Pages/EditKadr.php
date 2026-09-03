@@ -18,9 +18,14 @@ class EditKadr extends EditRecord
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url($this->getResource()::getUrl('index')),
+        ->url(fn() => session()->get('kadrs_previous_url', $this->getResource()::getUrl('index'))),
       ViewAction::make(),
       DeleteAction::make(),
     ];
+  }
+
+  protected function getRedirectUrl(): string
+  {
+    return session()->get('kadrs_previous_url', $this->getResource()::getUrl('index'));
   }
 }

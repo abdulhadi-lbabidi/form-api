@@ -12,13 +12,6 @@ class EditCompany extends EditRecord
 {
   protected static string $resource = CompanyResource::class;
 
-  public function mount($record): void
-  {
-    parent::mount($record);
-    if (!session()->has('companies_previous_url')) {
-      session()->put('companies_previous_url', url()->previous());
-    }
-  }
 
   protected function getHeaderActions(): array
   {

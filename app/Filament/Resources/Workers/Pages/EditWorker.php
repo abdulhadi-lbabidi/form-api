@@ -12,14 +12,6 @@ class EditWorker extends EditRecord
 {
   protected static string $resource = WorkerResource::class;
 
-  // public function mount($record): void
-  // {
-  //   parent::mount($record);
-  //   if (str_contains(url()->previous(), 'workers')) {
-  //     session()->put('workers_previous_url', url()->previous());
-  //   }
-  // }
-
   protected function getHeaderActions(): array
   {
     return [

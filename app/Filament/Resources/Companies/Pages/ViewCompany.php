@@ -12,22 +12,12 @@ class ViewCompany extends ViewRecord
 {
   protected static string $resource = CompanyResource::class;
 
-  // protected function getHeaderActions(): array
-  // {
-  //   return [
-  //     Actions\Action::make('back')
-  //       ->label('رجوع')
-  //       ->color('gray')
-  //       ->url($this->getResource()::getUrl('index')),
-  //     EditAction::make(),
-  //   ];
-  // }
-
   public function mount($record): void
   {
     parent::mount($record);
-    if (request()->has('page') || str_contains(url()->previous(), 'page=')) {
-      session()->put('workers_previous_url', url()->previous());
+
+    if (str_contains(url()->previous(), 'companies')) {
+      session()->put('companies_previous_url', url()->previous());
     }
   }
 
@@ -37,7 +27,7 @@ class ViewCompany extends ViewRecord
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url(fn() => session()->get('workers_previous_url', $this->getResource()::getUrl('index'))),
+        ->url(fn() => session()->get('companies_previous_url', $this->getResource()::getUrl('index'))),
       EditAction::make(),
     ];
   }

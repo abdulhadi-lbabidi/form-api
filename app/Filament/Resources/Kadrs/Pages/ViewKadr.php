@@ -11,13 +11,23 @@ class ViewKadr extends ViewRecord
 {
   protected static string $resource = KadrResource::class;
 
+  public function mount($record): void
+  {
+    parent::mount($record);
+
+    if (str_contains(url()->previous(), 'kadrs')) {
+      session()->put('kadrs_previous_url', url()->previous());
+    }
+  }
+
+
   protected function getHeaderActions(): array
   {
     return [
       Actions\Action::make('back')
         ->label('رجوع')
         ->color('gray')
-        ->url($this->getResource()::getUrl('index')),
+        ->url(fn() => session()->get('kadrs_previous_url', $this->getResource()::getUrl('index'))),
       EditAction::make(),
     ];
   }
