@@ -18,7 +18,7 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
+use Filament\Support\HtmlString;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -88,6 +88,42 @@ class AdminPanelProvider extends PanelProvider
       ->brandLogoHeight('4rem')
       ->darkModeBrandLogo(asset('logo-dark.png'))
       ->favicon(asset('logo.png'))
+
+      ->renderHook(
+        \Filament\View\PanelsRenderHook::GLOBAL_SEARCH_AFTER,
+        fn(): \Illuminate\Support\HtmlString => new \Illuminate\Support\HtmlString('
+        <a
+            href="https://kadrx.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="visit-website-link"
+        >
+            <span>🌐</span>
+            <span>زيارة الموقع الإلكتروني</span>
+        </a>
+
+        <style>
+            .visit-website-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                margin-inline-start: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                text-decoration: none;
+                color: var(--primary-600);
+            }
+
+            .visit-website-link:hover {
+                text-decoration: underline;
+            }
+
+            .dark .visit-website-link {
+                color: var(--primary-400);
+            }
+        </style>
+    '),
+      )
       ->colors([
         'primary' => Color::Teal,
       ])
