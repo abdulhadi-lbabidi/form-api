@@ -45,6 +45,20 @@ class CategoryInfolist
                 ->icon('heroicon-m-building-office-2')
                 ->badge()
                 ->color('warning'),
+
+              TextEntry::make('company_job_hostings_count')
+                ->label('شواغر الشركات')
+                ->state(fn($record) => $record->companyJobHostings()->count() . ' شاغر شركة')
+                ->icon('heroicon-m-briefcase')
+                ->badge()
+                ->color('warning'),
+
+              TextEntry::make('compankadr_job_hostings_counties_count')
+                ->label('شواغر الكوادر')
+                ->state(fn($record) => $record->kadrJobHostings()->count() . ' شاغر كادر')
+                ->icon('heroicon-m-briefcase')
+                ->badge()
+                ->color('warning'),
             ]),
 
             TextEntry::make('description')

@@ -17,6 +17,9 @@ use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\TimeController;
 use App\Http\Controllers\Api\WorkerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CompanyFeedbackController;
+use App\Http\Controllers\Api\KadrFeedbackController;
+use App\Http\Controllers\Api\WorkerFeedbackController;
 
 
 /*
@@ -77,4 +80,8 @@ Route::middleware(['setLocale'])->group(function () {
   Route::get('categories', [CategoryController::class, 'index']);
 
   Route::get('locations', [LocationController::class, 'index']);
+
+  Route::apiResource('company-feedbacks', CompanyFeedbackController::class);
+  Route::apiResource('kadr-feedbacks', KadrFeedbackController::class);
+  Route::apiResource('worker-feedbacks', WorkerFeedbackController::class);
 });
