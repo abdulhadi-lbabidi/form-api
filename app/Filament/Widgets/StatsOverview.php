@@ -18,7 +18,6 @@ class StatsOverview extends BaseWidget
 {
   protected ?string $pollingInterval = '15s';
 
-  // تحديد عدد الأعمدة في الصف الواحد لتصبح 4 كروت
   protected function getColumns(): int | array
   {
     return [
