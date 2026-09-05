@@ -20,6 +20,7 @@ class WorkerService
   ): LengthAwarePaginator|Collection {
 
     $query = QueryBuilder::for(Worker::class)
+      ->where('is_verified', true)
       ->with(['referralCode', 'marketingSources', 'categories'])
       ->allowedFilters(
         AllowedFilter::exact('city'),
