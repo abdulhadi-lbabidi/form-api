@@ -6,6 +6,7 @@ use App\MediaLibrary\KadrPathGenerator;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -85,5 +86,10 @@ class Kadr extends Authenticatable  implements HasMedia
   public function categories(): BelongsToMany
   {
     return $this->belongsToMany(Category::class, 'category_kadrs', 'kadr_id', 'category_id');
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(Note::class, 'notable');
   }
 }

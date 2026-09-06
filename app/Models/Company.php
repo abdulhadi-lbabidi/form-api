@@ -174,4 +174,9 @@ class Company extends Authenticatable implements HasMedia
   {
     return $this->belongsTo(Location::class);
   }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(Note::class, 'notable');
+  }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Companies\Schemas;
 
+use App\Models\Company;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -248,6 +250,44 @@ class CompanyForm
                   ]),
               ]),
             // end
+
+
+
+            Tabs\Tab::make('الملاحظات')
+              ->icon('heroicon-o-chat-bubble-bottom-center-text')
+              ->schema([
+                Repeater::make('notes')
+                  ->relationship('notes')
+                  ->label('سجل الملاحظات')
+                  ->helperText('إدارة ومتابعة الملاحظات المسجلة بحق هذا العامل.')
+                  ->columnSpanFull()
+                  ->defaultItems(0)
+                  ->addActionLabel('إضافة ملاحظة جديدة')
+                  ->schema([
+                    Hidden  ::make('notable_type')
+                      ->default(Company::class),
+
+                    Select::make('user_id')
+                      ->relationship('user', 'name')
+                      ->label('كاتب الملاحظة')
+                      ->default(fn() => auth()->id())
+                      ->disabled()
+                      ->dehydrated()
+                      ->required()
+                      ->columnSpanFull(),
+
+                    Textarea::make('notes')
+                      ->label('نص الملاحظة')
+                      ->rows(4)
+                      ->required()
+                      ->placeholder('اكتب تفاصيل الملاحظة هنا...')
+                      ->columnSpanFull(),
+                  ]),
+              ]),
+
+
+
+
           ]),
       ]);
   }

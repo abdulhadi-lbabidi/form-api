@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Workers\Schemas;
 
+use App\Models\Worker;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -187,9 +190,6 @@ class WorkerForm
                   ])
                   ->required(),
 
-
-
-
                 TextInput::make('expected_hourly_rate_usd')
                   ->label('أجر الساعة المتوقع (USD)')
                   ->numeric()
@@ -216,11 +216,10 @@ class WorkerForm
                   ->getOptionLabelFromRecordUsing(fn($record) => $record->translated_name)
                   ->label('مصادر التعرف علينا')
                   ->columns(3),
+
                 Textarea::make('other_professions')
                   ->label('مهارات أو مهن أخرى يجيدها')
                   ->columnSpanFull(),
-
-
               ]),
 
             // Attachments
@@ -243,6 +242,124 @@ class WorkerForm
                       ->columnSpanFull(),
                   ]),
               ]),
+
+            Tabs\Tab::make('التقييمات والمؤشرات')
+              ->icon('heroicon-o-star')
+              ->schema([
+                Repeater::make('ratings')
+                  ->relationship('ratings')
+                  ->label('سجل تقييمات العامل')
+                  ->helperText('يمكنك هنا متابعة تقييمات هذا العامل، تعديلها، أو إضافة تقييم جديد.')
+                  ->columnSpanFull()
+                  ->defaultItems(0)
+                  ->addActionLabel('إضافة تقييم جديد لهذا العامل')
+                  ->schema([
+                    Select::make('user_id')
+                      ->relationship('user', 'name')
+                      ->label('الشخص الذي قام بالتقييم')
+                      ->default(fn() => auth()->id())
+                      ->disabled()
+                      ->dehydrated()
+                      ->required(),
+
+                    Section::make('معايير التقييم والمهارة')
+                      ->icon('heroicon-o-adjustments-horizontal')
+                      ->columns(3)
+                      ->schema([
+                        Select::make('seriousness_level')
+                          ->label('مستوى الجدية')
+                          ->options([0 => 'غير محدد'] + array_combine(range(1, 5), range(1, 5)))
+                          ->default(0)
+                          ->required(),
+
+                        Select::make('skill_level')
+                          ->label('مستوى المهارة')
+                          ->options([0 => 'غير محدد'] + array_combine(range(1, 5), range(1, 5)))
+                          ->default(0)
+                          ->required(),
+
+                        Select::make('communication_level')
+                          ->label('وضوح التواصل')
+                          ->options([0 => 'غير محدد'] + array_combine(range(1, 5), range(1, 5)))
+                          ->default(0)
+                          ->required(),
+
+                        Select::make('skill_matching')
+                          ->label('تطابق المهارة')
+                          ->options([
+                            'matched' => 'متطابق',
+                            'partially_matched' => 'متطابق جزئياً',
+                            'not_matched' => 'غير متطابق',
+                          ])
+                          ->default('matched')
+                          ->required()
+                          ->columnSpanFull(),
+                      ]),
+
+                    Section::make('ملاحظات والتحقق')
+                      ->icon('heroicon-o-document-check')
+                      ->columns(2)
+                      ->schema([
+                        Toggle::make('is_verified')
+                          ->label('متحقق / معتمد للعامة')
+                          ->default(false)
+                          ->onColor('success')
+                          ->offColor('danger')
+                          ->columnSpanFull(),
+
+                        TextInput::make('red_flag')
+                          ->label('مؤشر خطر (Red Flag)')
+                          ->placeholder('مثال: تأخر عن الموعد، عدم التزام بالاتفاق...')
+                          ->prefixIcon('heroicon-o-flag')
+                          ->prefixIconColor('danger')
+                          ->columnSpanFull(),
+
+                        Textarea::make('notes')
+                          ->label('ملاحظات عامة حول التقييم')
+                          ->rows(3)
+                          ->placeholder('اكتب ملاحظاتك هنا...'),
+
+                        Textarea::make('verification_notes')
+                          ->label('ملاحظات عملية التحقق')
+                          ->rows(3)
+                          ->placeholder('اكتب هنا ملاحظات المشرف حول صحة التقييم...'),
+                      ]),
+                  ]),
+              ]),
+
+            Tabs\Tab::make('الملاحظات')
+              ->icon('heroicon-o-chat-bubble-bottom-center-text')
+              ->schema([
+                Repeater::make('notes')
+                  ->relationship('notes')
+                  ->label('سجل الملاحظات')
+                  ->helperText('إدارة ومتابعة الملاحظات المسجلة بحق هذا العامل.')
+                  ->columnSpanFull()
+                  ->defaultItems(0)
+                  ->addActionLabel('إضافة ملاحظة جديدة')
+                  ->schema([
+                    Hidden::make('notable_type')
+                      ->default(Worker::class),
+
+                    Select::make('user_id')
+                      ->relationship('user', 'name')
+                      ->label('كاتب الملاحظة')
+                      ->default(fn() => auth()->id())
+                      ->disabled()
+                      ->dehydrated()
+                      ->required()
+                      ->columnSpanFull(),
+
+                    Textarea::make('notes')
+                      ->label('نص الملاحظة')
+                      ->rows(4)
+                      ->required()
+                      ->placeholder('اكتب تفاصيل الملاحظة هنا...')
+                      ->columnSpanFull(),
+                  ]),
+              ]),
+
+
           ]),
       ]);
   }
