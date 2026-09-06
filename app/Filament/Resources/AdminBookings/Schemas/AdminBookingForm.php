@@ -46,7 +46,7 @@ class AdminBookingForm
               ->native(false)
               ->displayFormat('Y-m-d')
               ->default(now())
-              ->minDate(now()->startOfDay()),
+              ->minDate(fn(string $context): ?\Carbon\Carbon => $context === 'create' ? now()->startOfDay() : null),
 
             TimePicker::make('time_from')
               ->label('الوقت من')

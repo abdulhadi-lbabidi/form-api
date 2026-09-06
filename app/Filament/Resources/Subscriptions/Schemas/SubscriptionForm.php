@@ -83,7 +83,7 @@ class SubscriptionForm
               ->required()
               ->native(false)
               ->displayFormat('Y-m-d')
-              ->minDate(now()->startOfDay())
+              ->minDate(fn(string $context): ?\Carbon\Carbon => $context === 'create' ? now()->startOfDay() : null)
               ->live(),
 
             Select::make('time_id')
