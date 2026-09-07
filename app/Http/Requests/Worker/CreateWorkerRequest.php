@@ -44,6 +44,7 @@ class CreateWorkerRequest extends FormRequest
       'code'                 => ['nullable', 'string', 'max:255', 'unique:workers,code'],
       'is_verified' => ['nullable', 'boolean'],
       'form_referral_code' => ['nullable', 'string', 'max:255'],
+      'gender' => ['required', Rule::in(['male', 'female'])],
 
       'image'   => ['nullable', 'array'],
       'image.*' => ['file', 'max:4096', 'mimes:jpeg,jpg,png,pdf,doc,docx,txt'],
