@@ -33,6 +33,8 @@ class AuthService
       return null;
     }
 
+    $user->tokens()->delete();
+
     $token = $user->createToken($type . '_auth_token')->plainTextToken;
 
     return [
