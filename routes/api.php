@@ -29,8 +29,8 @@ use App\Http\Controllers\Api\WorkerFeedbackController;
 */
 
 Route::prefix('auth')->group(function () {
-  Route::post('/login', [AuthController::class, 'login']);
-  Route::post('/update-password', [AuthController::class, 'updatePassword']);
+  Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');;
+  Route::post('/update-password', [AuthController::class, 'updatePassword'])->middleware('throttle:6,1');;
 
   Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
@@ -39,7 +39,7 @@ Route::prefix('auth')->group(function () {
 });
 
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
 
   Route::get('cashback-deals', [CashBackDealController::class, 'index']);
   Route::get('cashback-deals/{cashbackDeal}', [CashBackDealController::class, 'show']);
@@ -48,7 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('cashback-categories', [CashbackCategoryController::class, 'index']);
   Route::get('cashback-categories/{cashbackCategory}', [CashbackCategoryController::class, 'show']);
 
-
   Route::get('cashbacks', [CashBackController::class, 'index']);
   Route::get('cashbacks/{cashback}', [CashBackController::class, 'show']);
 
@@ -56,23 +55,32 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('apply-jobs', [ApplyJobController::class, 'store']);
   Route::get('apply-jobs/{applyJob}', [ApplyJobController::class, 'show']);
 
-
-  Route::apiResource('companies', CompanyController::class);
   Route::apiResource('company-job-hostings', CompanyJobHostingController::class);
   Route::apiResource('kadr-job-hostings', KadrJobHostingController::class);
-  Route::apiResource('workers', WorkerController::class);
-  Route::apiResource('kadrs', KadrController::class);
   Route::apiResource('times', TimeController::class);
-  Route::apiResource('marketing-sources', MarketingSourceController::class);
   Route::apiResource('subscriptions', SubscriptionController::class);
 
   Route::apiResource('account-upgrade-requests', AccountUpgradeRequestController::class);
 
-  Route::get('categories', [CategoryController::class, 'index']);
-
-  Route::get('locations', [LocationController::class, 'index']);
-
   Route::apiResource('company-feedbacks', CompanyFeedbackController::class);
   Route::apiResource('kadr-feedbacks', KadrFeedbackController::class);
   Route::apiResource('worker-feedbacks', WorkerFeedbackController::class);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Public API (NO AUTH)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['setLocale', 'throttle:60,1'])->group(function () {
+  Route::get('locations', [LocationController::class, 'index']);
+  Route::get('categories', [CategoryController::class, 'index']);
+  Route::apiResource('marketing-sources', MarketingSourceController::class);
+
+  Route::apiResource('companies', CompanyController::class);
+  Route::apiResource('workers', WorkerController::class);
+
+  Route::apiResource('kadrs', KadrController::class);
 });
