@@ -67,9 +67,9 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
   Route::apiResource('worker-feedbacks', WorkerFeedbackController::class);
 
 
-  Route::apiResource('companies', CompanyController::class)->except(['store']);
+  Route::apiResource('companies', CompanyController::class)->except(['store', 'index']);
   Route::apiResource('workers', WorkerController::class)->except(['store']);
-  Route::apiResource('kadrs', KadrController::class)->except(['store']);
+  Route::apiResource('kadrs', KadrController::class)->except(['store', 'index']);
 });
 
 
