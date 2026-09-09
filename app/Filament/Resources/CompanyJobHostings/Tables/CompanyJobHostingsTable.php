@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 
 class CompanyJobHostingsTable
@@ -78,6 +79,18 @@ class CompanyJobHostingsTable
 
         TextColumn::make('currency')
           ->label('العملة'),
+
+        IconColumn::make('is_visible_time')
+          ->label('عرض الوقت')
+          ->boolean()
+          ->sortable(),
+
+        // عمود حالة ظهور الراتب
+        IconColumn::make('is_visible_salary')
+          ->label('عرض الراتب')
+          ->boolean()
+          ->sortable(),
+
 
         TextColumn::make('created_at')
           ->label('تاريخ الإنشاء')

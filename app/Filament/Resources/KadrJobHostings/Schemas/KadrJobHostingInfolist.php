@@ -89,6 +89,12 @@ class KadrJobHostingInfolist
               TextEntry::make('time_to')
                 ->label('إلى الساعة')
                 ->placeholder('غير محدد'),
+
+              TextEntry::make('is_visible_time')
+                ->label('حالة عرض الوقت')
+                ->badge()
+                ->formatStateUsing(fn($state) => $state ? 'مرئي للعامة' : 'مخفي عن العامة')
+                ->color(fn($state) => $state ? 'success' : 'danger'),
             ]),
 
             Grid::make(2)->schema([
@@ -103,6 +109,13 @@ class KadrJobHostingInfolist
                 ->placeholder('غير محدد')
                 ->formatStateUsing(fn($state) => $state ? number_format((float) $state, 2) : null)
                 ->extraAttributes(['dir' => 'ltr', 'style' => 'text-align: right;']),
+
+
+              TextEntry::make('is_visible_salary')
+                ->label('حالة عرض الراتب')
+                ->badge()
+                ->formatStateUsing(fn($state) => $state ? 'مرئي للعامة' : 'مخفي عن العامة')
+                ->color(fn($state) => $state ? 'success' : 'danger'),
 
               TextEntry::make('salary_info')
                 ->label('الراتب والعملة والدورية')

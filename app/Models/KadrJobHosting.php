@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
   'salary_interval',
   'notes',
   'status',
+  'is_visible_time',
+  'is_visible_salary',
+
 ])]
 class KadrJobHosting extends Model
 {
@@ -38,6 +41,8 @@ class KadrJobHosting extends Model
       'workers_count' => 'integer',
       'salary_min' => 'decimal:2',
       'salary_max' => 'decimal:2',
+      'is_visible_time' => 'boolean',
+      'is_visible_salary' => 'boolean',
     ];
   }
 

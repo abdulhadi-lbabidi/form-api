@@ -55,16 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('apply-jobs', [ApplyJobController::class, 'index']);
   Route::post('apply-jobs', [ApplyJobController::class, 'store']);
   Route::get('apply-jobs/{applyJob}', [ApplyJobController::class, 'show']);
-});
 
-
-/*
-|--------------------------------------------------------------------------
-| Public API (NO AUTH)
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['setLocale'])->group(function () {
 
   Route::apiResource('companies', CompanyController::class);
   Route::apiResource('company-job-hostings', CompanyJobHostingController::class);

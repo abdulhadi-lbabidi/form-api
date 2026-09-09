@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -113,6 +114,15 @@ class CompanyJobHostingForm
                 TimePicker::make('time_to')
                   ->label('ساعات الدوام إلى')
                   ->seconds(false),
+
+                Toggle::make('is_visible_time')
+                  ->label('إظهار أوقات الدوام للعامة')
+                  ->helperText('عند التفعيل، ستظهر أوقات الدوام في تفاصيل الإعلان.')
+                  ->default(true)
+                  ->onColor('success')
+                  ->offColor('danger')
+                  ->columnSpanFull(),
+
               ]),
 
             Tabs\Tab::make('تفاصيل الرواتب والملاحظات')
@@ -144,6 +154,14 @@ class CompanyJobHostingForm
                     'شهري'   => 'شهري',
                   ])
                   ->required(),
+
+                Toggle::make('is_visible_salary')
+                  ->label('إظهار تفاصيل الراتب للعامة')
+                  ->helperText('عند التفعيل، سيظهر الراتب والعملة في تفاصيل الإعلان.')
+                  ->default(true)
+                  ->onColor('success')
+                  ->offColor('danger')
+                  ->columnSpanFull(),
 
                 Textarea::make('notes')
                   ->label('ملاحظات تفصيلية وشروط إضافية')
