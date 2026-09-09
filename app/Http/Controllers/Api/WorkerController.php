@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Worker\CreateWorkerRequest;
 use App\Http\Requests\Worker\UpdateWorkerRequest;
 use App\Http\Resources\WorkerListResource;
-use App\Http\Resources\WorkerResource;
 use App\Models\Worker;
 use App\Service\WorkerService;
 use Illuminate\Http\Request;
@@ -37,14 +36,14 @@ class WorkerController extends Controller
     );
     $worker->load(['referralCode', 'marketingSources']);
 
-    return new WorkerResource($worker);
+    return new WorkerListResource($worker);
   }
 
 
-  public function show(int $id): WorkerResource
+  public function show(int $id): WorkerListResource
   {
     $worker = $this->workerService->findOne($id);
-    return new WorkerResource($worker);
+    return new WorkerListResource($worker);
   }
 
   public function update(Worker $worker, UpdateWorkerRequest $request)
@@ -55,7 +54,7 @@ class WorkerController extends Controller
       $validated,
       $request->file('image')
     );
-    return new WorkerResource($newWorker);
+    return new WorkerListResource($newWorker);
   }
   public function destroy(int $id)
   {

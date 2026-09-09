@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\CompanyListResource;
-use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Service\CompanyService;
 use Illuminate\Http\Request;
@@ -36,14 +35,14 @@ class CompanyController extends Controller
     );
     $company->load(['referralCode', 'marketingSources']);
     return response()->json([
-      'data'    => new CompanyResource($company)
+      'data'    => new CompanyListResource($company)
     ], 201);
   }
 
   public function show(int $id)
   {
     $company = $this->companyService->findOne($id);
-    return new CompanyResource($company);
+    return new CompanyListResource($company);
   }
 
 
@@ -55,7 +54,7 @@ class CompanyController extends Controller
       $validated,
       $request->file('image')
     );
-    return new CompanyResource($newCategory);
+    return new CompanyListResource($newCategory);
   }
 
 

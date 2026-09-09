@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Kadr\CreateKadrRequest;
 use App\Http\Requests\Kadr\UpdateKadrRequst;
 use App\Http\Resources\KadrListResource;
-use App\Http\Resources\KadrResource;
 use App\Models\Kadr;
 use App\Service\KadrService;
 use Illuminate\Http\JsonResponse;
@@ -46,17 +45,17 @@ class KadrController extends Controller
     $kadr->load(['marketingSources']);
 
     return response()->json([
-      'data'    => new KadrResource($kadr)
+      'data'    => new KadrListResource($kadr)
     ], 201);
   }
 
-  public function show(int $id): KadrResource
+  public function show(int $id): KadrListResource
   {
     $kadr = $this->kadrService->findOne($id);
-    return new KadrResource($kadr);
+    return new KadrListResource($kadr);
   }
 
-  public function update(UpdateKadrRequst $request, Kadr $kadr): KadrResource
+  public function update(UpdateKadrRequst $request, Kadr $kadr): KadrListResource
   {
     $validated = $request->validated();
     $deletedMediaIds = $request->input('deleted_media_ids', []);
@@ -69,7 +68,7 @@ class KadrController extends Controller
       $deletedMediaIds
     );
 
-    return new KadrResource($kadrUpdated);
+    return new KadrListResource($kadrUpdated);
   }
   public function destroy(Kadr $kadr): JsonResponse
   {

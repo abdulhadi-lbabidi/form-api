@@ -65,6 +65,11 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
   Route::apiResource('company-feedbacks', CompanyFeedbackController::class);
   Route::apiResource('kadr-feedbacks', KadrFeedbackController::class);
   Route::apiResource('worker-feedbacks', WorkerFeedbackController::class);
+
+
+  Route::apiResource('companies', CompanyController::class)->except(['store']);
+  Route::apiResource('workers', WorkerController::class)->except(['store']);
+  Route::apiResource('kadrs', KadrController::class)->except(['store']);
 });
 
 
@@ -79,8 +84,11 @@ Route::middleware(['setLocale', 'throttle:60,1'])->group(function () {
   Route::get('categories', [CategoryController::class, 'index']);
   Route::apiResource('marketing-sources', MarketingSourceController::class);
 
-  Route::apiResource('companies', CompanyController::class);
-  Route::apiResource('workers', WorkerController::class);
+  Route::post('companies', [CompanyController::class, 'store']);
+  Route::post('workers', [WorkerController::class, 'store']);
+  Route::post('kadrs', [KadrController::class, 'store']);
 
-  Route::apiResource('kadrs', KadrController::class);
+  // Route::apiResource('companies', CompanyController::class);
+  // Route::apiResource('workers', WorkerController::class);
+  // Route::apiResource('kadrs', KadrController::class);
 });
