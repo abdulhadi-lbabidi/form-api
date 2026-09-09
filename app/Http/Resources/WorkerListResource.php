@@ -16,7 +16,6 @@ class WorkerListResource extends JsonResource
   {
     return [
       'code'                 => $this->code,
-      'age'                  => $this->age,
       'city'                 => $this->city,
       'residential_area'     => $this->residential_area,
       'primary_profession'   => $this->primary_profession,

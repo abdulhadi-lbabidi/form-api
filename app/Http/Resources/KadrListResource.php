@@ -18,7 +18,6 @@ class KadrListResource extends JsonResource
       'id'                     => $this->id,
       'name'                   => $this->name,
       'number_of_person'       => $this->number_of_person,
-      'email'                  => $this->email,
       'shop_address'           => $this->shop_address,
       'city'                   => $this->city,
       'residential_area'       => $this->residential_area,

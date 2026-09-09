@@ -21,7 +21,6 @@ class CompanyListResource extends JsonResource
       'business_type'  => $this->business_type,
       'problems_faced' => $this->problems_faced,
       'work_location'  => $this->work_location,
-      'email'          => $this->email,
       'city'           => $this->city,
       'form_referral_code' => $this->form_referral_code,
       'marketing_sources' => MarketingSourceResource::collection($this->whenLoaded('marketingSources')),
