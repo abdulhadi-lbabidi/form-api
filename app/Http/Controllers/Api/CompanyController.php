@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
+use App\Http\Resources\CompanyListResource;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Service\CompanyService;
@@ -24,7 +25,7 @@ class CompanyController extends Controller
 
     $companies = $this->companyService->findAll($paginate, $perPage, $page);
 
-    return CompanyResource::collection($companies);
+    return CompanyListResource::collection($companies);
   }
   public function store(CreateCompanyRequest $request)
   {

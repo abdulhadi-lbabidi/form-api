@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kadr\CreateKadrRequest;
 use App\Http\Requests\Kadr\UpdateKadrRequst;
+use App\Http\Resources\KadrListResource;
 use App\Http\Resources\KadrResource;
 use App\Models\Kadr;
 use App\Service\KadrService;
@@ -30,7 +31,7 @@ class KadrController extends Controller
       page: $page
     );
 
-    return KadrResource::collection($kadrs);
+    return KadrListResource::collection($kadrs);
   }
 
   public function store(CreateKadrRequest $request): JsonResponse
