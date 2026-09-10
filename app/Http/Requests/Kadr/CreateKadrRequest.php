@@ -4,6 +4,7 @@ namespace App\Http\Requests\Kadr;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateKadrRequest extends FormRequest
 {
@@ -30,7 +31,14 @@ class CreateKadrRequest extends FormRequest
       'date_of_birth'          => ['nullable', 'date'],
       'number_of_person'       => ['nullable', 'integer'],
       'email'                  => ['required', 'email', 'unique:kadrs,email'],
-      'phone'                  => ['required', 'string', 'unique:kadrs,phone'],
+      // 'phone'                  => ['required', 'string', 'unique:kadrs,phone'],
+      'phone'                  => [
+        'required',
+        'string',
+        Rule::unique('kadrs', 'phone'),
+        Rule::unique('workers', 'phone_whatsapp'),
+        Rule::unique('companies', 'phone_number'),
+      ],
       'password'               => ['nullable', 'string', 'min:6'],
       'shop_address'           => ['nullable', 'string', 'max:255'],
       'city'                   => ['nullable', 'string', 'max:255'],

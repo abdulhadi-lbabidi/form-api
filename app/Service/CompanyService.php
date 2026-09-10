@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Models\Company;
+use App\Models\Kadr;
 use App\Models\ReferralCode;
+use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,6 +58,15 @@ class CompanyService
 
   public function create(array $data, $imageFiles = null)
   {
+
+    $phone = $data['phone_number'] ?? null;
+
+    if ($phone) {
+      if (Worker::where('phone_whatsapp', $phone)->exists() || Kadr::where('phone', $phone)->exists()) {
+        throw new \Exception('رقم الهاتف مستخدم مسبقاً في نظامنا.');
+      }
+    }
+
     return DB::transaction(function () use ($data, $imageFiles) {
       $company = Company::create($data);
 

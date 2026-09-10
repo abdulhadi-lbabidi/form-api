@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Models\Company;
+use App\Models\Kadr;
 use App\Models\ReferralCode;
 use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +62,17 @@ class WorkerService
 
   public function create(array $data, $imageFiles = null)
   {
+
+    $phone = $data['phone_whatsapp'] ?? null;
+
+    if ($phone) {
+      if (Company::where('phone_number', $phone)->exists() || Kadr::where('phone', $phone)->exists()) {
+        throw new \Exception('رقم الهاتف مستخدم مسبقاً في نظامنا.');
+      }
+    }
+
+
+
     return DB::transaction(function () use ($data, $imageFiles) {
       $worker = Worker::create($data);
 
@@ -76,9 +89,6 @@ class WorkerService
           $referralCode->increment('times_used');
         }
       }
-      // if ($imageFile) {
-      //   $worker->addMedia($imageFile)->toMediaCollection('workers');
-      // }
 
       // Sync image
       if (!empty($imageFiles) && is_array($imageFiles)) {
@@ -90,8 +100,6 @@ class WorkerService
       } elseif ($imageFiles) {
         $worker->addMedia($imageFiles)->toMediaCollection('workers');
       }
-
-
 
       return $worker;
     });

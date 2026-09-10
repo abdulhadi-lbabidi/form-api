@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Models\Company;
 use App\Models\Kadr;
+use App\Models\Worker;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +59,16 @@ class KadrService
   }
   public function create(array $data, $imageFiles = null): Kadr
   {
+
+    $phone = $data['phone'] ?? null;
+
+    if ($phone) {
+      if (Company::where('phone_number', $phone)->exists() || Worker::where('phone_whatsapp', $phone)->exists()) {
+        throw new \Exception('رقم الهاتف مستخدم مسبقاً في نظامنا.');
+      }
+    }
+
+
     return DB::transaction(function () use ($data, $imageFiles) {
 
       // Sync marketing sources

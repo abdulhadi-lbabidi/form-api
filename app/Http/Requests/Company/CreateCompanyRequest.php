@@ -4,6 +4,7 @@ namespace App\Http\Requests\Company;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateCompanyRequest extends FormRequest
 {
@@ -29,7 +30,15 @@ class CreateCompanyRequest extends FormRequest
       'problems_faced' => ['nullable', 'string'],
       'work_location'  => ['required', 'string', 'max:255'],
       'email'          => ['nullable', 'email', 'max:255', 'unique:companies,email'],
-      'phone_number'   => ['required', 'string', 'max:20', 'unique:companies,phone_number'],
+      // 'phone_number'   => ['required', 'string', 'max:20', 'unique:companies,phone_number'],
+      'phone_number'           => [
+        'required',
+        'string',
+        'max:20',
+        Rule::unique('companies', 'phone_number'),
+        Rule::unique('workers', 'phone_whatsapp'),
+        Rule::unique('kadrs', 'phone'),
+      ],
       'owner_name'     => ['required', 'string', 'max:255'],
       'contact_person_name'     => ['required', 'string', 'max:255'],
       'code' => ['nullable', 'string', 'max:255', 'unique:companies,code'],
