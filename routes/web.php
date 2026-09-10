@@ -3,10 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-  return redirect('/admin');
-});
-
-
-Route::get('/test-error', function () {
-  throw new Exception('err');
+  abort(404);
 });
