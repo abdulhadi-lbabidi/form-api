@@ -29,8 +29,8 @@ use App\Http\Controllers\Api\WorkerFeedbackController;
 */
 
 Route::prefix('auth')->group(function () {
-  Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');;
-  Route::post('/update-password', [AuthController::class, 'updatePassword'])->middleware('throttle:6,1');;
+  Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');
+  Route::post('/update-password', [AuthController::class, 'updatePassword'])->middleware('throttle:6,1');
 
   Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);

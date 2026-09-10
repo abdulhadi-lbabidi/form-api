@@ -32,6 +32,8 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
   'service_type',
   'has_team',
   'social_or_website_link',
+  'code',
+  'is_verified',
   'location_id',
 ])]
 class Kadr extends Authenticatable  implements HasMedia

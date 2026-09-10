@@ -29,7 +29,12 @@ class AuthService
         ->first();
     }
 
-    if (!$user || !Hash::check($data['password'], $user->password)) {
+    if (
+      !$user ||
+      empty($user->code) ||
+      !Hash::check($data['password'], $user->password) ||
+      (int) $user->is_verified !== 1
+    ) {
       return null;
     }
 

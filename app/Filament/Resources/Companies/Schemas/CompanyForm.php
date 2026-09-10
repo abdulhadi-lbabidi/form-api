@@ -264,7 +264,7 @@ class CompanyForm
                   ->defaultItems(0)
                   ->addActionLabel('إضافة ملاحظة جديدة')
                   ->schema([
-                    Hidden  ::make('notable_type')
+                    Hidden::make('notable_type')
                       ->default(Company::class),
 
                     Select::make('user_id')

@@ -17,6 +17,27 @@ class KadrsTable
     return $table
       ->defaultSort('created_at', 'desc')
       ->columns([
+
+        IconColumn::make('is_verified')
+          ->label('التوثيق')
+          ->boolean()
+          ->trueIcon('heroicon-m-check-circle')
+          ->falseIcon('heroicon-m-x-circle')
+          ->trueColor('success')
+          ->falseColor('danger'),
+
+
+        TextColumn::make('code')
+          ->label('رمز الشركة')
+          ->searchable()
+          ->sortable()
+          ->placeholder('غير موثق بعد')
+          ->weight('bold')
+          ->fontFamily('mono')
+          ->color('primary'),
+
+
+
         TextColumn::make('name')
           ->label('الاسم الكامل')
           ->searchable()

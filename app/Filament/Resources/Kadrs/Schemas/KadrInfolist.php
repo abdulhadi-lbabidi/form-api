@@ -8,6 +8,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Actions\Action;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use ZipArchive;
 
@@ -23,6 +24,26 @@ class KadrInfolist
           ->schema([
 
             Grid::make(3)->schema([
+
+              IconEntry::make('is_verified')
+                ->label('حالة التوثيق')
+                ->boolean()
+                ->trueIcon('heroicon-m-check-circle')
+                ->falseIcon('heroicon-m-x-circle')
+                ->trueColor('success')
+                ->falseColor('danger'),
+
+              TextEntry::make('code')
+                ->label('رمز الكادر الفريد (سيرفر)')
+                ->placeholder('لم يتم التوليد (غير موثقة)')
+                ->fontFamily('mono')
+                ->weight('bold')
+                ->color('primary')
+                ->icon('heroicon-m-qr-code')
+                ->copyable()
+                ->copyMessage('تم نسخ الرمز بنجاح'),
+
+
               TextEntry::make('name')
                 ->label('الاسم الكامل (أو اللقب)')
                 ->weight('bold'),

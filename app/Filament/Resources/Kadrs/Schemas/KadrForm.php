@@ -29,6 +29,14 @@ class KadrForm
             Tabs\Tab::make('المعلومات الشخصية')
               ->columns(2)
               ->schema([
+
+                Toggle::make('is_verified')
+                  ->label('حالة التوثيق (Verified)')
+                  ->helperText('تفعيل هذا الخيار سيقوم بتوليد رمز فريد للشركة بشكل تلقائي.')
+                  ->onColor('success')
+                  ->offColor('danger')
+                  ->columnSpanFull(),
+
                 TextInput::make('name')
                   ->label('الاسم الكامل')
                   ->required()
