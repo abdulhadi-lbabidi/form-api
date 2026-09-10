@@ -12,7 +12,10 @@ use App\Observers\ExpenseObserver;
 use App\Observers\KadrObserver;
 use App\Observers\RevenueObserver;
 use App\Observers\WorkerObserver;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
+
+    RateLimiter::for('filament.auth.login', function (Request $request) {
+      return Limit::perMinute(5)->by($request->ip());
+    });
+
+
     Company::observe(CompanyObserver::class);
     Worker::observe(WorkerObserver::class);
     Kadr::observe(KadrObserver::class);

@@ -172,7 +172,6 @@ class AdminPanelProvider extends PanelProvider
       ->authMiddleware([
         Authenticate::class,
 
-        \Illuminate\Routing\Middleware\ThrottleRequests::using('5,1'),
       ]);
   }
 }
