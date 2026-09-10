@@ -12,6 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Jenssegers\Agent\Agent;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -70,13 +71,14 @@ class CompanyService
         Kadr::where('phone', $phone)->exists() ||
         Worker::where('phone_whatsapp', $phone)->exists()
       ) {
+        $agent = new Agent();
         FailedRegistrationAttempt::create([
           'target_type' => 'company',
           'phone'       => $phone,
           'ip_address'  => request()->ip(),
           'user_agent'  => request()->userAgent(),
-          'platform'    => php_uname('s'),
-          'browser'     => request()->header('sec-ch-ua'),
+          'platform'    => $agent->platform(),
+          'browser'     => $agent->browser(),
           'payload'     => $data,
         ]);
         throw new HttpResponseException(

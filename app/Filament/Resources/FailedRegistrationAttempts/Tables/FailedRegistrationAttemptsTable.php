@@ -26,7 +26,7 @@ class FailedRegistrationAttemptsTable
           })
           ->searchable()
           ->sortable(),
-          
+
         TextColumn::make('phone')
           ->label('رقم الهاتف')
           ->searchable()
@@ -37,6 +37,11 @@ class FailedRegistrationAttemptsTable
           ->label('عنوان IP')
           ->searchable()
           ->sortable()
+          ->placeholder('-'),
+
+        TextColumn::make('user_agent')
+          ->label('متصفح المستخدم ')
+          ->searchable()
           ->placeholder('-'),
 
         TextColumn::make('platform')

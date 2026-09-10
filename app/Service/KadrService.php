@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Jenssegers\Agent\Agent;
 
 class KadrService
 {
@@ -71,13 +72,15 @@ class KadrService
         Worker::where('phone_whatsapp', $phone)->exists() ||
         Kadr::where('phone', $phone)->exists()
       ) {
+        $agent = new Agent();
         FailedRegistrationAttempt::create([
+
           'target_type' => 'kadr',
           'phone'       => $phone,
           'ip_address'  => request()->ip(),
           'user_agent'  => request()->userAgent(),
-          'platform'    => php_uname('s'),
-          'browser'     => request()->header('sec-ch-ua'),
+          'platform'    => $agent->platform(),
+          'browser'     => $agent->browser(),
           'payload'     => $data,
         ]);
 

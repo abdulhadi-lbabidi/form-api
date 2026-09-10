@@ -34,13 +34,18 @@ class FailedRegistrationAttemptInfolist
                 ->placeholder('-')
                 ->icon('heroicon-m-globe-alt'),
 
+              TextEntry::make('user_agent')
+                ->label('User Agent')
+                ->placeholder('-')
+                ->columnSpanFull(),
+
               TextEntry::make('created_at')
                 ->label('وقت المحاولة')
                 ->icon('heroicon-m-calendar')
                 ->dateTime('Y-m-d H:i A'),
 
               TextEntry::make('platform')
-                ->label('نص النظام / المنصة')
+                ->label(' المنصة')
                 ->placeholder('-'),
 
 
