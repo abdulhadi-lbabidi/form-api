@@ -3,10 +3,13 @@
 namespace App\Service;
 
 use App\Models\Company;
+use App\Models\FailedRegistrationAttempt;
 use App\Models\Kadr;
 use App\Models\Worker;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -63,11 +66,33 @@ class KadrService
     $phone = $data['phone'] ?? null;
 
     if ($phone) {
-      if (Company::where('phone_number', $phone)->exists() || Worker::where('phone_whatsapp', $phone)->exists()) {
-        throw new \Exception('رقم الهاتف مستخدم مسبقاً في نظامنا.');
+      if (
+        Company::where('phone_number', $phone)->exists() ||
+        Worker::where('phone_whatsapp', $phone)->exists() ||
+        Kadr::where('phone', $phone)->exists()
+      ) {
+        FailedRegistrationAttempt::create([
+          'target_type' => 'kadr',
+          'phone'       => $phone,
+          'ip_address'  => request()->ip(),
+          'user_agent'  => request()->userAgent(),
+          'platform'    => php_uname('s'),
+          'browser'     => request()->header('sec-ch-ua'),
+          'payload'     => $data,
+        ]);
+
+        throw new HttpResponseException(
+          response()->json([
+            'message' => 'رقم الهاتف مستخدم مسبقاً .',
+            'error_code' => 'DUPLICATE_PHONE_BLOCKED'
+          ], Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->withHeaders([
+              'X-Security-Block-Reason' => 'Duplicate-Phone',
+              'X-Blocked-Phone' => $phone
+            ])
+        );
       }
     }
-
 
     return DB::transaction(function () use ($data, $imageFiles) {
 

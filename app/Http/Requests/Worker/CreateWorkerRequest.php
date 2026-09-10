@@ -28,16 +28,16 @@ class CreateWorkerRequest extends FormRequest
       'last_name'            => ['required', 'string', 'max:255'],
       'father_name'          => ['required', 'string', 'max:255'],
       'mother_fullname'      => ['nullable', 'string', 'max:255'],
-      // 'phone_whatsapp'       => ['required', 'string', 'max:20', 'unique:workers,phone_whatsapp'],
+      'phone_whatsapp'       => ['required', 'string', 'max:20', 'unique:workers,phone_whatsapp'],
 
-      'phone_whatsapp'       => [
-        'required',
-        'string',
-        'max:20',
-        Rule::unique('workers', 'phone_whatsapp'),
-        Rule::unique('kadrs', 'phone'),          // تم ربطه بـ phone في جدول kadrs
-        Rule::unique('companies', 'phone_number'), // تم ربطه بـ phone_number في جدول companies
-      ],
+      // 'phone_whatsapp'       => [
+      //   'required',
+      //   'string',
+      //   'max:20',
+      //   Rule::unique('workers', 'phone_whatsapp'),
+      //   Rule::unique('kadrs', 'phone'),          // تم ربطه بـ phone في جدول kadrs
+      //   Rule::unique('companies', 'phone_number'), // تم ربطه بـ phone_number في جدول companies
+      // ],
       'age' => ['required', 'date', 'before:today'],
       'city'                 => ['required', 'string', 'max:255'],
       'residential_area'     => ['required', 'string', 'max:255'],

@@ -3,11 +3,14 @@
 namespace App\Service;
 
 use App\Models\Company;
+use App\Models\FailedRegistrationAttempt;
 use App\Models\Kadr;
 use App\Models\ReferralCode;
 use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -62,17 +65,35 @@ class WorkerService
 
   public function create(array $data, $imageFiles = null)
   {
-
     $phone = $data['phone_whatsapp'] ?? null;
-
     if ($phone) {
-      if (Company::where('phone_number', $phone)->exists() || Kadr::where('phone', $phone)->exists()) {
-        throw new \Exception('رقم الهاتف مستخدم مسبقاً في نظامنا.');
+      if (
+        Company::where('phone_number', $phone)->exists() ||
+        Kadr::where('phone', $phone)->exists() ||
+        Worker::where('phone_whatsapp', $phone)->exists()
+      ) {
+        FailedRegistrationAttempt::create([
+          'target_type' => 'worker',
+          'phone'       => $phone,
+          'ip_address'  => request()->ip(),
+          'user_agent'  => request()->userAgent(),
+          'platform'    => php_uname('s'),
+          'browser'     => request()->header('sec-ch-ua'),
+          'payload'     => $data,
+        ]);
+
+        throw new HttpResponseException(
+          response()->json([
+            'message' => 'رقم الهاتف مستخدم مسبقاً .',
+            'error_code' => 'DUPLICATE_PHONE_BLOCKED'
+          ], Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->withHeaders([
+              'X-Security-Block-Reason' => 'Duplicate-Phone',
+              'X-Blocked-Phone' => $phone
+            ])
+        );
       }
     }
-
-
-
     return DB::transaction(function () use ($data, $imageFiles) {
       $worker = Worker::create($data);
 
