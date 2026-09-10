@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\SecurityHeadersMiddleware;
 use App\Http\Middleware\SetLocalMiddleware;
 use App\Service\TelegramService;
 use Illuminate\Foundation\Application;
@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
   )
   ->withMiddleware(function (Middleware $middleware): void {
 
-    $middleware->append(SecurityHeaders::class);
+    $middleware->append(SecurityHeadersMiddleware::class);
 
 
     $middleware->alias([
