@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
   ->withMiddleware(function (Middleware $middleware): void {
 
     $middleware->append(SecurityHeadersMiddleware::class);
+    $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
 
 
     $middleware->alias([
