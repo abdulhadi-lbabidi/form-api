@@ -19,7 +19,7 @@ return [
 
   'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
-  'allowed_origins' => [env('FRONTEND_URL')],
+  'allowed_origins' => [env('FRONTEND_URL'), 'https://kadrx.com'],
 
   'allowed_origins_patterns' => [],
 
@@ -32,7 +32,10 @@ return [
     'X-Blocked-Phone',
   ],
 
-  'exposed_headers' => [],
+  'exposed_headers' => [
+    'X-Security-Block-Reason',
+    'X-Blocked-Phone',
+  ],
 
   'max_age' => 600,
 
