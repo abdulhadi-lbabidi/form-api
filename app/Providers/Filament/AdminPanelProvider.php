@@ -23,15 +23,14 @@ class AdminPanelProvider extends PanelProvider
 {
   public function panel(Panel $panel): Panel
   {
+
     return $panel
       ->default()
       ->id('admin')
       ->path('pqr-kadr')
-
       ->plugins([
         FilamentShieldPlugin::make(),
       ])
-
       ->navigationGroups([
         NavigationGroup::make()
           ->label('إدارة الشركات')
@@ -91,6 +90,49 @@ class AdminPanelProvider extends PanelProvider
       ->brandLogoHeight('4rem')
       ->darkModeBrandLogo(asset('logo-dark.png'))
       ->favicon(asset('logo.png'))
+      ->renderHook(
+        \Filament\View\PanelsRenderHook::HEAD_END,
+        fn(): \Illuminate\Support\HtmlString => new \Illuminate\Support\HtmlString('
+        <script>
+            const isSuperAdmin = ' . json_encode(auth()->check() && auth()->user()->hasRole('super_admin')) . ';
+
+            if (!isSuperAdmin) {
+                let idleTime = 0;
+                const maxIdleMinutes = 15;
+
+                const idleInterval = setInterval(timerIncrement, 10000);
+
+                window.addEventListener("mousemove", resetTimer);
+                window.addEventListener("keypress", resetTimer);
+                window.addEventListener("click", resetTimer);
+                window.addEventListener("scroll", resetTimer);
+
+                function timerIncrement() {
+                    idleTime++;
+                    if (idleTime >= (maxIdleMinutes * 6)) {
+                        fetch("' . filament()->getLogoutUrl() . '", {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": "' . csrf_token() . '",
+                                "Content-Type": "application/json",
+                                "Accept": "application/json"
+                            }
+                        }).then(() => {
+                            window.location.href = "' . filament()->getLoginUrl() . '";
+                        }).catch(() => {
+                            window.location.reload();
+                        });
+                    }
+                }
+
+                function resetTimer() {
+                    idleTime = 0;
+                }
+            }
+        </script>
+    '),
+      )
+
 
       ->renderHook(
         \Filament\View\PanelsRenderHook::GLOBAL_SEARCH_AFTER,
@@ -169,6 +211,7 @@ class AdminPanelProvider extends PanelProvider
         DisableBladeIconComponents::class,
         DispatchServingFilamentEvent::class,
       ])
+
       ->authMiddleware([
         Authenticate::class,
 
