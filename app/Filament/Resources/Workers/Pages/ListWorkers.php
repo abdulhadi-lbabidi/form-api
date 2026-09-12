@@ -19,20 +19,20 @@ class ListWorkers extends ListRecords
     return [
       CreateAction::make(),
 
-      ExportAction::make()
-        ->exporter(WorkerExporter::class)
-        ->label('تصدير إلى Excel')
-        ->color('success')
-        ->icon('heroicon-m-arrow-down-tray')
-        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('export_worker')),
+      // ExportAction::make()
+      //   ->exporter(WorkerExporter::class)
+      //   ->label('تصدير إلى Excel')
+      //   ->color('success')
+      //   ->icon('heroicon-m-arrow-down-tray')
+      //   ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('export_worker')),
 
 
-      ImportAction::make()
-        ->importer(WorkerImporter::class)
-        ->label('استيراد من Excel')
-        ->color('info')
-        ->icon('heroicon-m-arrow-up-tray')
-        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('import_worker')),
+      // ImportAction::make()
+      //   ->importer(WorkerImporter::class)
+      //   ->label('استيراد من Excel')
+      //   ->color('info')
+      //   ->icon('heroicon-m-arrow-up-tray')
+      //   ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('import_worker')),
     ];
   }
 }

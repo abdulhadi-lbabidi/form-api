@@ -18,19 +18,19 @@ class ListCompanies extends ListRecords
   {
     return [
       CreateAction::make(),
-      ExportAction::make()
-        ->exporter(CompanyExporter::class)
-        ->label('تصدير إلى Excel')
-        ->color('success')
-        ->icon('heroicon-m-arrow-down-tray')
-        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('export_company')),
+      // ExportAction::make()
+      //   ->exporter(CompanyExporter::class)
+      //   ->label('تصدير إلى Excel')
+      //   ->color('success')
+      //   ->icon('heroicon-m-arrow-down-tray')
+      //   ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('export_company')),
 
-      ImportAction::make()
-        ->importer(CompanyImporter::class)
-        ->label('استيراد من Excel')
-        ->color('info')
-        ->icon('heroicon-m-arrow-up-tray')
-        ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('import_company')),
+      // ImportAction::make()
+      //   ->importer(CompanyImporter::class)
+      //   ->label('استيراد من Excel')
+      //   ->color('info')
+      //   ->icon('heroicon-m-arrow-up-tray')
+      //   ->visible(fn() => auth()->user()->hasRole('super_admin') || auth()->user()->can('import_company')),
     ];
   }
 }
