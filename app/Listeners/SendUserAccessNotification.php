@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use App\Notifications\UserAccessNotification;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class SendUserAccessNotification
@@ -27,7 +26,6 @@ class SendUserAccessNotification
   public function handleLogin(Login $event): void
   {
 
-    Log::info('LOGIN LISTENER CALLED');
     $user = $event->user;
     $message = "المستخدم {$user->name} قام بتسجيل **الدخول** إلى الموقع.";
     $this->notifyAdmins($user, $message, 'login');
