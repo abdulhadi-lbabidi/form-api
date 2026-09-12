@@ -19,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -31,8 +32,14 @@ class AdminPanelProvider extends PanelProvider
       ->path('pqr-kadr')
       ->plugins([
         FilamentShieldPlugin::make(),
-      ])
-      ->navigationGroups([
+        // FilamentSpatieLaravelBackupPlugin::make(),
+        FilamentSpatieLaravelBackupPlugin::make()
+          ->navigationIcon('heroicon-o-server-stack')
+          ->navigationLabel('النسخ الاحتياطية')
+          ->navigationGroup('إدارة النظام')
+          ->navigationSort(3),
+
+      ])->navigationGroups([
         NavigationGroup::make()
           ->label('إدارة الشركات')
           ->collapsible(true),

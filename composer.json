@@ -19,7 +19,9 @@
     "laravel/tinker": "^3.0",
     "pusher/pusher-php-server": "^7.3",
     "pxlrbt/filament-excel": "^3.6",
+    "shuvroroy/filament-spatie-laravel-backup": "^4.0",
     "spatie/laravel-activitylog": "^4.12",
+    "spatie/laravel-backup": "^10.3",
     "spatie/laravel-medialibrary": "^11.23",
     "spatie/laravel-permission": "^8.3",
     "spatie/laravel-query-builder": "^7.3"

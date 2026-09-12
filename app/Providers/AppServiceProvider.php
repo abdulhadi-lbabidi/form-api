@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Expense;
 use App\Models\Kadr;
 use App\Models\Revenue;
+use App\Models\User;
 use App\Models\Worker;
 use App\Observers\CompanyObserver;
 use App\Observers\ExpenseObserver;
@@ -16,6 +17,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Gate;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
+
+
+    Gate::define('create-backup', fn(User $user) => $user->hasRole('super_admin'));
+    Gate::define('download-backup', fn(User $user) => $user->hasRole('super_admin'));
+    Gate::define('delete-backup', fn(User $user) => $user->hasRole('super_admin'));
 
     RateLimiter::for('filament.auth.login', function (Request $request) {
       return Limit::perMinute(15)->by($request->ip());
