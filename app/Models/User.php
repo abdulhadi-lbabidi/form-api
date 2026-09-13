@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['name', 'email', 'password', 'phone_number', 'session_id'])]
@@ -33,6 +34,15 @@ class User extends Authenticatable implements FilamentUser
       'email_verified_at' => 'datetime',
       'password' => 'hashed',
     ];
+  }
+
+  // for deleted_at
+  public function notifications(): MorphMany
+  {
+    return $this->morphMany(
+      DatabaseNotification::class,
+      'notifiable'
+    );
   }
 
   public function canAccessPanel(Panel $panel): bool

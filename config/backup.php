@@ -236,7 +236,8 @@ return [
     'notifiable' => Notifiable::class,
 
     'mail' => [
-      'to' => 'management@kadrx.com',
+      'to' => 'abdalhadilbabidi@gmail.com',
+      // 'to' => 'aloshmohammad2001@gmail.com',
 
       'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'management@kadrx.com'),

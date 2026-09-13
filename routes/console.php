@@ -9,4 +9,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 
-Schedule::command('backup:run --only-db')->everyMinute();
+// Schedule::command('backup:send-email')->everyMinute();
+Schedule::command('backup:send-email')->dailyAt('23:59');

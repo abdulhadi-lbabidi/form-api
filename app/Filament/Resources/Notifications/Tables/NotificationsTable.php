@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\Notifications\Tables;
 
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class NotificationsTable
 {
@@ -44,7 +46,9 @@ class NotificationsTable
           ->sortable(),
       ])
       ->filters([
-        //
+        TrashedFilter::make()
+          ->label('حالة الإشعار')
+          ->native(false),
       ])
       ->recordActions([
         ViewAction::make(),
@@ -53,7 +57,16 @@ class NotificationsTable
       ->headerActions([])
       ->bulkActions([
         BulkActionGroup::make([
-          DeleteBulkAction::make(),
+          BulkAction::make('soft_delete')
+            ->label('حذف')
+            ->icon('heroicon-o-trash')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function (Collection $records) {
+              $records->each(function ($record) {
+                $record->delete();
+              });
+            }),
         ]),
       ]);
   }

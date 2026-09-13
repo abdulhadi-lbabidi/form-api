@@ -9,12 +9,10 @@ use App\Filament\Resources\Notifications\Pages\ViewNotification;
 use App\Filament\Resources\Notifications\Schemas\NotificationForm;
 use App\Filament\Resources\Notifications\Schemas\NotificationInfolist;
 use App\Filament\Resources\Notifications\Tables\NotificationsTable;
-use App\Models\Notification;
-use Illuminate\Notifications\DatabaseNotification;
+use App\Models\DatabaseNotification;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
 

@@ -27,7 +27,7 @@ class SendUserAccessNotification
   {
 
     $user = $event->user;
-    $message = "المستخدم {$user->name} قام بتسجيل **الدخول** إلى الموقع.";
+    $message = " {$user->name} قام بتسجيل **الدخول** إلى الموقع.";
     $this->notifyAdmins($user, $message, 'login');
   }
 
@@ -37,7 +37,7 @@ class SendUserAccessNotification
     if (!$user) {
       return;
     }
-    $message = "المستخدم {$user->name} قام بتسجيل **الخروج** من الموقع.";
+    $message = " {$user->name} قام بتسجيل **الخروج** من الموقع.";
     $this->notifyAdmins($user, $message, 'logout');
   }
 
