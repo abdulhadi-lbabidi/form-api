@@ -53,6 +53,13 @@ class NotificationResource extends Resource
     ];
   }
 
+  public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+  {
+    return parent::getEloquentQuery()
+      ->where('notifiable_id', auth()->id())
+      ->where('notifiable_type', \App\Models\User::class);
+  }
+
   public static function getPages(): array
   {
     return [

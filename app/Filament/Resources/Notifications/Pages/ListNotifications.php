@@ -20,23 +20,5 @@ class ListNotifications extends ListRecords
   //   ];
   // }
 
-  public function getTabs(): array
-  {
-    $admins = User::role(['super_admin'])->get();
 
-    $tabs = [
-      'all' => Tab::make('الكل'),
-    ];
-
-    foreach ($admins as $admin) {
-      $tabs[$admin->id] = Tab::make($admin->name)
-        ->modifyQueryUsing(
-          fn(Builder $query) => $query
-            ->where('notifiable_type', User::class)
-            ->where('notifiable_id', $admin->id)
-        );
-    }
-
-    return $tabs;
-  }
 }

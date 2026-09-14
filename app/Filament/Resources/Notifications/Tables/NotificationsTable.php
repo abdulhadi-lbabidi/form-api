@@ -18,11 +18,11 @@ class NotificationsTable
     return $table
       ->defaultSort('created_at', 'desc')
       ->columns([
-        TextColumn::make('notifiable.name')
-          ->label('المستلم')
-          ->searchable()
-          ->sortable()
-          ->weight('bold'),
+        // TextColumn::make('notifiable.name')
+        //   ->label('المستلم')
+        //   ->searchable()
+        //   ->sortable()
+        //   ->weight('bold'),
 
         TextColumn::make('data.title')
           ->label('عنوان الإشعار')
