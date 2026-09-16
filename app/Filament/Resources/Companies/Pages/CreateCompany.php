@@ -33,4 +33,12 @@ class CreateCompany extends CreateRecord
 
     return $this->getResource()::getUrl('index');
   }
+
+  protected function mutateFormDataBeforeCreate(array $data): array
+  {
+    $data['added_by'] = auth()->id();
+    $data['updated_by'] = auth()->id();
+
+    return $data;
+  }
 }

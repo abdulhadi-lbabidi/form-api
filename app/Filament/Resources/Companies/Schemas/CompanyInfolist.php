@@ -195,6 +195,31 @@ class CompanyInfolist
                 return $record->form_referral_code;
               }),
 
+
+            TextEntry::make('creator.name')
+              ->label('أُضيف بواسطة')
+              ->placeholder('غير معروف')
+              ->icon('heroicon-m-user-plus')
+              ->color('success'),
+
+            TextEntry::make('editor.name')
+              ->label('عُدل بواسطة آخر مرة')
+              ->placeholder('لم يتم التعديل')
+              ->icon('heroicon-m-user')
+              ->color('info'),
+
+            TextEntry::make('coordinates')
+              ->label('إحداثيات الموقع (Lat / Lng)')
+              ->placeholder('غير محددة')
+              ->icon('heroicon-m-map')
+              ->state(function ($record) {
+                if (empty($record->coordinates)) return 'غير محددة';
+                $lat = $record->coordinates['lat'] ?? '';
+                $lng = $record->coordinates['lng'] ?? '';
+                return "Lat: {$lat} , Lng: {$lng}";
+              }),
+
+
           ])->columnSpanFull(),
 
 

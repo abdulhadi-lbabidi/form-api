@@ -35,6 +35,9 @@ use Laravel\Sanctum\HasApiTokens;
   'company_status',
   'city',
   'location_id',
+  'added_by',
+  'updated_by',
+  'coordinates',
 ])]
 class Company extends Authenticatable implements HasMedia
 {
@@ -106,6 +109,7 @@ class Company extends Authenticatable implements HasMedia
   {
     return [
       'password' => 'hashed',
+      'coordinates' => 'array',
     ];
   }
 
@@ -178,5 +182,15 @@ class Company extends Authenticatable implements HasMedia
   public function notes(): MorphMany
   {
     return $this->morphMany(Note::class, 'notable');
+  }
+
+  public function creator(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'added_by');
+  }
+
+  public function editor(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'updated_by');
   }
 }

@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\ViewField;  
 
 
 class CompanyForm
@@ -113,6 +114,13 @@ class CompanyForm
                   ->helperText('كلمة المرور الخاصة بتسجيل دخول الشركة للنظام.')
                   ->maxLength(255)
                   ->columnSpanFull(),
+
+                // coordinates
+                ViewField::make('coordinates')
+                  ->label('الموقع الجغرافي (GPS)')
+                  ->view('filament.forms.components.geolocation-picker')
+                  ->columnSpanFull(),
+
               ]),
 
             Tabs\Tab::make('مصادر التسويق والتحديات')
@@ -284,8 +292,6 @@ class CompanyForm
                       ->columnSpanFull(),
                   ]),
               ]),
-
-
 
 
           ]),

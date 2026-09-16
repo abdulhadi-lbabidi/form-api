@@ -133,6 +133,16 @@ class CompaniesTable
           ->placeholder('لا يوجد')
           ->toggleable(isToggledHiddenByDefault: true),
 
+        TextColumn::make('creator.name')
+          ->label('أُضيف بواسطة')
+          ->sortable()
+          ->searchable(),
+
+        TextColumn::make('editor.name')
+          ->label('عُدل بواسطة')
+          ->sortable()
+          ->searchable(),
+
 
       ])
       ->filters([
