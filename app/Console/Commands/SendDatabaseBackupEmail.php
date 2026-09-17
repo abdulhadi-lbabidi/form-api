@@ -53,7 +53,8 @@ class SendDatabaseBackupEmail extends Command
 
     try {
       // Send email with attachment
-      Mail::to('abdalhadilbabidi@gmail.com')
+      // Mail::to('abdalhadilbabidi@gmail.com')
+      Mail::to('management@kadrx.com')
         ->send(new DatabaseBackupMail($latestBackup));
 
       $this->info('Backup email sent successfully.');
