@@ -8,6 +8,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyNeedForm
 {
@@ -50,6 +51,9 @@ class CompanyNeedForm
               ->preload()
               ->pivotData(fn($get) => [
                 'status' => $get('worker_default_status') ?? 'pending',
+                'delegate_id' => (auth()->check() && auth()->user()->hasRole('delegate'))
+                  ? optional(auth()->user()->delegate)->id
+                  : null,
               ])
               ->columnSpanFull(),
 

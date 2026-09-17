@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class CompanyNeedResource extends Resource
@@ -43,6 +44,22 @@ class CompanyNeedResource extends Resource
   public static function table(Table $table): Table
   {
     return CompanyNeedsTable::configure($table);
+  }
+
+  public static function canViewAny(): bool
+  {
+    $user = Auth::user();
+    if (!$user) return false;
+
+    if ($user->hasRole(['super_admin', 'admin'])) {
+      return true;
+    }
+
+    if ($user->hasRole('delegate')) {
+      return $user->delegate !== null;
+    }
+
+    return true;
   }
 
   public static function getRelations(): array

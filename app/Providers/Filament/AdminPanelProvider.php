@@ -37,7 +37,8 @@ class AdminPanelProvider extends PanelProvider
           ->navigationIcon('heroicon-o-server-stack')
           ->navigationLabel('النسخ الاحتياطية')
           ->navigationGroup('إدارة النظام')
-          ->navigationSort(3),
+          ->navigationSort(3)
+          ->authorize(fn() => auth()->check() && auth()->user()->hasRole('super_admin')),
 
       ])->navigationGroups([
         NavigationGroup::make()
