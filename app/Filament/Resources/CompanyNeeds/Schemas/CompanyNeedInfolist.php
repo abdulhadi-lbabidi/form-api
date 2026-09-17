@@ -72,6 +72,19 @@ class CompanyNeedInfolist
                     : null;
                 })
                 ->extraAttributes(['style' => 'font-variant-numeric: lnum;']),
+
+              TextEntry::make('creator.name')
+                ->label('أُضيف بواسطة')
+                ->placeholder('غير معروف')
+                ->icon('heroicon-m-user-plus')
+                ->color('success'),
+
+              TextEntry::make('editor.name')
+                ->label('عُدل بواسطة آخر مرة')
+                ->placeholder('لم يتم التعديل')
+                ->icon('heroicon-m-user')
+                ->color('info'),
+
             ]),
 
 
@@ -92,6 +105,9 @@ class CompanyNeedInfolist
               ->label('تفاصيل إضافية عن الاحتياج')
               ->placeholder('لا توجد تفاصيل إضافية.')
               ->columnSpanFull(),
+
+
+
           ])->columnSpanFull(),
       ]);
   }

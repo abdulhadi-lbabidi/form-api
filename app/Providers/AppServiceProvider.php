@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Company;
+use App\Models\Delegate;
 use App\Models\Expense;
 use App\Models\Kadr;
 use App\Models\Revenue;
 use App\Models\User;
 use App\Models\Worker;
 use App\Observers\CompanyObserver;
+use App\Observers\DelegateObserver;
 use App\Observers\ExpenseObserver;
 use App\Observers\KadrObserver;
 use App\Observers\RevenueObserver;
@@ -50,5 +52,7 @@ class AppServiceProvider extends ServiceProvider
     Kadr::observe(KadrObserver::class);
     Expense::observe(ExpenseObserver::class);
     Revenue::observe(RevenueObserver::class);
+
+    Delegate::observe(DelegateObserver::class);
   }
 }

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Filament\Notifications\Notification as FilamentNotification;
+use Carbon\Carbon;
 
 class UserAccessNotification extends Notification implements ShouldQueue
 {
@@ -15,6 +16,7 @@ class UserAccessNotification extends Notification implements ShouldQueue
   protected $user;
   protected $messageText;
   protected $type;
+  protected $timestamp;
 
   /**
    * Create a new notification instance.
@@ -22,10 +24,13 @@ class UserAccessNotification extends Notification implements ShouldQueue
   public function __construct($user, string $messageText, string $type)
   {
     $this->user = $user;
-    $this->messageText = $messageText;
     $this->type = $type;
-  }
+    $this->timestamp = Carbon::now(); // تثبيت وقت حدوث الحدث بدقة
 
+    // إضافة التاريخ والوقت بوضوح إلى نص الرسالة
+    $formattedTime = $this->timestamp->translatedFormat('Y/m/d - h:i:s A');
+    $this->messageText = $messageText . " (الوقت: {$formattedTime})";
+  }
   /**
    * Get the notification's delivery channels.
    *

@@ -14,6 +14,8 @@ use Filament\Panel;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['name', 'email', 'password', 'phone_number', 'session_id'])]
@@ -36,13 +38,22 @@ class User extends Authenticatable implements FilamentUser
     ];
   }
 
+
+  public function getIsOnlineAttribute(): bool
+  {
+    return DB::table('sessions')
+      ->where('user_id', $this->id)
+      ->where('last_activity', '>=', Carbon::now()->subMinutes(5)->timestamp)
+      ->exists();
+  }
+
   // for deleted_at
   public function notifications(): MorphMany
   {
     return $this->morphMany(
       DatabaseNotification::class,
       'notifiable'
-    );
+    )->orderBy('created_at', 'desc');
   }
 
   public function canAccessPanel(Panel $panel): bool

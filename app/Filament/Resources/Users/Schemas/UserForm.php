@@ -30,6 +30,7 @@ class UserForm
 
         TextInput::make('phone_number')
           ->label('رقم الهاتف')
+          ->unique('users', 'phone_number')
           ->maxLength(255),
 
         Select::make('roles')

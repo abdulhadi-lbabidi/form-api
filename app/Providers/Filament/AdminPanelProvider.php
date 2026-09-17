@@ -77,6 +77,9 @@ class AdminPanelProvider extends PanelProvider
           ->collapsible(true),
 
 
+        NavigationGroup::make()
+          ->label('إدارة المبيعات')
+          ->collapsible(true),
 
         NavigationGroup::make()
           ->label('إدارة النظام')
@@ -201,6 +204,7 @@ class AdminPanelProvider extends PanelProvider
       )
       ->globalSearch(false)
       ->databaseNotifications()
+      ->databaseNotificationsPolling('30s')
       ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
       ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
       ->pages([

@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
   'offered_salary',
   'currency',
   'additional_details',
+  'added_by',
+  'updated_by',
 ])]
 class CompanyNeed extends Model
 {
@@ -31,5 +33,15 @@ class CompanyNeed extends Model
       ->using(CompanyNeedWorker::class)
       ->withPivot('status')
       ->withTimestamps();
+  }
+
+  public function creator(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'added_by');
+  }
+
+  public function editor(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'updated_by');
   }
 }

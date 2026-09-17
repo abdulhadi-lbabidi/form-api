@@ -29,8 +29,8 @@ class SecurityHeadersMiddleware
     // التحكم في معلومات الـ Referrer
     $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-    // سياسة الصلاحيات (تقييد الكاميرا، الموقع، الميكروفون)
-    $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    // السماح باستخدام الموقع الجغرافي لنفس النطاق (Self)
+    $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self)');
 
 
     // منع سياسات النطاقات المتقاطعة القديمة (مثل ملفات Flash القديمة)

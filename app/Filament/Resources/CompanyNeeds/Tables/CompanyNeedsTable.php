@@ -77,6 +77,16 @@ class CompanyNeedsTable
           })
           ->color('success')
           ->extraAttributes(['style' => 'font-variant-numeric: lnum;']),
+
+        TextColumn::make('creator.name')
+          ->label('أُضيف بواسطة')
+          ->sortable()
+          ->searchable(),
+
+        TextColumn::make('editor.name')
+          ->label('عُدل بواسطة')
+          ->sortable()
+          ->searchable(),
       ])
       ->filters([
         //

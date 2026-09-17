@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\Delegates\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -8,46 +8,42 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
-class UsersTable
+class DelegatesTable
 {
   public static function configure(Table $table): Table
   {
     return $table
       ->defaultSort('created_at', 'desc')
       ->columns([
+        TextColumn::make('user.name')
+          ->label('المندوب')
+          ->searchable()
+          ->sortable(),
 
-        TextColumn::make('is_online')
-          ->label('الحالة')
-          ->formatStateUsing(fn($state) => $state ? 'متصل الآن' : 'غير متصل')
-          ->badge()
-          ->color(fn($state) => $state ? 'success' : 'gray')
-          ->icon(fn($state) => $state ? 'heroicon-m-signal' : 'heroicon-m-signal-slash'),
-
-
-        TextColumn::make('name')
-          ->searchable(),
-        TextColumn::make('email')
-          ->label('Email address')
-          ->searchable(),
-
-        TextColumn::make('phone_number')
+        TextColumn::make('user.phone_number')
           ->label('رقم الهاتف')
           ->searchable()
           ->placeholder('-'),
 
-        TextColumn::make('roles.name')
-          ->label('الدور')
-          ->color('success')
-          ->separator(', ')
-          ->placeholder('بدون دور'),
+        TextColumn::make('address')
+          ->label('عنوان السكن')
+          ->searchable()
+          ->limit(30),
+
+        TextColumn::make('fixed_salary')
+          ->label('الراتب الثابت')
+          ->sortable(),
+
+        TextColumn::make('commission_rate')
+          ->label('العمولة')
+          ->sortable(),
 
         TextColumn::make('created_at')
+          ->label('تاريخ الإنشاء')
           ->dateTime()
           ->sortable()
           ->toggleable(isToggledHiddenByDefault: true),
-
       ])
       ->filters([
         //
