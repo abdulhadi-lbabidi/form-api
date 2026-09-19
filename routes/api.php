@@ -87,8 +87,4 @@ Route::middleware(['setLocale', 'throttle:60,1'])->group(function () {
   Route::post('companies', [CompanyController::class, 'store']);
   Route::post('workers', [WorkerController::class, 'store']);
   Route::post('kadrs', [KadrController::class, 'store']);
-
-  // Route::apiResource('companies', CompanyController::class);
-  // Route::apiResource('workers', WorkerController::class);
-  // Route::apiResource('kadrs', KadrController::class);
 });

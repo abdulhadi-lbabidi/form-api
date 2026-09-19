@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
@@ -46,21 +47,6 @@ class CompanyNeedResource extends Resource
     return CompanyNeedsTable::configure($table);
   }
 
-  public static function canViewAny(): bool
-  {
-    $user = Auth::user();
-    if (!$user) return false;
-
-    if ($user->hasRole(['super_admin', 'admin'])) {
-      return true;
-    }
-
-    if ($user->hasRole('delegate')) {
-      return $user->delegate !== null;
-    }
-
-    return true;
-  }
 
   public static function getRelations(): array
   {
@@ -69,6 +55,18 @@ class CompanyNeedResource extends Resource
     ];
   }
 
+  public static function getEloquentQuery(): Builder
+  {
+    $query = parent::getEloquentQuery();
+
+    $user = Auth::user();
+
+    if ($user?->hasRole('delegate')) {
+      $query->where('added_by', $user->id);
+    }
+
+    return $query;
+  }
   public static function getPages(): array
   {
     return [

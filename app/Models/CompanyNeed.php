@@ -31,7 +31,10 @@ class CompanyNeed extends Model
   {
     return $this->belongsToMany(Worker::class, 'company_need_workers', 'company_need_id', 'worker_id')
       ->using(CompanyNeedWorker::class)
-      ->withPivot('status')
+      ->withPivot([
+        'status',
+        'delegate_id',
+      ])
       ->withTimestamps();
   }
 

@@ -181,7 +181,8 @@ class CompanyForm
                     'blocked'            => 'محظور',
                   ])
                   ->required()
-                  ->default('new_lead'),
+                  ->default('new_lead')
+                  ->visible(fn() => !auth()->user() || !auth()->user()->hasRole('delegate')),
               ]),
 
             Tabs\Tab::make('المرفقات والوثائق')
@@ -283,8 +284,6 @@ class CompanyForm
                   ]),
               ]),
             // end
-
-
 
             Tabs\Tab::make('الملاحظات')
               ->icon('heroicon-o-chat-bubble-bottom-center-text')
