@@ -88,18 +88,18 @@ class CompanyNeedInfolist
             ]),
 
 
-            RepeatableEntry::make('workers')
-              ->label('العمال المرتبطين وحالة كل عامل')
-              ->schema([
-                Grid::make(2)->schema([
-                  TextEntry::make('full_name')
-                    ->label('اسم العامل'),
+            // RepeatableEntry::make('workers')
+            //   ->label('العمال المرتبطين وحالة كل عامل')
+            //   ->schema([
+            //     Grid::make(2)->schema([
+            //       TextEntry::make('full_name')
+            //         ->label('اسم العامل'),
 
-                ]),
-              ])
-              ->grid(2)
-              ->placeholder('لا يوجد عمال مرتبطين حالياً')
-              ->columnSpanFull(),
+            //     ]),
+            //   ])
+            //   ->grid(2)
+            //   ->placeholder('لا يوجد عمال مرتبطين حالياً')
+            //   ->columnSpanFull(),
 
             TextEntry::make('additional_details')
               ->label('تفاصيل إضافية عن الاحتياج')

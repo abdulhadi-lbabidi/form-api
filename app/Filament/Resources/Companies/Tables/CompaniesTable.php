@@ -80,11 +80,11 @@ class CompaniesTable
           ->extraAttributes(['style' => 'font-variant-numeric: lnum; font-family: cairo;'])
           ->visible(fn($livewire) => !$isDelegate || $livewire->activeTab === 'my_companies'),
 
-          TextColumn::make('company_name')
-            ->label('اسم الشركة')
-            ->searchable()
-            ->sortable()
-            ->weight('bold'),
+        TextColumn::make('company_name')
+          ->label('اسم الشركة')
+          ->searchable()
+          ->sortable()
+          ->weight('bold'),
 
         TextColumn::make('owner_name')
           ->label('المالك')
@@ -193,7 +193,9 @@ class CompaniesTable
       ->headerActions([])
       ->bulkActions([
         BulkActionGroup::make([
-          DeleteBulkAction::make(),
+          // DeleteBulkAction::make(),
+          DeleteBulkAction::make()
+            ->visible(fn($livewire) => !$isDelegate || $livewire->activeTab === 'my_companies'),
 
         ]),
       ]);

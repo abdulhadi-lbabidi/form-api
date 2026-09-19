@@ -72,7 +72,7 @@ class DelegateForm
           ->required(),
 
         TextInput::make('commission_rate')
-          ->label('نسبة أو قيمة العمولة')
+          ->label('  قيمة العمولة')
           ->numeric()
           ->default(0)
           ->required(),

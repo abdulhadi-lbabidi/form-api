@@ -6,6 +6,7 @@ use App\Filament\Resources\CompanyNeeds\Pages\CreateCompanyNeed;
 use App\Filament\Resources\CompanyNeeds\Pages\EditCompanyNeed;
 use App\Filament\Resources\CompanyNeeds\Pages\ListCompanyNeeds;
 use App\Filament\Resources\CompanyNeeds\Pages\ViewCompanyNeed;
+use App\Filament\Resources\CompanyNeeds\RelationManagers\WorkersRelationManager;
 use App\Filament\Resources\CompanyNeeds\Schemas\CompanyNeedForm;
 use App\Filament\Resources\CompanyNeeds\Schemas\CompanyNeedInfolist;
 use App\Filament\Resources\CompanyNeeds\Tables\CompanyNeedsTable;
@@ -51,7 +52,7 @@ class CompanyNeedResource extends Resource
   public static function getRelations(): array
   {
     return [
-      //
+      WorkersRelationManager::class,
     ];
   }
 
