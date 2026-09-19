@@ -32,13 +32,12 @@ class AdminPanelProvider extends PanelProvider
       ->path('pqr-kadr')
       ->plugins([
         FilamentShieldPlugin::make(),
-        // FilamentSpatieLaravelBackupPlugin::make(),
-        FilamentSpatieLaravelBackupPlugin::make()
-          ->navigationIcon('heroicon-o-server-stack')
-          ->navigationLabel('النسخ الاحتياطية')
-          ->navigationGroup('إدارة النظام')
-          ->navigationSort(3)
-          ->authorize(fn() => auth()->check() && auth()->user()->hasRole('super_admin')),
+        // FilamentSpatieLaravelBackupPlugin::make()
+        //   ->navigationIcon('heroicon-o-server-stack')
+        //   ->navigationLabel('النسخ الاحتياطية')
+        //   ->navigationGroup('إدارة النظام')
+        //   ->navigationSort(3)
+        //   ->authorize(fn() => auth()->check() && auth()->user()->hasRole('super_admin')),
 
       ])->navigationGroups([
         NavigationGroup::make()

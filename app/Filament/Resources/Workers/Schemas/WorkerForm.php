@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Workers\Schemas;
 
 use App\Models\Worker;
+use Filament\Actions\Action;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
@@ -15,6 +16,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class WorkerForm
 {
@@ -94,6 +96,18 @@ class WorkerForm
                   ->nullable()
                   ->maxLength(255),
 
+                // TextInput::make('password')
+                //   ->label('كلمة المرور')
+                //   ->password()
+                //   ->revealable()
+                //   ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                //   ->dehydrated(fn($state) => filled($state))
+                //   ->required(fn(string $context): bool => $context === 'create')
+                //   ->placeholder('اتركه فارغاً للإبقاء على كلمة المرور الحالية (عند التعديل)')
+                //   ->helperText('كلمة المرور الخاصة بتسجيل دخول العامل للنظام.')
+                //   ->maxLength(255)
+                //   ->columnSpanFull(),
+
                 TextInput::make('password')
                   ->label('كلمة المرور')
                   ->password()
@@ -104,7 +118,18 @@ class WorkerForm
                   ->placeholder('اتركه فارغاً للإبقاء على كلمة المرور الحالية (عند التعديل)')
                   ->helperText('كلمة المرور الخاصة بتسجيل دخول العامل للنظام.')
                   ->maxLength(255)
-                  ->columnSpanFull(),
+                  ->columnSpanFull()
+                  ->suffixAction(
+                    Action::make('generatePassword')
+                      ->label('توليد قوية')
+                      ->icon('heroicon-m-key')
+                      ->color('success')
+                      ->action(function (callable $set) {
+                        $strongPassword = Str::password(12, letters: true, numbers: true, symbols: true, spaces: false);
+
+                        $set('password', $strongPassword);
+                      })
+                  ),
 
                 TextInput::make('city')
                   ->label('المدينة / المحافظة')
