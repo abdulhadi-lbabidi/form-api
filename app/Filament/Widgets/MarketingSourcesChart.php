@@ -2,14 +2,12 @@
 
 namespace App\Filament\Widgets;
 
-
 use App\Models\MarketingSource;
 use Filament\Widgets\ChartWidget;
 
 class MarketingSourcesChart extends ChartWidget
 {
-
-  protected  ?string $heading = 'إحصائيات مصادر التعرف علينا';
+  protected ?string $heading = 'إحصائيات مصادر التعرف علينا';
 
   protected static ?int $sort = 2;
 
@@ -20,32 +18,40 @@ class MarketingSourcesChart extends ChartWidget
 
   protected function getData(): array
   {
-    $sources = MarketingSource::withCount(['companies', 'workers'])->get();
+    // جلب المصادر مع عد الشركات، العمال، والكوادر
+    $sources = MarketingSource::withCount(['companies', 'workers', 'kadrs'])->get();
 
     $labels = $sources->map(fn($source) => $source->translated_name)->toArray();
 
     $companiesData = $sources->map(fn($source) => $source->companies_count)->toArray();
     $workersData = $sources->map(fn($source) => $source->workers_count)->toArray();
+    $kadrsData = $sources->map(fn($source) => $source->kadrs_count)->toArray();
 
     return [
       'datasets' => [
         [
           'label' => 'الشركات',
           'data' => $companiesData,
-          'backgroundColor' => '#1a4a7a',
-          'borderColor' => '#1a4a7a',
+          'borderColor' => '#10b981',
+          'backgroundColor' => '#10b981',
         ],
         [
           'label' => 'العمال',
           'data' => $workersData,
-          'backgroundColor' => '#c9a227',
-          'borderColor' => '#c9a227',
+          'borderColor' => '#3b82f6',
+          'backgroundColor' => '#3b82f6',
+        ],
+        [
+          'label' => 'الكوادر',
+          'data' => $kadrsData,
+          'borderColor' => '#8b5cf6',
+          'backgroundColor' => '#8b5cf6',
         ],
       ],
       'labels' => $labels,
-
     ];
   }
+
   protected function getType(): string
   {
     return 'bar';

@@ -102,21 +102,21 @@ class SystemGrowthMonthlyChart extends ChartWidget
         [
           'label' => "العمال ({$activeYear})",
           'data' => $workersMonthly,
-          'borderColor' => '#3b82f6', // أزرق
+          'borderColor' => '#3b82f6',
           'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
           'tension' => 0.4,
         ],
         [
           'label' => "الكوادر ({$activeYear})",
           'data' => $kadrsMonthly,
-          'borderColor' => '#8b5cf6', // بنفسجي
+          'borderColor' => '#8b5cf6',
           'backgroundColor' => 'rgba(139, 92, 246, 0.1)',
           'tension' => 0.4,
         ],
         [
           'label' => "الشركات ({$activeYear})",
           'data' => $companiesMonthly,
-          'borderColor' => '#10b981', // أخضر
+          'borderColor' => '#10b981',
           'backgroundColor' => 'rgba(16, 185, 129, 0.1)',
           'tension' => 0.4,
         ],
